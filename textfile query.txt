@@ -1,0 +1,266 @@
+//toegang geven tot de database//
+grant all on schema groep_9 to r0722885
+
+alter default privileges in schema groep_9 
+grant all on tables to r0722885
+
+
+//aanmaken tables//
+SET search_path TO groep_9;
+
+CREATE TABLE werknemers (
+	werknemerID int not null,
+	naam varchar(255) not null,
+	contact int not null,
+	extragegevens varchar(255) not null,
+
+	constraint werknemersPK PRIMARY KEY (werknemerID)
+)
+
+CREATE TABLE klanten (
+	klantID int not null,
+	naam varchar(255) not null,
+	
+
+	constraint klantenPK PRIMARY KEY (klantID)
+)
+
+CREATE TABLE facturen (
+	factuurID int not null,
+	vervaldatum date not null,
+	bedrag int not null,
+
+	constraint facturenPK PRIMARY KEY (factuurID)	
+)
+
+CREATE TABLE aanmaningen (
+	aanmaningID int not null,
+	factuurID int not null, 
+	vervaldatum date not null,
+
+	constraint aanmaningenPK PRIMARY KEY (aanmaningID),
+	constraint aanmaningenFK FOREIGN KEY (factuurID) REFERENCES facturen (factuurID)
+)
+
+CREATE TABLE status (
+	statusID int not null,
+	naam varchar(255),
+
+	constraint statusPK PRIMARY KEY (statusID)
+)
+
+CREATE TABLE soortproject (
+	soortID int not null,
+ 	naam varchar(255) not null,
+	beschrijving varchar(255) not null,
+
+	constraint soortprojectPK PRIMARY KEY (soortID)
+)
+
+CREATE TABLE projects (
+	projectID int not null,
+	factuurID int null, 
+	klantID int not null,
+	soortID int not null, 
+
+	constraint projectsPK PRIMARY KEY (projectID),
+	constraint projectsFK1 FOREIGN KEY (factuurID) REFERENCES facturen (factuurID),
+	constraint projectsFK2 FOREIGN KEY (klantID) REFERENCES klanten (klantID),
+	constraint projectsFK3 FOREIGN KEY (soortID) REFERENCES soortproject(soortID)  
+)
+
+CREATE TABLE werknemerbijproject (
+	projectID int not null,
+	werknemerID int not null, 
+	functie varchar(255) not null, 
+	periodewerkend varchar(255) not null,
+
+	constraint werknemerbijprojectFK1 FOREIGN KEY (projectID) REFERENCES projects (projectID),
+	constraint werknemerbijprojectFK2 FOREIGN KEY (werknemerID) REFERENCES werknemers (werknemerID)
+)
+
+
+CREATE TABLE offertes (
+	offerteID int not null,
+	projectID int not null,
+	deadline date not null,
+	goedgekeurd varchar(255) not null,
+	totaleprijs int null,
+
+	constraint offertesPK PRIMARY KEY (offerteID),
+	constraint offertesFK FOREIGN KEY (projectID) REFERENCES projects (projectID), 
+	constraint valid_goedgekeurd CHECK (goedgekeurd in ('JA', 'NEEN'))
+)
+
+CREATE TABLE goederen (
+	goederID int not null,
+	naam varchar(255) not null, 
+	typesoftware varchar(255) not null,
+	prijs_eenheid int not null,
+	omschrijving varchar(255) not null,
+	levertermijn date not null,
+
+	constraint goederenPK PRIMARY KEY (goederID),
+	constraint valid_typesoftware CHECK (typesoftware in ('HW', 'SW'))
+)
+
+CREATE TABLE leveranciers (
+	leverancierID int not null,
+	naam varchar(255) not null,
+	contact varchar(255) not null,
+	bedrijfgegevens varchar(255) not null,
+
+	constraint leveranciersPK PRIMARY KEY (leverancierID)
+)
+
+CREATE TABLE leverancier_levert_goederen (
+	leverancierID int not null,
+	goederID int not null,
+	leveringsdatum date not null,
+	hoeveelheid int not null,
+	
+	constraint leverancier_levert_goederenFK1 FOREIGN KEY (leverancierID) REFERENCES leveranciers (leverancierID),
+	constraint leverancier_levert_goederenFK2 FOREIGN KEY (goederID) REFERENCES goederen (goederID)
+)
+
+CREATE TABLE project_heeft_goederen (
+	projectID int not null,
+	goederID int not null,
+	hoeveelheid int not null,
+
+	constraint project_heeft_goederenFK1 FOREIGN KEY (goederID) REFERENCES goederen (goederID),
+	constraint project_heeft_goederenFK2 FOREIGN KEY (projectID) REFERENCES projects (projectID)
+)
+
+CREATE TABLE project_heeft_status (
+	projectID int not null,
+	statusID int not null, 
+	huidigestatus varchar(255) not null,
+	problemen varchar(255) null,
+	vooruitgang varchar(255) not null,
+	duur int not null,
+	
+	constraint valid_huidigestatus CHECK (huidigestatus in ('JA', 'NEEN')),
+	constraint project_heeft_statusFK1 FOREIGN KEY (projectID) REFERENCES projects (projectID), 
+	constraint project_heeft_statusFK2 FOREIGN KEY (statusID) REFERENCES status (statusID)
+)
+
+
+//werknemers
+
+INSERT INTO "dbr14_g09".werknemers (werknemerid,naam,contact,extragegevens)
+VALUES (1, 'Thöle Lucas', 0486134861, 'hardware specialist')
+
+INSERT INTO "dbr14_g09".werknemers (werknemerid,naam,contact,extragegevens)
+VALUES (2, 'Heylen Bert', 0497548632, 'software specialist')
+
+INSERT INTO "dbr14_g09".werknemers (werknemerid,naam,contact,extragegevens)
+VALUES (3, 'Volkaerts Danny', 0432465179, 'Project Manager')
+
+
+
+//statusen
+insert into "dbr14_g09".status(statusid,naam)
+values(1,'Proposal')
+
+insert into "dbr14_g09".status(statusid,naam)
+values(2,'Ordered')
+
+insert into "dbr14_g09".status(statusid,naam)
+values(3,'Completed')
+
+
+//soort project
+
+insert into "dbr14_g09".soortproject(soortid,naam,beschrijving)
+values(1,'installeren routers','Voor dit project bestelt een klant een aantal nieuwe routers die onze techniekers gaan installeren.')
+insert into "dbr14_g09".soortproject(soortid,naam,beschrijving)
+values(2,'sms-authenticatie','Onze techniekers gaan de klant helpen bij het opstellen van een nieuw systeem dat sms-berichten gebruikt voor authenticatie')
+
+
+//project
+
+insert into "dbr14_g09".project(projectid,factuurid,klantid, soortid)
+values(1,null,1,2)
+insert into "dbr14_g09".project(projectid,factuurid,klantid, soortid)
+values(2,1,3,1)
+
+//offertes
+insert into "dbr14_g09".offertes(offerteid,projectid,deadline,goedgekeurd,totaleprijs)
+values(1,1,'2018-08-15','NEEN',1000)
+insert into "dbr14_g09".offertes(offerteid,projectid,deadline,goedgekeurd,totaleprijs)
+values(2,2,'2018-06-5','JA',5000)
+
+//facturen
+insert into "dbr14_g09".facturen(factuurid,vervaldatum,bedrag)
+values(1,'2018-06-01',5000)
+
+
+
+
+
+insert into "dbr14_g09".project_heeft_status(projectid, statusid, huidigestatus, problemen, vooruitgang, duur)
+values (1, 1, 'JA', 'geen', 'Eerste offer gemaakt', 10)
+insert into "dbr14_g09".project_heeft_status(projectid, statusid, huidigestatus, problemen, vooruitgang, duur)
+values (2, 1, 'NEEN', 'geen', 'Offerte is geaanvaard door klant', 13)
+insert into "dbr14_g09".project_heeft_status(projectid, statusid, huidigestatus, problemen, vooruitgang, duur)
+values (2, 2, 'JA', 'klein probleem met communicatie, is opgelost', 'Klant heeft project besteld', 5)
+insert into "dbr14_g09".project_heeft_status(projectid, statusid, huidigestatus, problemen, vooruitgang, duur)
+values (3, 1, 'JA', 'geen', 'factuur opgesteld', 10)
+
+
+
+
+insert into "dbr14_g09".werknemerbijproject(projectid, werknemerid, functie, periodewerkend)
+values(1, 1, 'technieker', 10)
+insert into "dbr14_g09".werknemerbijproject(projectid, werknemerid, functie, periodewerkend)
+values(1, 3, 'Manager', 10)
+insert into "dbr14_g09".werknemerbijproject(projectid, werknemerid, functie, periodewerkend)
+values(2, 2, 'Technieker', 18)
+insert into "dbr14_g09".werknemerbijproject(projectid, werknemerid, functie, periodewerkend)
+values(3, 1, 'technieker', 5)
+
+
+
+
+insert into "dbr14_g09".soortproject(soortid,naam,beschrijving)
+values(3,'hp-disk-repair','Voor dit project herstellen wij de pcs van de klant')
+insert into "dbr14_g09".project(projectid,factuurid,klantid, soortid)
+values(3,2,3,3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+insert into "dbr14_g09".leverancier_levert_goederen(leverancierid, goederid, hoeveelheid)
+values(1, 1, 3)
+insert into "dbr14_g09".leverancier_levert_goederen(leverancierid, goederid, hoeveelheid)
+values(1, 2, 2)
+insert into "dbr14_g09".leverancier_levert_goederen(leverancierid, goederid, hoeveelheid)
+values(2, 2, 5)
+insert into "dbr14_g09".leverancier_levert_goederen(leverancierid, goederid, hoeveelheid)
+values(2, 3, 5)
+insert into "dbr14_g09".leverancier_levert_goederen(leverancierid, goederid, hoeveelheid)
+values(3, 2, 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+z
