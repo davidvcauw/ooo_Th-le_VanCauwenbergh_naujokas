@@ -14,5 +14,23 @@ public class Quiz {
 		this.questions = new QuestionTextReader().getQuestions();
 	}
 	
+	public List<Question> getQuestions() {
+		return this.questions;
+	}
+	
+	public List<Categorie> getCategories() {
+		return this.categories;
+	}
+	
+	public void addQuestion(Question q) {
+		if (q == null) throw new IllegalArgumentException("Can't add null to questions!");
+		this.questions.add(q);
+	}
+	
+	public void addCategorie(Categorie c) {
+		if (c == null) throw new IllegalArgumentException("Can't add null to categories!");
+		this.categories.add(c);
+	}
+	
 	//TODO: add more methods, needed for story 1-4
 }

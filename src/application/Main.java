@@ -22,10 +22,10 @@ public class Main extends Application {
 		
 		
 		try {
-			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane();
+			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
 			QuestionDetailPane questionDetailPane = new QuestionDetailPane();
 
-			CategoryOverviewPane categoryOverviewPanel = new CategoryOverviewPane();
+			CategoryOverviewPane categoryOverviewPanel = new CategoryOverviewPane(quizcontroller);
 			CategoryDetailPane categoryDetailPanel = new CategoryDetailPane();
 
 			TestPane testPane = new TestPane();
