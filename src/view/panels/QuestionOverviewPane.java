@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import controller.QuizController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -68,8 +69,8 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	}
 	
 	private void display() {
-		for (Question q : questions) {
-			table.getItems().add(q);
+		if (questions != null && questions.size() > 0) {
+			table.setItems(FXCollections.observableArrayList(questions));
 		}
 	}
 

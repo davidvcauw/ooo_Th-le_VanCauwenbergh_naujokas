@@ -18,10 +18,12 @@ public class Categorie {
 	}
 	
 	private void setName(String n) {
+		if (n == null || n.trim().isEmpty()) throw new IllegalArgumentException("Name can't be empty!");
 		this.name = n;
 	}
 	
 	private void setDescription(String d) {
+		if (d == null || d.trim().isEmpty()) throw new IllegalArgumentException("Description can't be empty!");
 		this.description = d;
 	}
 	
