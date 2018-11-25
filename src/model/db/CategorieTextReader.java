@@ -26,9 +26,13 @@ public class CategorieTextReader {
 	}
 	
 	public List<Categorie> getCategories() {
-		if (categories.size() == 0) {
+		/*if (categories.size() == 0) {
 			readCategories();
 		}
+		I think it is better to always read the file?
+		If there is 1 categorie in the list but some got added to the file they wont get given.
+		*/
+		readCategories();
 		return categories;
 	}
 	
@@ -52,7 +56,8 @@ public class CategorieTextReader {
 				return cat;
 			}
 		}
-		return null; //mss error throwen ipv null terug te geven??
+		throw new DbException("Categorie with name " + naam + " was not found!");
+		//return null; //mss error throwen ipv null terug te geven??
 	}
 	
 	public void addCategorie(Categorie categorie) {
@@ -63,6 +68,10 @@ public class CategorieTextReader {
 	public void addCategories(List<Categorie> categories) {
 		//Same as addCategorie but for multiple at once
 		this.categories.addAll(categories);
+	}
+	
+	public void writeCategories() {
+		this.writeCategories(categories);
 	}
 	
 	public void writeCategories(List<Categorie> cate) {
