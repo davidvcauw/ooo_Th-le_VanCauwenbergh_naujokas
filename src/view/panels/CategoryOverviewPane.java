@@ -1,13 +1,18 @@
 package view.panels;
 
+
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+
 import controller.QuizController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.domain.Categorie;
 
 
@@ -22,12 +29,14 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 	private TableView<Categorie> table;
 	private Button btnNew;
 	private List<Categorie> categories;
+	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
 	public CategoryOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);
 			categories = ((QuizController) observable).getCategories();
+			this.quiz = (QuizController) observable;
 		}
 		
 		this.setPadding(new Insets(5, 5, 5, 5));
@@ -49,6 +58,17 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		btnNew = new Button("New");
 		this.add(btnNew, 0, 11, 1, 1);
 		
+		setNewAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	
+		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
+		    	CategoryDetailPane root = new CategoryDetailPane(categories, quiz);
+		    	Stage stage = new Stage();
+	            stage.setScene(new Scene(root, 300, 150));
+	            stage.show();
+		    }
+		});
+		
 		display();
 	}
 	
@@ -62,16 +82,20 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 
 	@Override
 	public void update(Observable observable, Object arg1) {
+		
+		//whenever a categorie gets added to the quiz, this gets executed
 		if (observable instanceof QuizController) {
 			QuizController quiz = (QuizController) observable;
+			this.quiz = quiz;
 			this.categories = quiz.getCategories();
 			display();
 		}
 	}
 	
 	private void display() {
-		for (Categorie c : categories) {
-			table.getItems().add(c);
+		//this method will make all the categories from the quiz get displayed in the table
+		if (categories != null && categories.size() > 0) {
+			table.setItems(FXCollections.observableArrayList(categories));
 		}
 	}
 

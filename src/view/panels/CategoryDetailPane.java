@@ -1,20 +1,31 @@
 package view.panels;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import controller.QuizController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import model.domain.Categorie;
 
 public class CategoryDetailPane extends GridPane {
 	private Button btnOK, btnCancel;
 	private TextField titleField, descriptionField;
-	private ComboBox categoryField;
+	private ComboBox<String> categoryField;
+	private QuizController quiz; 
 
-	public CategoryDetailPane() {
+	public CategoryDetailPane(List<Categorie> categories, QuizController quizz) {
+		this.quiz = quizz;
+		
 		this.setPrefHeight(150);
 		this.setPrefWidth(300);
 		
@@ -30,8 +41,14 @@ public class CategoryDetailPane extends GridPane {
 		descriptionField = new TextField();
 		this.add(descriptionField, 1, 1, 1, 1);
 
+		List<String> categorieNames = new ArrayList<>();
+		for (Categorie c : categories) {
+			categorieNames.add(c.getName());
+		}
+		
 		this.add(new Label("Main Category:"), 0, 2, 1, 1);
-		categoryField = new ComboBox<>();
+		categoryField = new ComboBox<String>();
+		categoryField.getItems().addAll(categorieNames);
 		this.add(categoryField, 1, 2, 1, 1);
 
 		btnCancel = new Button("Cancel");
@@ -40,6 +57,46 @@ public class CategoryDetailPane extends GridPane {
 		btnOK = new Button("Save");
 		btnOK.isDefaultButton();
 		this.add(btnOK, 1, 3, 1, 1);
+		
+		setCancelAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	Stage stage = (Stage) btnCancel.getScene().getWindow();
+		        stage.close();
+		    }
+		});
+		
+		setSaveAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	try {
+		    		Categorie c = null;
+		    		
+		    		//check if a parent categorie was provided/chosen
+		    		if (categoryField.getValue() == null || categoryField.getValue().trim().isEmpty()) {
+		    			c = new Categorie(titleField.getText(), descriptionField.getText());
+		    		} else {
+		    			Categorie parent = null;
+		    			for (Categorie cat : categories) {
+		    				if (cat.getName().equals(categoryField.getValue())) parent = c;
+		    			}
+		    			c = new Categorie(titleField.getText(), descriptionField.getText(), parent);
+		    		}
+		    		//if name or description wasnt given, the constructor of categorie will throw an exception
+		    		//and we will leave the try block, meaning the window stays open
+		    		
+		    		//add categorie to categories
+		    		quiz.addCategorie(c);
+		    		
+		    		//close window
+		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
+			        stage.close();
+		    	} catch (Exception ex) {
+		    		Label warning = new Label(ex.getMessage());
+		    		warning.setStyle("-fx-text-fill: darkred;");
+		    		add(warning, 1, 4, 1, 1);
+		    		//adds warning label, categorie doesnt get added
+		    	}
+		    }
+		});
 	}
 
 	public void setSaveAction(EventHandler<ActionEvent> saveAction) {

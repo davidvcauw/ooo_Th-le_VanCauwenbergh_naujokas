@@ -39,6 +39,7 @@ public class CategorieTextReader {
 	private List<Categorie> readCategories() {
 		categories = new ArrayList<Categorie>();
 		List<String[]> rawList = scanner.getText("Categories.txt");
+		this.categories = new ArrayList<Categorie>();
 		for (String[] str : rawList) {
 			Categorie cat = null;
 			if (str.length == 2) {
@@ -62,13 +63,16 @@ public class CategorieTextReader {
 	}
 	
 	public void addCategorie(Categorie categorie) {
+		readCategories();
 		this.categories.add(categorie);
+		writeCategories();
 		
 	}
 	
 	public void addCategories(List<Categorie> categories) {
 		//Same as addCategorie but for multiple at once
 		this.categories.addAll(categories);
+		writeCategories();
 	}
 	
 	public void writeCategories() {

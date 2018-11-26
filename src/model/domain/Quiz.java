@@ -6,30 +6,32 @@ import model.db.CategorieTextReader;
 import model.db.QuestionTextReader;
 
 public class Quiz {
-	private List<Categorie> categories;
-	private List<Question> questions;
+	private CategorieTextReader CR;
+	private QuestionTextReader QR;
 	
 	public Quiz() {
-		this.categories = new CategorieTextReader().getCategories();
-		this.questions = new QuestionTextReader().getQuestions();
+		
+		
+		CR=  new CategorieTextReader();
+		QR = new QuestionTextReader();
 	}
 	
 	public List<Question> getQuestions() {
-		return this.questions;
+		return this.QR.getQuestions();
 	}
 	
 	public List<Categorie> getCategories() {
-		return this.categories;
+		return this.CR.getCategories();
 	}
 	
 	public void addQuestion(Question q) {
 		if (q == null) throw new IllegalArgumentException("Can't add null to questions!");
-		this.questions.add(q);
+		new QuestionTextReader().addQuestion(q);
 	}
 	
 	public void addCategorie(Categorie c) {
 		if (c == null) throw new IllegalArgumentException("Can't add null to categories!");
-		this.categories.add(c);
+		new CategorieTextReader().addCategorie(c);
 	}
 	
 	//TODO: add more methods, needed for story 1-4

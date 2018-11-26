@@ -17,15 +17,19 @@ public class Categorie {
 		setParent(parent);
 	}
 	
-	private void setName(String n) {
+	public void setName(String n) {
+		if (n == null || n.trim().isEmpty()) throw new IllegalArgumentException("Name can't be empty!");
+		if (n.contains("-")) throw new IllegalArgumentException("Category name can't include '-'!");
 		this.name = n;
 	}
 	
-	private void setDescription(String d) {
+	public void setDescription(String d) {
+		if (d == null || d.trim().isEmpty()) throw new IllegalArgumentException("Description can't be empty!");
+		if (d.contains("-")) throw new IllegalArgumentException("Category description can't include '-'!");
 		this.description = d;
 	}
 	
-	private void setParent(Categorie p) {
+	public void setParent(Categorie p) {
 		this.parent = p;
 	}
 	

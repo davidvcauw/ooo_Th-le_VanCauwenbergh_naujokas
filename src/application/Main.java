@@ -26,7 +26,9 @@ public class Main extends Application {
 			QuestionDetailPane questionDetailPane = new QuestionDetailPane();
 
 			CategoryOverviewPane categoryOverviewPanel = new CategoryOverviewPane(quizcontroller);
-			CategoryDetailPane categoryDetailPanel = new CategoryDetailPane();
+			//CategoryDetailPane categoryDetailPanel = new CategoryDetailPane();
+			//removed this ^ because it is not needed in the main application, the categoryDetailPanel 
+			//gets called by the overviewPanel
 
 			TestPane testPane = new TestPane();
 			MessagePane messagePane = new MessagePane();
