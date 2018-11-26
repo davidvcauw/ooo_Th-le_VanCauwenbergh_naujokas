@@ -15,7 +15,7 @@ public class CategorieTextReader {
 	 * 
 	 */
 	
-	private File file;
+	//private File file;
 	private TextScanner scanner;
 	private List<Categorie> categories;
 	
@@ -37,6 +37,7 @@ public class CategorieTextReader {
 	}
 	
 	private List<Categorie> readCategories() {
+		categories = new ArrayList<Categorie>();
 		List<String[]> rawList = scanner.getText("Categories.txt");
 		for (String[] str : rawList) {
 			Categorie cat = null;
@@ -47,7 +48,7 @@ public class CategorieTextReader {
 			}
 			if (cat != null) categories.add(cat);
 		}
-		return null;
+		return categories;
 	}
 	
 	public Categorie findCategorie(String naam) {
