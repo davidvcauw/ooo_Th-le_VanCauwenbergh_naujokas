@@ -14,6 +14,12 @@ public class Question {
 		setCategory(cat);
 		setFeedback(feedback);
 	}
+	public Question(String question, List<String> statements, Categorie cat) {
+		setQuestion(question);
+		setStatements(statements);
+		setCategory(cat);
+		setFeedback(null);
+	}
 
 	public String getQuestion() {
 		return question;
