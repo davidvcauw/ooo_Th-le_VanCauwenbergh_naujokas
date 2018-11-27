@@ -22,20 +22,7 @@ import view.panels.TestPane;
 
 public class Main extends Application {
 	@Override
-	public void start(Stage primaryStage) {
-		/*List<String> answers = new ArrayList<>();
-		answers.add("yes");
-		answers.add("no");
-		Question q1 = new Question("Q?", answers, new Categorie("name", "desc"), "feedback1");
-		answers.add("maybe");
-		Question q2 = new Question("Q2", answers, new Categorie("name2", "desc1"), "feedback2");
-		List<Question> questions = new ArrayList<>();
-		questions.add(q1);
-		questions.add(q2);
-		QuestionTextReader QR = new QuestionTextReader();
-		QR.writeQuestion(questions);
-		QR.getQuestions();*/
-		
+	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
 		
