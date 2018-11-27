@@ -1,2 +1,2 @@
-Q?-[yes, no, maybe]-CatName-feedback1
-Q2-[yes, no, maybe]-aaaaaaaaa-feedback2
+Welk patroon definieert een familie van algoritmes, kapselt ze in en maakt ze verwisselbaar?-[yes, no, maybe]-Design Patterns-feedback1
+Welk ontwerp principe is het minst van topassing op het Strategy patroon-[yes, no, maybe]-Design Principles-feedback2
