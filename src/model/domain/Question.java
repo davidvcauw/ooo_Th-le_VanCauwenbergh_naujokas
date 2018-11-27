@@ -66,4 +66,9 @@ public class Question {
 		//not all questions need feed back
 		this.feedback = feedback;
 	}
+	
+	@Override
+	public String toString() {
+		return getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
+	}
 }

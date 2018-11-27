@@ -1,10 +1,4 @@
-test-test
-s-redsfsqs
-CatName-CatDEsc
-c-d
-test-iets
-nog|iets-anders
-dit is een langere zin-dit is ook een langere zin
-testing-in de main
-tetdsgs-dgdsgd
-aaaaaaaaa-bbbbbbb
+Design Principles-The SOLID design principles
+Design Patterns-Design patterns discussed this year
+Java-Java extras
+UML-Technique of drawing a class diagram

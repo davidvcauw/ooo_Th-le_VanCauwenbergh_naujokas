@@ -44,4 +44,9 @@ public class Categorie {
 	public Categorie getParent() {
 		return this.parent;
 	}
+	
+	@Override
+	public String toString() {
+		return getName()+"-"+getDescription();
+	}
 }
