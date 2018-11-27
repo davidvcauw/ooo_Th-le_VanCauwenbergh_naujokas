@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.domain.Categorie;
@@ -20,23 +21,25 @@ public class QuestionTextReader {
 	}
 	
 	private List<Question> readQuestions() {
-		questions = new ArrayList();
-		/*List<String[]> rawList = scanner.getText("Question.txt");
+		List<Question >questions = new ArrayList<Question>();
+		List<String[]> rawList = TextScanner.getInstance().getText("Questions.txt");
 		for (String[] str : rawList) {
-			Question question = null;
-			if (str.length == 3) {
-				question = new Question(str[0], str[1],str[2]);
-			} else if( str.length == 4) {
-				question = new Question(str[0], str[1], str[2], str[3]);// !!!!!dont know how to deal with List
-			}
-			if (question != null) questions.add(question);
-		}*/
+			String questionS = str[0];
+			String feedback = str.length>3?str[3]:"";
+			String categoryName = str[2];
+			CategorieTextReader CR = new CategorieTextReader();
+			Categorie category = CR.findCategorie(categoryName);
+			List<String> answers = new ArrayList<>(Arrays.asList(str[1].substring(1, str[1].length()-1).split(", ")));
+			Question question = new Question(questionS, answers, category, feedback);
+			
+			questions.add(question);
+		}
 		return questions;
 		
 	}
 	
 	public List<Question> getQuestions() {
-		readQuestions();
+		this.questions = readQuestions();
 		
 		return questions;
 	}
@@ -58,10 +61,10 @@ public class QuestionTextReader {
 	public void writeQuestion(List<Question> question) {
 		String towrite = "";
 		for (Question q: question) {
-			towrite +=q.getQuestion() +"-"+q.getStatements() +"-"+ q.getCategory() +"-"+q.getFeedback();
+			towrite +=q.getQuestion() +"-"+q.getStatements() +"-"+ q.getCategoryObject().getName() +"-"+q.getFeedback();
 			towrite+="\n";
 		}
-		System.out.println(towrite);
+		System.out.println("writing: " + towrite);
 		try {
 			FileWriter fileWriter = new FileWriter("Questions.txt");
 		    fileWriter.write(towrite);

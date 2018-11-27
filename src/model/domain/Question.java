@@ -29,8 +29,12 @@ public class Question {
 		return statements;
 	}
 
-	public Categorie getCategory() {
+	public Categorie getCategoryObject() {
 		return category;
+	}
+	
+	public String getCategory() {
+		return category.getName();
 	}
 
 	public String getFeedback() {

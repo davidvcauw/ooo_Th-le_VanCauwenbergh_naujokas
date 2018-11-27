@@ -22,7 +22,7 @@ public class CategorieTextReader {
 	public CategorieTextReader() {
 		//this.file = new File("Categories");
 		scanner = TextScanner.getInstance();
-		categories = new ArrayList<Categorie>();
+		categories = readCategories();
 	}
 	
 	public List<Categorie> getCategories() {
