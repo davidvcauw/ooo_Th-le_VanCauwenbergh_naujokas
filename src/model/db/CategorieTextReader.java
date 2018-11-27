@@ -9,6 +9,7 @@ import java.util.List;
 import model.domain.Categorie;
 
 public class CategorieTextReader {
+	
 	/*bedenkingen:
 	 * Categorien in een set steken, om duplicaten te voorkomen?
 	 * Een Textreader met een state maken om te kiezen voor Categoriën of vragen?
