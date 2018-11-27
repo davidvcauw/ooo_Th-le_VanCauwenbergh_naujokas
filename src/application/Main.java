@@ -26,8 +26,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
-		Quiz quiz = new Quiz();
-		quiz.runQuiz();
+		
 		
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);

@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import model.domain.Quiz;
 
 public class MessagePane extends GridPane {
 	private Button testButton;
@@ -31,6 +32,8 @@ public class MessagePane extends GridPane {
 			
 			@Override
 			public void handle(ActionEvent event) {
+				Quiz quiz = new Quiz();
+				quiz.runQuiz();
 			}
 		});
 		add(testButton, 0,1,1,1);

@@ -38,9 +38,6 @@ public class Quiz {
 	
 	public void runQuiz() {
 		QuestionTextReader qr = new QuestionTextReader();
-		/*Question q;
-		qr.getQuestions();*/
-		////for(String [] question : q.getStatements())
 		for (Question q : qr.getQuestions()) {
 			for (String s : q.getStatements()) {
 				System.out.println(q.getQuestion() + ' ' + s);
