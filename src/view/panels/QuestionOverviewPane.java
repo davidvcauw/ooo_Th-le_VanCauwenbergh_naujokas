@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import model.domain.Categorie;
 import model.domain.Question;
 
@@ -23,12 +25,14 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;
 	private Button btnNew;
 	private List<Question> questions;
+	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
 	public QuestionOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);
 			questions = ((QuizController) observable).getQuestions();
+			this.quiz = (QuizController) observable;
 		}
 		
 		this.setPadding(new Insets(5, 5, 5, 5));
@@ -50,6 +54,17 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		btnNew = new Button("New");
 		this.add(btnNew, 0, 11, 1, 1);
 		
+		setNewAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	
+		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
+		    	QuestionDetailPane root = new QuestionDetailPane(questions, quiz);
+		    	Stage stage = new Stage();
+	            stage.setScene(new Scene(root, 320, 350));
+	            stage.show();
+		    }
+		});
+		
 		display();
 	}
 	
@@ -65,6 +80,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	public void update(Observable observable, Object arg1) {
 		if (observable instanceof QuizController) {
 			QuizController quiz = (QuizController) observable;
+			this.quiz = quiz;
 			this.questions = quiz.getQuestions();
 			display();
 		}

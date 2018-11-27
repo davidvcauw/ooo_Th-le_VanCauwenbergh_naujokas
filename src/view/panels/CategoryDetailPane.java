@@ -58,6 +58,10 @@ public class CategoryDetailPane extends GridPane {
 		btnOK.isDefaultButton();
 		this.add(btnOK, 1, 3, 1, 1);
 		
+		Label warning = new Label();
+		warning.setStyle("-fx-text-fill: darkred;");
+		add(warning, 1, 4, 1, 1);
+		
 		setCancelAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	Stage stage = (Stage) btnCancel.getScene().getWindow();
@@ -76,7 +80,7 @@ public class CategoryDetailPane extends GridPane {
 		    		} else {
 		    			Categorie parent = null;
 		    			for (Categorie cat : categories) {
-		    				if (cat.getName().equals(categoryField.getValue())) parent = c;
+		    				if (cat.getName().equals(categoryField.getValue())) parent = cat;
 		    			}
 		    			c = new Categorie(titleField.getText(), descriptionField.getText(), parent);
 		    		}
@@ -90,9 +94,7 @@ public class CategoryDetailPane extends GridPane {
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
 			        stage.close();
 		    	} catch (Exception ex) {
-		    		Label warning = new Label(ex.getMessage());
-		    		warning.setStyle("-fx-text-fill: darkred;");
-		    		add(warning, 1, 4, 1, 1);
+		    		warning.setText(ex.getMessage());
 		    		//adds warning label, categorie doesnt get added
 		    	}
 		    }

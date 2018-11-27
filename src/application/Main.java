@@ -29,7 +29,7 @@ public class Main extends Application {
 		
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
-			QuestionDetailPane questionDetailPane = new QuestionDetailPane();
+			//QuestionDetailPane questionDetailPane = new QuestionDetailPane();
 
 			CategoryOverviewPane categoryOverviewPanel = new CategoryOverviewPane(quizcontroller);
 			//CategoryDetailPane categoryDetailPanel = new CategoryDetailPane();
