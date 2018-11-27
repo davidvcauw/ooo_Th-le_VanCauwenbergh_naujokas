@@ -34,8 +34,8 @@ public class Main extends Application {
 			//removed this ^ because it is not needed in the main application, the categoryDetailPanel 
 			//gets called by the overviewPanel
 
-			TestPane testPane = new TestPane();
-			MessagePane messagePane = new MessagePane();
+			//TestPane testPane = new TestPane();
+			MessagePane messagePane = new MessagePane(quizcontroller);
 
 			Group root = new Group();
 			Scene scene = new Scene(root, 750, 400);

@@ -1,2 +1,2 @@
-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[yes, no, maybe]-Design Patterns-feedback1
 Which design principle is the least applicable on the Strategy pattern?-[yes, no, maybe]-Design Principles-feedback2
+Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[yes, no, maybe]-Design Patterns-feedback1

@@ -49,14 +49,11 @@ public class Quiz {
 	
 	//TODO: add more methods, needed for story 1-4
 	
-	public void runQuiz() {
-		/*QuestionTextReader qr = new QuestionTextReader();
-		for (Question q : qr.getQuestions()) {
-			for (String s : q.getStatements()) {
-				System.out.println(q.getQuestion() + ' ' + s);
-			}
-		}
-		System.out.println();*/
+	/*public void runQuiz() {
+		//QuestionTextReader qr = new QuestionTextReader();
+		 
 		
-	}
+		System.out.println();
+		
+	}*/
 }

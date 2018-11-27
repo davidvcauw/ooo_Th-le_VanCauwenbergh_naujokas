@@ -36,6 +36,10 @@ public class QuizController extends Observable {
 		quiz.save();
 	}
 	
+	public void runQuiz() {
+		//quiz.runQuiz();
+	}
+	
 	public void notifyDisplays() {
 		setChanged();
 		notifyObservers();
