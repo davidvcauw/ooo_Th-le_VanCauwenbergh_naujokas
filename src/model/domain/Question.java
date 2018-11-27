@@ -61,9 +61,15 @@ public class Question {
 	}
 
 	public void setFeedback(String feedback) {
+		if (feedback == null) feedback = "";
 		if (feedback.contains("-")) throw new IllegalArgumentException("Question description can't include '-'!");
 		
 		//not all questions need feed back
 		this.feedback = feedback;
+	}
+	
+	@Override
+	public String toString() {
+		return getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
 }
