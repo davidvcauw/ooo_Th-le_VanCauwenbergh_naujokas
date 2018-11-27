@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Deprecated
 public class TextScanner {
 	private File file;
 	private static TextScanner instance;

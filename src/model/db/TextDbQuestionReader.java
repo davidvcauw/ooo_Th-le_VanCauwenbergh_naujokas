@@ -10,12 +10,12 @@ import model.domain.Question;
 
 public class TextDbQuestionReader extends TextDb<Question>{
 	private static HashMap<String, TextDbQuestionReader> instances = new HashMap<>();
-	public TextDbQuestionReader(String bn) {
+	private TextDbQuestionReader(String bn) {
 		super(bn);
 		// TODO Auto-generated constructor stub
 	}
 	
-	private static TextDbQuestionReader getInstance(String bn) {
+	public static TextDbQuestionReader getInstance(String bn) {
 		if (!instances.containsKey(bn)) {
 			instances.put(bn, new TextDbQuestionReader(bn));
 		}

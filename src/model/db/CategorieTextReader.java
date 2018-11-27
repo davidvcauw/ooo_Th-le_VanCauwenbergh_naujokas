@@ -8,6 +8,7 @@ import java.util.List;
 
 import model.domain.Categorie;
 
+@Deprecated
 public class CategorieTextReader {
 	
 	/*bedenkingen:
