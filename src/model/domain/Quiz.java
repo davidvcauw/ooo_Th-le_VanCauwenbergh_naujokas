@@ -42,6 +42,11 @@ public class Quiz {
 		//new CategorieTextReader().addCategorie(c);
 	}
 	
+	public void save() {
+		this.categorieReader.save();
+		this.questionReader.save();
+	}
+	
 	//TODO: add more methods, needed for story 1-4
 	
 	public void runQuiz() {

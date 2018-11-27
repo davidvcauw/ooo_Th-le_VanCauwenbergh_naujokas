@@ -9,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.db.QuestionTextReader;
 import model.domain.Categorie;
 import model.domain.Question;
 import model.domain.Quiz;
@@ -49,6 +48,10 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.sizeToScene();
 
+			primaryStage.setOnHiding( event -> {
+				quizcontroller.save();
+			});
+			
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
