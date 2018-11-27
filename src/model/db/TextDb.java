@@ -16,6 +16,7 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 	public TextDb(String bn) {
 		this.bestandsnaam = bn;
 		this.items = new ArrayList();
+		load();
 	}
 	public final void load() {
 		items = new ArrayList();

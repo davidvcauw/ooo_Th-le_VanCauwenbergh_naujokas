@@ -26,8 +26,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
-		
-		
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
 			//QuestionDetailPane questionDetailPane = new QuestionDetailPane();
