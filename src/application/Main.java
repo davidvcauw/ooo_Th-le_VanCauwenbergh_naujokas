@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import model.db.QuestionTextReader;
 import model.domain.Categorie;
 import model.domain.Question;
+import model.domain.Quiz;
 import view.panels.AssesMainPane;
 import view.panels.CategoryDetailPane;
 import view.panels.CategoryOverviewPane;
@@ -25,7 +26,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
-		
+		Quiz quiz = new Quiz();
+		quiz.runQuiz();
 		
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
