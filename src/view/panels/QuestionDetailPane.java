@@ -135,7 +135,6 @@ public class QuestionDetailPane extends GridPane {
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
 			        stage.close();
 		    	} catch (Exception ex) {
-		    		ex.printStackTrace();
 		    		warning.setText(ex.getMessage());
 		    		//adds warning label, categorie doesnt get added
 		    	}
