@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import model.domain.Categorie;
 
-public abstract class TextDb<E> implements DbStrategy {
+public abstract class TextDb<E> implements DbStrategy<E> {
 	private String bestandsnaam;
 	private List<E> items;
 	public TextDb(String bn) {

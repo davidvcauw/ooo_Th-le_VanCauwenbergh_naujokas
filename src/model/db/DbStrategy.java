@@ -1,6 +1,11 @@
 package model.db;
 
-public interface DbStrategy {
+import java.util.List;
+
+public interface DbStrategy<E> {
 	public void load();
 	public void save();
+	public  List<E> getItems();
+	
+	public void addItem(E item);
 }

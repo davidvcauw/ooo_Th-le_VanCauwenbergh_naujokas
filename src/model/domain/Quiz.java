@@ -3,35 +3,47 @@ package model.domain;
 import java.util.List;
 
 import model.db.CategorieTextReader;
+import model.db.DbStrategy;
 import model.db.QuestionTextReader;
+import model.db.TextDbCategorieReader;
+import model.db.TextDbQuestionReader;
 
 public class Quiz {
 	private CategorieTextReader CR;
 	private QuestionTextReader QR;
+	private DbStrategy categorieReader;
+	private DbStrategy questionReader;
+	
+	
 	
 	public Quiz() {
+		categorieReader = TextDbCategorieReader.getInstance("Categories.txt");
+		questionReader = TextDbQuestionReader.getInstance("Questions.txt");
 		
-		
-		CR=  new CategorieTextReader();
-		QR = new QuestionTextReader();
+		//CR=  new CategorieTextReader();
+		//QR = new QuestionTextReader();
 	}
 	
 	public List<Question> getQuestions() {
-		return this.QR.getQuestions();
+		return this.questionReader.getItems();
+		//return this.QR.getQuestions();
 	}
 	
 	public List<Categorie> getCategories() {
-		return this.CR.getCategories();
+		return this.categorieReader.getItems();
 	}
 	
 	public void addQuestion(Question q) {
 		if (q == null) throw new IllegalArgumentException("Can't add null to questions!");
-		new QuestionTextReader().addQuestion(q);
+		questionReader.addItem(q);
+		
+		//new QuestionTextReader().addQuestion(q);
 	}
 	
 	public void addCategorie(Categorie c) {
 		if (c == null) throw new IllegalArgumentException("Can't add null to categories!");
-		new CategorieTextReader().addCategorie(c);
+		categorieReader.addItem(c);
+		//new CategorieTextReader().addCategorie(c);
 	}
 	
 	//TODO: add more methods, needed for story 1-4

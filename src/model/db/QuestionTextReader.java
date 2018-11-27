@@ -9,6 +9,7 @@ import java.util.List;
 import model.domain.Categorie;
 import model.domain.Question;
 
+@Deprecated
 public class QuestionTextReader {
 	private TextScanner scanner;
 	private List<Question> questions;
