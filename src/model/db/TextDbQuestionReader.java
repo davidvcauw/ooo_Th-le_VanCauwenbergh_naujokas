@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.domain.Categorie;
+import model.domain.MultipleChoiceQuestion;
 import model.domain.Question;
 
 public class TextDbQuestionReader extends TextDb<Question>{
@@ -31,7 +32,7 @@ public class TextDbQuestionReader extends TextDb<Question>{
 		TextDbCategorieReader CR = TextDbCategorieReader.getInstance("Categories.txt");
 		Categorie category = CR.findCategorie(categoryName);
 		List<String> answers = new ArrayList<>(Arrays.asList(str[1].substring(1, str[1].length()-1).split(", ")));
-		Question question = new Question(questionS, answers, category, feedback);
+		Question question = new MultipleChoiceQuestion(questionS, answers, category, feedback);
 		
 		return question;
 	}

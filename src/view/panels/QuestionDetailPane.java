@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.runtime.regexp.joni.Warnings;
 import model.domain.Categorie;
+import model.domain.MultipleChoiceQuestion;
 import model.domain.Question;
 
 public class QuestionDetailPane extends GridPane {
@@ -123,9 +124,9 @@ public class QuestionDetailPane extends GridPane {
 	    			List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
 		    	
 		    		if (feedbackField.getText() == null || feedbackField.getText().trim().isEmpty()) {
-		    			q = new Question(questionField.getText(), statements, categ);
+		    			q = new MultipleChoiceQuestion(questionField.getText(), statements, categ);
 		    		} else {
-		    			q = new Question(questionField.getText(), statements, categ, feedbackField.getText());
+		    			q = new MultipleChoiceQuestion(questionField.getText(), statements, categ, feedbackField.getText());
 		    		}
 		    		
 		    		//add question to questions

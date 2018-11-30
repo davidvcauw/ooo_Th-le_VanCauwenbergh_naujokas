@@ -2,32 +2,24 @@ package model.domain;
 
 import java.util.List;
 
-public class Question {
+public abstract class Question {
 	private String question;
-	private List<String> statements;
 	private Categorie category;
 	private String feedback;
 	
-	public Question(String question, List<String> statements, Categorie cat, String feedback) {
+	public Question(String question, Categorie cat, String feedback) {
 		setQuestion(question);
-		setStatements(statements);
 		setCategory(cat);
 		setFeedback(feedback);
 	}
-	public Question(String question, List<String> statements, Categorie cat) {
-		setQuestion(question);
-		setStatements(statements);
-		setCategory(cat);
-		setFeedback(null);
+	public Question(String question, Categorie cat) {
+		this(question, cat, null);
 	}
 
 	public String getQuestion() {
 		return question;
 	}
 
-	public List<String> getStatements() {
-		return statements;
-	}
 
 	public Categorie getCategoryObject() {
 		return category;
@@ -47,14 +39,6 @@ public class Question {
 		this.question = question;
 	}
 
-	public void setStatements(List<String> statements) {
-		if (statements == null || statements.size() < 2) throw new IllegalArgumentException("You need atleast 2 statements!");
-		for (String s : statements) {
-			if (s.contains("-")) throw new IllegalArgumentException("Statements can't include '-'!");
-		}
-		this.statements = statements;
-	}
-
 	public void setCategory(Categorie category) {
 		if (category == null) throw new IllegalArgumentException("You need to provide a category!");
 		this.category = category;
@@ -70,6 +54,6 @@ public class Question {
 	
 	@Override
 	public String toString() {
-		return getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
+		return getQuestion()+"-"+"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
 }
