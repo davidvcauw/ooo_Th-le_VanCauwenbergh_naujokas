@@ -1,4 +1,5 @@
 package model.domain;
+import java.util.Collections;
 import java.util.List;
 
 import model.db.DbStrategy;
@@ -47,13 +48,10 @@ public class Quiz {
 		this.questionReader.save();
 	}
 	
-	//TODO: add more methods, needed for story 1-4
-	
-	/*public void runQuiz() {
-		//QuestionTextReader qr = new QuestionTextReader();
-		 
+	public List<Question> startQuiz() {
+		List<Question> questions = this.getQuestions();
+		Collections.shuffle(questions);
 		
-		System.out.println();
-		
-	}*/
+		return questions;
+	}
 }

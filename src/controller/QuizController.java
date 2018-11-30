@@ -36,8 +36,8 @@ public class QuizController extends Observable {
 		quiz.save();
 	}
 	
-	public void runQuiz() {
-		//quiz.runQuiz();
+	public List<Question> startQuiz() {
+		return quiz.startQuiz();
 	}
 	
 	public void notifyDisplays() {
