@@ -53,7 +53,7 @@ public class TestPane extends GridPane {
 		
 		MultipleChoiceQuestion Question = (MultipleChoiceQuestion) questions.get(questionNr);
 		
-		List<String> answers = Question.getStatements();
+		List<String> answers = new ArrayList<String>(Question.getStatements());
 		
 		String correctAnswer = answers.get(0);
 		Collections.shuffle(answers);
