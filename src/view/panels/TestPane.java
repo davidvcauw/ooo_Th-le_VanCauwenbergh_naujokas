@@ -24,6 +24,7 @@ public class TestPane extends GridPane {
 	private ToggleGroup statementGroup;
 	private QuizController quiz;
 	private List<Question> questions;
+	private List<String> results;
 	
 	public TestPane (QuizController quiz){
 		this.quiz = quiz;
@@ -36,6 +37,8 @@ public class TestPane extends GridPane {
         
         questionField = new Label();
 		add(questionField, 0, 0, 1, 1);
+		
+		results = new ArrayList<String>();
 		
 		questions = quiz.startQuiz();
 		quiz(0);
@@ -51,9 +54,21 @@ public class TestPane extends GridPane {
 		submitButton = new Button("Submit");
 		submitButton.setDisable(true);
 		
-		MultipleChoiceQuestion Question = (MultipleChoiceQuestion) questions.get(questionNr);
+		MultipleChoiceQuestion question = (MultipleChoiceQuestion) questions.get(questionNr);
 		
-		List<String> answers = new ArrayList<String>(Question.getStatements());
+		//results is a list that contains the categories, the amount of questions asked for this category and the amount answer correct
+
+		boolean inList = false;
+		for (String s : results) {
+			if (s.contains(question.getCategory())) {
+				inList = true;
+				String[] c = s.split("-");
+				results.set(results.indexOf(s), c[0] + "-" + (Integer.parseInt(c[1])+1) + "-" + c[2]);
+			}
+		}
+		if (!inList) results.add(question.getCategory()+"-1-0");
+		
+		List<String> answers = new ArrayList<String>(question.getStatements());
 		
 		String correctAnswer = answers.get(0);
 		Collections.shuffle(answers);
@@ -67,13 +82,26 @@ public class TestPane extends GridPane {
 			    }
 			});
 			add(btn, 0, i+1, 1, 1);
-			if (i == Question.getStatements().size()-1) this.add(submitButton, 0, i+2, 1, 1);
+			if (i == question.getStatements().size()-1) this.add(submitButton, 0, i+2, 1, 1);
 		}
 		
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	if (questionNr < questions.size()-1) quiz(questionNr+1);
-		    	else {
+		    	String selectedAnswer = ((RadioButton)statementGroup.getSelectedToggle()).getText();
+	    		
+	    		for (String s : results) {
+					if (s.contains(question.getCategory())) {
+						String[] c = s.split("-");
+						if (correctAnswer.equals(selectedAnswer)) {
+							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
+			    		} 
+					}
+				}
+		    	
+		    	if (questionNr < questions.size()-1) {
+		    		quiz(questionNr+1);
+		    	} else {
+		    		quiz.addResults(results);
 		    		Stage stage = (Stage) submitButton.getScene().getWindow();
 			        stage.close();
 		    	}

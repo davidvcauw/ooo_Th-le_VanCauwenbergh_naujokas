@@ -40,6 +40,15 @@ public class QuizController extends Observable {
 		return quiz.startQuiz();
 	}
 	
+	public void addResults(List<String> results) {
+		quiz.addResults(results);
+		notifyDisplays();
+	}
+	
+	public String getResults() {
+		return quiz.getResults();
+	}
+	
 	public void notifyDisplays() {
 		setChanged();
 		notifyObservers();

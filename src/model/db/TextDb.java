@@ -38,7 +38,7 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 			}*/
 			towrite+="\n";
 		}
-		System.out.println(towrite);
+		//System.out.println(towrite);
 		try {
 			FileWriter fileWriter = new FileWriter(bestandsnaam);
 		    fileWriter.write(towrite);
