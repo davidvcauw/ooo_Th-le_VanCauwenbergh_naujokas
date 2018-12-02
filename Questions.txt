@@ -1,3 +1,3 @@
 MC-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1
-MC-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1
 MC-Which design principle is the least applicable on the Strategy pattern?-[yes, no, maybe]-Design Principles-feedback2
+MC-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1

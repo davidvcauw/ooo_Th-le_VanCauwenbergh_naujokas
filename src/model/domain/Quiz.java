@@ -81,6 +81,12 @@ public class Quiz {
 		}
 	}
 	
+	public String getFeedback() {
+		//TODO (story 7)
+		
+		return "TODO";
+	}
+	
 	public void save() {
 		this.categorieReader.save();
 		this.questionReader.save();

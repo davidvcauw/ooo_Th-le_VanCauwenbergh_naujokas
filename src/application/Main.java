@@ -1,7 +1,10 @@
 package application;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import controller.QuizController;
 import javafx.application.Application;
@@ -9,22 +12,38 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.domain.Categorie;
-import model.domain.Question;
-import model.domain.Quiz;
 import view.panels.AssesMainPane;
-import view.panels.CategoryDetailPane;
 import view.panels.CategoryOverviewPane;
 import view.panels.MessagePane;
-import view.panels.QuestionDetailPane;
 import view.panels.QuestionOverviewPane;
-import view.panels.TestPane;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
+		/*
+		
+		Example code on how to initialse the .properties file if you need it in any class
+		
+		Properties properties = new Properties();
+		try {
+		  properties.load(new FileInputStream("evaluation.properties"));
+		} catch (IOException e) {
+		  System.out.println("Could not load properties file...");
+		}
+		
+		
+		
+		Example code on how to read the .properties file
+		
+		for(String key : properties.stringPropertyNames()) {
+			  String value = properties.getProperty(key);
+			  System.out.println(key + " => " + value);
+			}
+		
+		
+		*/
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
 			//QuestionDetailPane questionDetailPane = new QuestionDetailPane();

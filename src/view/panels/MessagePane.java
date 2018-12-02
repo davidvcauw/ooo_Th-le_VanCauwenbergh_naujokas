@@ -1,10 +1,12 @@
 package view.panels;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Properties;
 
 import controller.QuizController;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -20,7 +22,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.domain.Quiz;
 
 public class MessagePane extends GridPane implements Observer {
 	private Button testButton;
@@ -72,9 +73,31 @@ public class MessagePane extends GridPane implements Observer {
 		
 		resetView();
 		
-		if (!quiz.getResults().isEmpty()) {
-			add(new Label(quiz.getResults()), 0, 0, 1, 1);
+		//reads property file to see which kind of feedback has to be displayed on the screen
+		
+		Properties properties = new Properties();
+		try {
+		  properties.load(new FileInputStream("evaluation.properties"));
+		} catch (IOException e) {
+		  System.out.println("Could not load properties file...\nUsing default evaluation mode: score");
 		}
+		
+		for(String key : properties.stringPropertyNames()) {
+			  if (key.equals("evaluation.mode")) {
+				  String value = properties.getProperty(key);
+				  if (value.equals("score")) {
+					  if (!quiz.getResults().isEmpty()) {
+							add(new Label(quiz.getResults()), 0, 0, 1, 1);
+					  }
+				  }
+				  if (value.equals("feedback")) {
+					  if (!quiz.getFeedback().isEmpty()) {
+						  	//TODO (story 7)
+							add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
+					  }
+				  }
+			  }
+			}
 	}
 	
 	private void resetView() {

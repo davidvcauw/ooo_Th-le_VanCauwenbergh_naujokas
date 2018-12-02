@@ -40,6 +40,11 @@ public class QuizController extends Observable {
 		return quiz.startQuiz();
 	}
 	
+	public String getFeedback() {
+		//TODO (story 7)
+		return quiz.getFeedback();
+	}
+	
 	public void addResults(List<String> results) {
 		quiz.addResults(results);
 		notifyDisplays();
