@@ -1,7 +1,5 @@
 package model.domain;
 
-import java.util.List;
-
 public abstract class Question {
 	private String question;
 	private Categorie category;

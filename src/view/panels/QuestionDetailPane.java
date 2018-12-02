@@ -17,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.runtime.regexp.joni.Warnings;
 import model.domain.Categorie;
 import model.domain.MultipleChoiceQuestion;
 import model.domain.Question;

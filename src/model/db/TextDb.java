@@ -8,18 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.domain.Categorie;
-
 public abstract class TextDb<E> implements DbStrategy<E> {
 	private String bestandsnaam;
 	private List<E> items;
 	public TextDb(String bn) {
 		this.bestandsnaam = bn;
-		this.items = new ArrayList();
+		this.items = new ArrayList<E>();
 		load();
 	}
 	public final void load() {
-		items = new ArrayList();
+		items = new ArrayList<E>();
 		List<String[]> text = read();
 		
 		for (String[] str: text) {

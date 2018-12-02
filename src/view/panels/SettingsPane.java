@@ -5,26 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
 
-import controller.QuizController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import model.domain.MultipleChoiceQuestion;
-import model.domain.Question;
 
 public class SettingsPane extends GridPane {
 	private ComboBox<String> feedbackField;
