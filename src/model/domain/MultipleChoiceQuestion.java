@@ -28,6 +28,6 @@ public class MultipleChoiceQuestion extends Question {
 	
 	@Override
 	public String toString() {
-		return getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
+		return "MC-"+getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
 }

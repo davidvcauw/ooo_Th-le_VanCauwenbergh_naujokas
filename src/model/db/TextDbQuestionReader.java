@@ -26,13 +26,18 @@ public class TextDbQuestionReader extends TextDb<Question>{
 	@Override
 	protected Question parseInput(String[] str) {
 		// TODO Auto-generated method stub
-		String questionS = str[0];
-		String feedback = str.length>3?str[3]:"";
-		String categoryName = str[2];
+		String typeQuestion = str[0];
+		String questionS = str[1];
+		String feedback = str.length>4?str[4]:"";
+		String categoryName = str[3];
 		TextDbCategorieReader CR = TextDbCategorieReader.getInstance("Categories.txt");
 		Categorie category = CR.findCategorie(categoryName);
-		List<String> answers = new ArrayList<>(Arrays.asList(str[1].substring(1, str[1].length()-1).split(", ")));
-		Question question = new MultipleChoiceQuestion(questionS, answers, category, feedback);
+		List<String> answers = new ArrayList<>(Arrays.asList(str[2].substring(1, str[2].length()-1).split(", ")));
+		
+		Question question = null;
+		
+		if (typeQuestion.equals("MC")) question = new MultipleChoiceQuestion(questionS, answers, category, feedback);
+		//later when more type of questions get added lines added here, maybe factory?
 		
 		return question;
 	}

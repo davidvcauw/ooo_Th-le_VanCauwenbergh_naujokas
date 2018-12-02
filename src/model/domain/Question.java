@@ -54,6 +54,6 @@ public abstract class Question {
 	
 	@Override
 	public String toString() {
-		return getQuestion()+"-"+"-"+ getCategoryObject().getName() +"-"+getFeedback();
+		return "Q-"+ getQuestion()+"-"+"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
 }
