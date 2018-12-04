@@ -6,8 +6,7 @@ import java.util.List;
 import model.db.DbStrategy;
 import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
-
-import model.domain.Question;
+import model.domain.questions.Question;
 import view.panels.TestPane;
 public class Quiz {
 	private DbStrategy categorieReader;

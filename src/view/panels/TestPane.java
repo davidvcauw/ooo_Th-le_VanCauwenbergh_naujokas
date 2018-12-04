@@ -14,8 +14,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.domain.MultipleChoiceQuestion;
-import model.domain.Question;
+import model.domain.questions.MultipleChoiceQuestion;
+import model.domain.questions.Question;
 
 public class TestPane extends GridPane {
 	private Label questionField;

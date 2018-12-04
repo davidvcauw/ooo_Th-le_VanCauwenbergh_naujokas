@@ -18,7 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.domain.Question;
+import model.domain.questions.Question;
 
 public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;

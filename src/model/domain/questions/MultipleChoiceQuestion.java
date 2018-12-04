@@ -1,7 +1,9 @@
-package model.domain;
+package model.domain.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.domain.Categorie;
 
 public class MultipleChoiceQuestion extends Question {
 	private List<String> statements;

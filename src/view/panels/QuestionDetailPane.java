@@ -18,10 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.domain.Categorie;
-import model.domain.MultipleChoiceQuestion;
-import model.domain.Question;
-import model.domain.QuestionFactory;
-import model.domain.QuestionTypes;
+import model.domain.questions.MultipleChoiceQuestion;
+import model.domain.questions.Question;
+import model.domain.questions.QuestionFactory;
+import model.domain.questions.QuestionTypes;
 
 public class QuestionDetailPane extends GridPane {
 	private Button btnOK, btnCancel;

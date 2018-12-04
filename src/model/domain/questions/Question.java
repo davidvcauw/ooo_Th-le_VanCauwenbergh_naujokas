@@ -1,4 +1,6 @@
-package model.domain;
+package model.domain.questions;
+
+import model.domain.Categorie;
 
 public abstract class Question {
 	private String question;

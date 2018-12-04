@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.domain.Categorie;
-import model.domain.MultipleChoiceQuestion;
-import model.domain.Question;
-import model.domain.QuestionFactory;
-import model.domain.QuestionTypes;
+import model.domain.questions.MultipleChoiceQuestion;
+import model.domain.questions.Question;
+import model.domain.questions.QuestionFactory;
+import model.domain.questions.QuestionTypes;
 
 public class TextDbQuestionReader extends TextDb<Question>{
 	private static HashMap<String, TextDbQuestionReader> instances = new HashMap<>();
