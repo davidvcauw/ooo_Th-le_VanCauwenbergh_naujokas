@@ -7,6 +7,8 @@ public interface FeedbackStrategy {
 	List<String> getFeedbackList();
 	String getFeedback();
 	boolean isFlawless();
+	boolean hasBeenDone();
+	void setHasBeenDone(boolean b);
 	@Override
 	String toString();
 }

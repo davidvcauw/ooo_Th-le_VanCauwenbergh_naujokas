@@ -6,15 +6,23 @@ import java.util.List;
 public class ScoreStrategy implements FeedbackStrategy {
 	
 	private List<String> results = new ArrayList<String>();
+	private boolean hasBeenDone = false;
 
 	@Override
 	public void setFeedback(List<String> f) {
-		this.results = f;
-		
+		this.results = f;		
+	}
+	
+	public void setHasBeenDone(boolean b) {
+		hasBeenDone = b;
 	}
 	
 	public List<String> getFeedbackList() {
 		return results;
+	}
+	
+	public boolean hasBeenDone() {
+		return hasBeenDone;
 	}
 	
 	@Override

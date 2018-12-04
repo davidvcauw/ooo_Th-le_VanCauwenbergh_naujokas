@@ -1,6 +1,7 @@
 package model.db;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
+import model.domain.feedbackStrategys.ScoreStrategy;
 
 public class TextDbResultReader {
 	private static HashMap<String, TextDbResultReader> instances = new HashMap();
@@ -26,11 +29,25 @@ public class TextDbResultReader {
 	
 	public final void load() {
 		List<String> result = read();
-		feedback = FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(result.get(0)).getClassName());
-		String results = result.get(1);
-		results=results.substring(1, results.length()-1);
-		List<String> resultList = new ArrayList<String>(Arrays.asList(results.split(", ")));
-		feedback.setFeedback(resultList);
+		
+		if (result.isEmpty()) {
+			Properties properties = new Properties();
+			try {
+				properties.load(new FileInputStream("evaluation.properties"));
+			} catch (IOException e) {
+				System.out.println("Could not load properties file...");
+			}
+			
+			feedback = (FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
+		
+		} else {
+			feedback = FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(result.get(0)).getClassName());
+			String results = result.get(1);
+			results=results.substring(1, results.length()-1);
+			List<String> resultList = new ArrayList<String>(Arrays.asList(results.split(", ")));
+			feedback.setFeedback(resultList);
+			feedback.setHasBeenDone(true);
+		}
 	}
 	
 	public List<String> read() {
@@ -58,6 +75,10 @@ public class TextDbResultReader {
 	
 	public void setFeedback(FeedbackStrategy feedback) {
 		this.feedback = feedback;
+	}
+	
+	public FeedbackStrategy getFeedbackStrategy() {
+		return feedback;
 	}
 	
 	public void setFeedback(List<String> feedback) {

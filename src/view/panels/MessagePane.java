@@ -56,9 +56,8 @@ public class MessagePane extends GridPane implements Observer {
 		});
 		add(testButton, 0,1,1,1);
 		setHalignment(testButton, HPos.CENTER);
-		
-		if (quiz.isFlawless()) add(new Label("Everything perfect!"), 0, 0, 1, 1);
-		else add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
+
+		display();
 	}
 	
 	@Override
@@ -75,8 +74,12 @@ public class MessagePane extends GridPane implements Observer {
 	private void display() {		
 		resetView();
 		
-		if (quiz.isFlawless()) add(new Label("Everything perfect!"), 0, 0, 1, 1);
-		else add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
+		if (quiz.hasBeenDone()) {
+			if (quiz.isFlawless()) add(new Label("Everything perfect!"), 0, 0, 1, 1);
+			else add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
+		} else {
+			add(new Label("You never did this evaluation!"), 0, 0, 1, 1);
+		}
 		
 		
 	}

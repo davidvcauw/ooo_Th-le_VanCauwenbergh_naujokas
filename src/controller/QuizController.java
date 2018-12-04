@@ -28,6 +28,10 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
+	public boolean hasBeenDone() {
+		return quiz.hasBeenDone();
+	}
+	
 	public void addQuestion(Question q) {
 		quiz.addQuestion(q);
 		notifyDisplays();

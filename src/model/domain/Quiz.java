@@ -18,8 +18,7 @@ public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
 	private TextDbResultReader resultReader;
-	
-	private FeedbackStrategy feedback;
+
 	
 	
 	
@@ -40,15 +39,15 @@ public class Quiz {
 	
 		resultReader = new TextDbResultReader("Result.txt");
 		
-		setFeedback(resultReader.getFeedback());
+		getFeedbackStrategy().setFeedback(resultReader.getFeedback());
 	}
 	
 	public void setFeedbackStrategy(FeedbackStrategy strategy) {
-		this.feedback = strategy;
+		if (resultReader != null) resultReader.setFeedback(strategy);
 	}
 	
 	public FeedbackStrategy getFeedbackStrategy() {
-		return this.feedback;
+		return this.resultReader.getFeedbackStrategy();
 	}
 
 	public List<Question> getQuestions() {
@@ -58,6 +57,10 @@ public class Quiz {
 	
 	public List<Categorie> getCategories() {
 		return this.categorieReader.getItems();
+	}
+	
+	public boolean hasBeenDone() {
+		return getFeedbackStrategy().hasBeenDone();
 	}
 	
 	public void addQuestion(Question q) {
@@ -75,17 +78,17 @@ public class Quiz {
 	
 	
 	public boolean isFlawless() {
-		return feedback.isFlawless();
+		return getFeedbackStrategy().isFlawless();
 		
 	}
 	
 	public String getFeedback() {
-		return feedback.getFeedback();
+		return getFeedbackStrategy().getFeedback();
 	}
 	
 	public void setFeedback(List<String> feedbackS) {
-		feedback.setFeedback(feedbackS);
-		resultReader.setFeedback(feedbackS);
+		getFeedbackStrategy().setFeedback(feedbackS);
+		getFeedbackStrategy().setHasBeenDone(true);
 	}
 	
 	public void save() {
