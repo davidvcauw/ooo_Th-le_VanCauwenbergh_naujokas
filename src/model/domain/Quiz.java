@@ -6,12 +6,13 @@ import java.util.List;
 import model.db.DbStrategy;
 import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
-
-import model.domain.Question;
+import model.domain.questions.Question;
+import view.panels.TestPane;
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
 	private List<String> results;
+	private List<String> feedback;
 	
 	
 	
@@ -20,6 +21,7 @@ public class Quiz {
 		questionReader = TextDbQuestionReader.getInstance("Questions.txt");
 		
 		this.results=new ArrayList<String>();
+		this.feedback = new ArrayList<String>();
 		
 		//CR=  new CategorieTextReader();
 		//QR = new QuestionTextReader();
@@ -97,9 +99,14 @@ public class Quiz {
 	}
 	
 	public String getFeedback() {
-		//TODO (story 7)
-		
-		return "TODO";
+		String feedback = "";
+		for(String s : this.feedback) {
+			feedback+=s+"\n";
+		}
+		return feedback;
+	}
+	public void setFeedback(List<String> feedback) {
+		this.feedback = feedback;
 	}
 	
 	public void save() {

@@ -14,8 +14,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.domain.MultipleChoiceQuestion;
-import model.domain.Question;
+import model.domain.questions.MultipleChoiceQuestion;
+import model.domain.questions.Question;
 
 public class TestPane extends GridPane {
 	private Label questionField;
@@ -24,6 +24,7 @@ public class TestPane extends GridPane {
 	private QuizController quiz;
 	private List<Question> questions;
 	private List<String> results;
+	private List <String> feedback;
 	
 	public TestPane (QuizController quiz){
 		this.quiz = quiz;
@@ -38,6 +39,7 @@ public class TestPane extends GridPane {
 		add(questionField, 0, 0, 1, 1);
 		
 		results = new ArrayList<String>();
+		feedback = new ArrayList <String> ();
 		
 		questions = quiz.startQuiz();
 		quiz(0);
@@ -93,14 +95,18 @@ public class TestPane extends GridPane {
 						String[] c = s.split("-");
 						if (correctAnswer.equals(selectedAnswer)) {
 							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
-			    		} 
+						} else {
+							System.out.println(question.getFeedback());
+							feedback.add(question.getFeedback());
+						}
 					}
 				}
 		    	
 		    	if (questionNr < questions.size()-1) {
 		    		quiz(questionNr+1);
 		    	} else {
-		    		quiz.addResults(results);
+		    		quiz.addResults(results);;
+		    		quiz.setFeedback(feedback);
 		    		Stage stage = (Stage) submitButton.getScene().getWindow();
 			        stage.close();
 		    	}
@@ -124,5 +130,5 @@ public class TestPane extends GridPane {
 			selected.add(statementGroup.getSelectedToggle().getUserData().toString());
 		}
 		return selected;
-	}
+	}	
 }

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Observable;
 
 import model.domain.Categorie;
-import model.domain.Question;
 import model.domain.Quiz;
+import model.domain.questions.Question;
 
 public class QuizController extends Observable {
 	private Quiz quiz;
@@ -41,8 +41,12 @@ public class QuizController extends Observable {
 	}
 	
 	public String getFeedback() {
-		//TODO (story 7)
 		return quiz.getFeedback();
+	}
+	
+	public void setFeedback(List<String> feedback) {
+		quiz.setFeedback(feedback);
+		notifyDisplays();
 	}
 	
 	public void addResults(List<String> results) {

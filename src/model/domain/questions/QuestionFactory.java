@@ -1,4 +1,4 @@
-package model.domain;
+package model.domain.questions;
 
 import java.lang.reflect.Constructor;
 

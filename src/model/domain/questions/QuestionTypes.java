@@ -1,7 +1,7 @@
-package model.domain;
+package model.domain.questions;
 
 public enum QuestionTypes {
-	MC("model.domain.MultipleChoiceQuestion");
+	MC("model.domain.questions.MultipleChoiceQuestion");
 	//add more question types here;
 	
 	private final String className;
