@@ -5,12 +5,27 @@ import java.util.List;
 
 public class ScoreStrategy implements FeedbackStrategy {
 	
-	private List<String> results;
+	private List<String> results = new ArrayList<String>();
 
 	@Override
 	public void setFeedback(List<String> f) {
 		this.results = f;
 		
+	}
+	
+	@Override
+	public boolean isFlawless() {
+		if (this.results.isEmpty()) return false;
+		else {
+			int totalAsked = 0;
+			int totalCorrect = 0;
+			for (String r : results) {
+				String[] rString = r.split("-");
+				totalAsked+=Integer.parseInt(rString[1]);
+				totalCorrect+=Integer.parseInt(rString[2]);
+			}
+			return totalAsked == totalCorrect;
+		}
 	}
 
 	@Override
@@ -41,6 +56,11 @@ public class ScoreStrategy implements FeedbackStrategy {
 			
 			return result;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return results.isEmpty()?"score-empty":"score-"+results.toString();
 	}
 	
 }

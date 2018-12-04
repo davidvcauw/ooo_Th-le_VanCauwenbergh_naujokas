@@ -1,17 +1,24 @@
 package model.domain;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import model.db.DbStrategy;
 import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
+import model.db.TextDbResultReader;
 import model.domain.feedbackStrategys.FeedbackStrategy;
+import model.domain.feedbackStrategys.FeedbackStrategyFactory;
+import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.questions.Question;
 
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
+	private DbStrategy resultReader;
 	
 	private FeedbackStrategy feedback;
 	
@@ -21,8 +28,20 @@ public class Quiz {
 		categorieReader = TextDbCategorieReader.getInstance("Categories.txt");
 		questionReader = TextDbQuestionReader.getInstance("Questions.txt");
 		
-		//CR=  new CategorieTextReader();
-		//QR = new QuestionTextReader();
+		
+		
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream("evaluation.properties"));
+		} catch (IOException e) {
+			System.out.println("Could not load properties file...");
+		}
+		
+		this.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
+	
+		resultReader = TextDbResultReader.getInstance("Result.txt");
+		
+		setFeedback(((TextDbResultReader)resultReader).getFeedback());
 	}
 	
 	public void setFeedbackStrategy(FeedbackStrategy strategy) {
@@ -57,17 +76,7 @@ public class Quiz {
 	
 	
 	public boolean isFlawless() {
-		if (this.results.isEmpty()) return false;
-		else {
-			int totalAsked = 0;
-			int totalCorrect = 0;
-			for (String r : results) {
-				String[] rString = r.split("-");
-				totalAsked+=Integer.parseInt(rString[1]);
-				totalCorrect+=Integer.parseInt(rString[2]);
-			}
-			return totalAsked == totalCorrect;
-		}
+		return feedback.isFlawless();
 		
 	}
 	
@@ -82,6 +91,7 @@ public class Quiz {
 	public void save() {
 		this.categorieReader.save();
 		this.questionReader.save();
+		this.resultReader.save();
 	}
 	
 	public List<Question> startQuiz() {

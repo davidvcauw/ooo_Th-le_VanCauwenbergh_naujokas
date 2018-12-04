@@ -51,16 +51,13 @@ public class QuizController extends Observable {
 		return quiz.getFeedbackStrategy();
 	}
 	
-	public void setFeedbackStrategy(String strategyName) {
-		this.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(strategyName).getClassName()));
-	}
-	
 	public String getFeedback() {
 		return quiz.getFeedback();
 	}
 	
 	public void setFeedback(List<String> s) {
 		quiz.setFeedback(s);
+		//System.out.println(quiz.getFeedbackStrategy().toString());
 		notifyDisplays();
 	}
 	
