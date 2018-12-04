@@ -27,11 +27,11 @@ public class MessagePane extends GridPane implements Observer {
 	private Button testButton;
 	private QuizController quiz;
 	
-	public MessagePane (QuizController quiz){
+	public MessagePane (Observable quizz){
 		
-		if (quiz instanceof QuizController) {
-			quiz.addObserver(this);
-			this.quiz = quiz;
+		if (quizz instanceof QuizController) {
+			quizz.addObserver(this);
+			this.quiz = (QuizController) quizz;
 		}
 		
 	    setBorder(new Border(new BorderStroke(Color.BLACK, 
