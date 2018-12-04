@@ -18,6 +18,10 @@ public class TextStrategy implements FeedbackStrategy {
 		else return false;
 	}
 	
+	public List<String> getFeedbackList() {
+		return feedback;
+	}
+	
 	@Override
 	public String getFeedback() {
 		String feedback = "";
@@ -29,7 +33,7 @@ public class TextStrategy implements FeedbackStrategy {
 	
 	@Override
 	public String toString() {
-		return feedback.isEmpty()?"feedback-empty":"feedback-"+feedback.toString();
+		return feedback.isEmpty()?"feedback--empty":"feedback--"+feedback.toString();
 	}
 
 }

@@ -6,8 +6,6 @@ import java.util.Observable;
 import model.domain.Categorie;
 import model.domain.Quiz;
 import model.domain.feedbackStrategys.FeedbackStrategy;
-import model.domain.feedbackStrategys.FeedbackStrategyFactory;
-import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.questions.Question;
 
 public class QuizController extends Observable {

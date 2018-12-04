@@ -13,6 +13,10 @@ public class ScoreStrategy implements FeedbackStrategy {
 		
 	}
 	
+	public List<String> getFeedbackList() {
+		return results;
+	}
+	
 	@Override
 	public boolean isFlawless() {
 		if (this.results.isEmpty()) return false;
@@ -60,7 +64,7 @@ public class ScoreStrategy implements FeedbackStrategy {
 	
 	@Override
 	public String toString() {
-		return results.isEmpty()?"score-empty":"score-"+results.toString();
+		return results.isEmpty()?"score--empty":"score--"+results.toString();
 	}
 	
 }

@@ -1,7 +1,6 @@
 package model.domain;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +17,7 @@ import model.domain.questions.Question;
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
-	private DbStrategy resultReader;
+	private TextDbResultReader resultReader;
 	
 	private FeedbackStrategy feedback;
 	
@@ -39,9 +38,9 @@ public class Quiz {
 		
 		this.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
 	
-		resultReader = TextDbResultReader.getInstance("Result.txt");
+		resultReader = new TextDbResultReader("Result.txt");
 		
-		setFeedback(((TextDbResultReader)resultReader).getFeedback());
+		setFeedback(resultReader.getFeedback());
 	}
 	
 	public void setFeedbackStrategy(FeedbackStrategy strategy) {
@@ -86,6 +85,7 @@ public class Quiz {
 	
 	public void setFeedback(List<String> feedbackS) {
 		feedback.setFeedback(feedbackS);
+		resultReader.setFeedback(feedbackS);
 	}
 	
 	public void save() {
