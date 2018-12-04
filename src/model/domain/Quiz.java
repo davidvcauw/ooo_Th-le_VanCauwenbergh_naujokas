@@ -81,6 +81,21 @@ public class Quiz {
 		}
 	}
 	
+	public boolean isFlawless() {
+		if (this.results.isEmpty()) return false;
+		else {
+			int totalAsked = 0;
+			int totalCorrect = 0;
+			for (String r : results) {
+				String[] rString = r.split("-");
+				totalAsked+=Integer.parseInt(rString[1]);
+				totalCorrect+=Integer.parseInt(rString[2]);
+			}
+			return totalAsked == totalCorrect;
+		}
+		
+	}
+	
 	public String getFeedback() {
 		//TODO (story 7)
 		

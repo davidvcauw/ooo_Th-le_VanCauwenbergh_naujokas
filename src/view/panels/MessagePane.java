@@ -82,22 +82,26 @@ public class MessagePane extends GridPane implements Observer {
 		  System.out.println("Could not load properties file...\nUsing default evaluation mode: score");
 		}
 		
-		for(String key : properties.stringPropertyNames()) {
-			  if (key.equals("evaluation.mode")) {
-				  String value = properties.getProperty(key);
-				  if (value.equals("score")) {
-					  if (!quiz.getResults().isEmpty()) {
-							add(new Label(quiz.getResults()), 0, 0, 1, 1);
-					  }
-				  }
-				  if (value.equals("feedback")) {
-					  if (!quiz.getFeedback().isEmpty()) {
-						  	//TODO (story 7)
-							add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
-					  }
-				  }
-			  }
+		if (quiz.isFlawless()) {
+			//story 9
+			add(new Label("Alles perfect!"), 0, 0, 1, 1);
+		} else {
+			if(properties.containsKey("evaluation.mode")) {
+				String value = properties.getProperty("evaluation.mode");
+				if (value.equals("score")) {
+					if (!quiz.getResults().isEmpty()) {
+						  add(new Label(quiz.getResults()), 0, 0, 1, 1);
+					}
+				}
+				if (value.equals("feedback")) {
+					if (!quiz.getFeedback().isEmpty()) {
+						//TODO (story 7)
+						add(new Label(quiz.getFeedback()), 0, 0, 1, 1);
+					}
+				}	  
 			}
+		}
+		
 	}
 	
 	private void resetView() {
