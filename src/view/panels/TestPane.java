@@ -24,6 +24,7 @@ public class TestPane extends GridPane {
 	private QuizController quiz;
 	private List<Question> questions;
 	private List<String> results;
+	private List <String> quesAndfeed = new ArrayList <String> ();
 	
 	public TestPane (QuizController quiz){
 		this.quiz = quiz;
@@ -93,7 +94,10 @@ public class TestPane extends GridPane {
 						String[] c = s.split("-");
 						if (correctAnswer.equals(selectedAnswer)) {
 							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
-			    		} 
+			    		}
+						else {
+							setQuestionAndFeedback(question.getQuestion(), question.getFeedback());
+						}
 					}
 				}
 		    	
@@ -125,4 +129,14 @@ public class TestPane extends GridPane {
 		}
 		return selected;
 	}
+	public void setQuestionAndFeedback(String question,String feedback) {
+		
+		quesAndfeed.add(question + "-" + feedback);
+		
+	}
+	public List <String> getsortedFeedback(ArrayList <String> feed ){
+		return feed;
+	}
+	
+	
 }

@@ -8,10 +8,12 @@ import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
 
 import model.domain.Question;
+import view.panels.TestPane;
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
 	private List<String> results;
+	private List<String> feedback;
 	
 	
 	
@@ -81,10 +83,13 @@ public class Quiz {
 		}
 	}
 	
-	public String getFeedback() {
-		//TODO (story 7)
-		
+	public String getFeedback(List <String> feedback) {
+
+		//return feedback.toString();
 		return "TODO";
+	}
+	public void setfeedback(List<String> feedback) {
+	this.feedback = feedback;
 	}
 	
 	public void save() {
