@@ -1,16 +1,17 @@
 package model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleChoiceQuestion extends Question {
 	private List<String> statements;
 	
-	public MultipleChoiceQuestion(String question, List<String> statements, Categorie cat, String feedback) {
+	public MultipleChoiceQuestion(String question, ArrayList<String> statements, Categorie cat, String feedback) {
 		super(question, cat, feedback);
 		this.setStatements(statements);
 	}
 	
-	public MultipleChoiceQuestion(String question, List<String> statements, Categorie cat) {
+	public MultipleChoiceQuestion(String question, ArrayList<String> statements, Categorie cat) {
 		this(question, statements, cat, null);
 	}
 	

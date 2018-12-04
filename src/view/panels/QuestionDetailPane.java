@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import model.domain.Categorie;
 import model.domain.MultipleChoiceQuestion;
 import model.domain.Question;
+import model.domain.QuestionFactory;
+import model.domain.QuestionTypes;
 
 public class QuestionDetailPane extends GridPane {
 	private Button btnOK, btnCancel;
@@ -123,9 +125,9 @@ public class QuestionDetailPane extends GridPane {
 	    			List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
 		    	
 		    		if (feedbackField.getText() == null || feedbackField.getText().trim().isEmpty()) {
-		    			q = new MultipleChoiceQuestion(questionField.getText(), statements, categ);
+		    			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categ);
 		    		} else {
-		    			q = new MultipleChoiceQuestion(questionField.getText(), statements, categ, feedbackField.getText());
+		    			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categ, feedbackField.getText());
 		    		}
 		    		
 		    		//add question to questions
