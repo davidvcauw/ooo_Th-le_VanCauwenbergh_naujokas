@@ -55,6 +55,22 @@ public class Quiz {
 		//new CategorieTextReader().addCategorie(c);
 	}
 	
+	
+	public boolean isFlawless() {
+		if (this.results.isEmpty()) return false;
+		else {
+			int totalAsked = 0;
+			int totalCorrect = 0;
+			for (String r : results) {
+				String[] rString = r.split("-");
+				totalAsked+=Integer.parseInt(rString[1]);
+				totalCorrect+=Integer.parseInt(rString[2]);
+			}
+			return totalAsked == totalCorrect;
+		}
+		
+	}
+	
 	public String getFeedback() {
 		return feedback.getFeedback();
 	}

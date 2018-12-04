@@ -64,6 +64,10 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
+	public boolean isFlawless() {
+		return quiz.isFlawless();
+	}
+	
 	public void notifyDisplays() {
 		setChanged();
 		notifyObservers();
