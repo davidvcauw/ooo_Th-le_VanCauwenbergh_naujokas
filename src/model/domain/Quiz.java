@@ -22,6 +22,7 @@ public class Quiz {
 		questionReader = TextDbQuestionReader.getInstance("Questions.txt");
 		
 		this.results=new ArrayList<String>();
+		this.feedback = new ArrayList<String>();
 		
 		//CR=  new CategorieTextReader();
 		//QR = new QuestionTextReader();
@@ -83,13 +84,15 @@ public class Quiz {
 		}
 	}
 	
-	public String getFeedback(List <String> feedback) {
-
-		//return feedback.toString();
-		return "TODO";
+	public String getFeedback() {
+		String feedback = "";
+		for(String s : this.feedback) {
+			feedback+=s+"\n";
+		}
+		return feedback;
 	}
-	public void setfeedback(List<String> feedback) {
-	this.feedback = feedback;
+	public void setFeedback(List<String> feedback) {
+		this.feedback = feedback;
 	}
 	
 	public void save() {
