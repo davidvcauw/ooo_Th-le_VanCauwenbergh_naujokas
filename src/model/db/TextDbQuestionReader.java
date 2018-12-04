@@ -8,6 +8,8 @@ import java.util.List;
 import model.domain.Categorie;
 import model.domain.MultipleChoiceQuestion;
 import model.domain.Question;
+import model.domain.QuestionFactory;
+import model.domain.QuestionTypes;
 
 public class TextDbQuestionReader extends TextDb<Question>{
 	private static HashMap<String, TextDbQuestionReader> instances = new HashMap<>();
@@ -32,11 +34,15 @@ public class TextDbQuestionReader extends TextDb<Question>{
 		String categoryName = str[3];
 		TextDbCategorieReader CR = TextDbCategorieReader.getInstance("Categories.txt");
 		Categorie category = CR.findCategorie(categoryName);
-		List<String> answers = new ArrayList<>(Arrays.asList(str[2].substring(1, str[2].length()-1).split(", ")));
+		List<String> answers = new ArrayList<String>(Arrays.asList(str[2].substring(1, str[2].length()-1).split(", ")));
 		
 		Question question = null;
 		
-		if (typeQuestion.equals("MC")) question = new MultipleChoiceQuestion(questionS, answers, category, feedback);
+		//if (typeQuestion.equals("MC")) question = new MultipleChoiceQuestion(questionS, answers, category, feedback);
+		//without factory
+		
+		question = QuestionFactory.createQuestion(QuestionTypes.valueOf(typeQuestion).getClassName(), questionS, answers, category, feedback);
+		//with factory
 		//later when more type of questions get added lines added here, maybe factory?
 		
 		return question;

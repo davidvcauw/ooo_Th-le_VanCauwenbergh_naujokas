@@ -5,7 +5,7 @@ public abstract class Question {
 	private Categorie category;
 	private String feedback;
 	
-	public Question(String question, Categorie cat, String feedback) {
+	protected Question(String question, Categorie cat, String feedback) {
 		setQuestion(question);
 		setCategory(cat);
 		setFeedback(feedback);
