@@ -5,6 +5,9 @@ import java.util.Observable;
 
 import model.domain.Categorie;
 import model.domain.Quiz;
+import model.domain.feedbackStrategys.FeedbackStrategy;
+import model.domain.feedbackStrategys.FeedbackStrategyFactory;
+import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.questions.Question;
 
 public class QuizController extends Observable {
@@ -40,22 +43,25 @@ public class QuizController extends Observable {
 		return quiz.startQuiz();
 	}
 	
+	public void setFeedbackStrategy(FeedbackStrategy strategy) {
+		quiz.setFeedbackStrategy(strategy);
+	}
+	
+	public FeedbackStrategy getFeedbackStrategy() {
+		return quiz.getFeedbackStrategy();
+	}
+	
+	public void setFeedbackStrategy(String strategyName) {
+		this.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(strategyName).getClassName()));
+	}
+	
 	public String getFeedback() {
 		return quiz.getFeedback();
 	}
 	
-	public void setFeedback(List<String> feedback) {
-		quiz.setFeedback(feedback);
+	public void setFeedback(List<String> s) {
+		quiz.setFeedback(s);
 		notifyDisplays();
-	}
-	
-	public void addResults(List<String> results) {
-		quiz.addResults(results);
-		notifyDisplays();
-	}
-	
-	public String getResults() {
-		return quiz.getResults();
 	}
 	
 	public void notifyDisplays() {

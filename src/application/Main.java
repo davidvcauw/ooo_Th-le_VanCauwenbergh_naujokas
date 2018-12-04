@@ -1,5 +1,9 @@
 package application;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import controller.QuizController;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -10,15 +14,16 @@ import view.panels.AssesMainPane;
 import view.panels.CategoryOverviewPane;
 import view.panels.MessagePane;
 import view.panels.QuestionOverviewPane;
+import view.panels.SettingsPane;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {	
 		QuizController quizcontroller = new QuizController();
 		
-		/*
 		
-		Example code on how to initialse the .properties file if you need it in any class
+		
+		//Example code on how to initialse the .properties file if you need it in any class
 		
 		Properties properties = new Properties();
 		try {
@@ -26,9 +31,8 @@ public class Main extends Application {
 		} catch (IOException e) {
 		  System.out.println("Could not load properties file...");
 		}
-		
-		
-		
+		quizcontroller.setFeedbackStrategy(properties.getProperty("evaluation.mode"));
+		/*
 		Example code on how to read the .properties file
 		
 		for(String key : properties.stringPropertyNames()) {
@@ -49,11 +53,13 @@ public class Main extends Application {
 
 			//TestPane testPane = new TestPane();
 			MessagePane messagePane = new MessagePane(quizcontroller);
+			
+			SettingsPane settingsPane = new SettingsPane(quizcontroller);
 
 			Group root = new Group();
 			Scene scene = new Scene(root, 750, 400);
 
-			BorderPane borderPane = new AssesMainPane(messagePane, categoryOverviewPanel, questionOverviewPane);
+			BorderPane borderPane = new AssesMainPane(messagePane, categoryOverviewPanel, questionOverviewPane, settingsPane);
 			borderPane.prefHeightProperty().bind(scene.heightProperty());
 			borderPane.prefWidthProperty().bind(scene.widthProperty());
 

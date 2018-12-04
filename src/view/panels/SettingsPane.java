@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
+import controller.QuizController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import model.domain.feedbackStrategys.FeedbackStrategyFactory;
+import model.domain.feedbackStrategys.FeedbackTypes;
 
 public class SettingsPane extends GridPane {
 	private ComboBox<String> feedbackField;
@@ -28,7 +31,7 @@ public class SettingsPane extends GridPane {
 	 */
 	
 	
-	public SettingsPane (){
+	public SettingsPane (QuizController quiz){
 		this.setPrefHeight(300);
 		this.setPrefWidth(750);
 		
@@ -59,6 +62,7 @@ public class SettingsPane extends GridPane {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				
 				properties.setProperty("evaluation.mode", newValue);
+				quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(newValue).getClassName()));
 				
 				try {
 					FileOutputStream fr = new FileOutputStream("evaluation.properties");
@@ -67,15 +71,6 @@ public class SettingsPane extends GridPane {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				/*if (!inputField.getText().isEmpty()) {
-					disableButtons(false);
-				}
-				
-				decoder.setStrategy((int)newValue);
-				
-				if (decoder.strategyIsCezar()) enableShift(true);
-				else enableShift(false);
-				*/
 			}
 		});
         

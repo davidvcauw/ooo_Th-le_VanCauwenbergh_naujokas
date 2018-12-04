@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 
 public class AssesMainPane extends BorderPane {
 
-	public AssesMainPane(Pane messagePane, Pane categoryOverviewPanel, Pane questionOverviewPanel){
+	public AssesMainPane(Pane messagePane, Pane categoryOverviewPanel, Pane questionOverviewPanel, Pane settingsPanel){
 	    TabPane tabPane = new TabPane();
 	    
 	    FlowPane messageBox = new FlowPane(messagePane);
@@ -18,7 +18,7 @@ public class AssesMainPane extends BorderPane {
         Tab testTab = new Tab("Test", messageBox);
         Tab categoriesTab = new Tab("Categories", categoryOverviewPanel);
         Tab questionsTab = new Tab("Questions", questionOverviewPanel);
-        Tab settingsTab = new Tab("Settings", new SettingsPane()); 
+        Tab settingsTab = new Tab("Settings", settingsPanel); 
         //settings tab is not required for any stories, but is an easy way
         //to edit the setting and properties file
         

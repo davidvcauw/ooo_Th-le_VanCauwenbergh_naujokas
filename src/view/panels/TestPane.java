@@ -14,6 +14,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.domain.feedbackStrategys.ScoreStrategy;
 import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
 
@@ -96,7 +97,6 @@ public class TestPane extends GridPane {
 						if (correctAnswer.equals(selectedAnswer)) {
 							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
 						} else {
-							System.out.println(question.getFeedback());
 							feedback.add(question.getFeedback());
 						}
 					}
@@ -105,8 +105,9 @@ public class TestPane extends GridPane {
 		    	if (questionNr < questions.size()-1) {
 		    		quiz(questionNr+1);
 		    	} else {
-		    		quiz.addResults(results);;
-		    		quiz.setFeedback(feedback);
+		    		if (quiz.getFeedbackStrategy() instanceof ScoreStrategy) quiz.setFeedback(results);
+		    		else quiz.setFeedback(feedback);
+		    		
 		    		Stage stage = (Stage) submitButton.getScene().getWindow();
 			        stage.close();
 		    	}
