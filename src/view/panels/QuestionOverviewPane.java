@@ -17,11 +17,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.domain.Categorie;
 import model.domain.questions.Question;
 
 public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;
 	private Button btnNew;
+	private Button btnEdit;
 	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
@@ -51,6 +53,18 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		btnNew = new Button("New");
 		this.add(btnNew, 0, 11, 1, 1);
 		
+		btnEdit = new Button("Edit");
+		this.add(btnEdit, 1,11,1,1);
+		btnEdit.setDisable(true);
+		
+		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection == null) {
+				btnEdit.setDisable(true);
+			} else {
+				btnEdit.setDisable(false);
+			}
+		});
+		
 		setNewAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	
@@ -62,15 +76,28 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		    }
 		});
 		
+		setEditAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				int index = table.getSelectionModel().getSelectedIndex();
+				Question selected = table.getSelectionModel().getSelectedItem();
+				
+				QuestionDetailPane root = new QuestionDetailPane(questions, quiz, selected);
+		    	Stage stage = new Stage();
+	            stage.setScene(new Scene(root, 320, 350));
+	            stage.show();
+			}
+		});
+		
 		display();
+	}
+	
+	public void setEditAction(EventHandler<ActionEvent> editAction) {
+		btnEdit.setOnAction(editAction);
 	}
 	
 	public void setNewAction(EventHandler<ActionEvent> newAction) {
 		btnNew.setOnAction(newAction);
-	}
-	
-	public void setEditAction(EventHandler<MouseEvent> editAction) {
-		table.setOnMouseClicked(editAction);
 	}
 	
 	@Override
