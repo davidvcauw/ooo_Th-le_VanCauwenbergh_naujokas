@@ -28,6 +28,7 @@ import model.domain.Categorie;
 public class CategoryOverviewPane extends GridPane implements Observer {
 	private TableView<Categorie> table;
 	private Button btnNew;
+	private Button btnEdit;
 	private List<Categorie> categories;
 	private QuizController quiz;
 	
@@ -58,18 +59,36 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		btnNew = new Button("New");
 		this.add(btnNew, 0, 11, 1, 1);
 		
+		btnEdit = new Button("Edit");
+		this.add(btnEdit, 1, 11, 1,1);
+		
 		setNewAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	
 		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
-		    	CategoryDetailPane root = new CategoryDetailPane(categories, quiz);
+		    	CategoryDetailPane root = new CategoryDetailPane(categories, quiz, null);
 		    	Stage stage = new Stage();
 	            stage.setScene(new Scene(root, 300, 150));
 	            stage.show();
 		    }
 		});
 		
-		display();
+		setEditAction(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				int index = table.getSelectionModel().getSelectedIndex();
+				Categorie selected = table.getSelectionModel().getSelectedItem();
+				
+		    	CategoryDetailPane root = new CategoryDetailPane(categories, quiz, selected);
+		    	Stage stage = new Stage();
+	            stage.setScene(new Scene(root, 300, 150));
+	            stage.show();
+				
+			}
+		});
+		
+		display(); 
 	}
 	
 	public void setNewAction(EventHandler<ActionEvent> newAction) {
@@ -77,12 +96,11 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 	}
 	
 	public void setEditAction(EventHandler<MouseEvent> editAction) {
-		table.setOnMouseClicked(editAction);
+		btnEdit.setOnMouseClicked(editAction);
 	}
 
 	@Override
 	public void update(Observable observable, Object arg1) {
-		
 		//whenever a categorie gets added to the quiz, this gets executed
 		if (observable instanceof QuizController) {
 			QuizController quiz = (QuizController) observable;

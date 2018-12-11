@@ -8,4 +8,5 @@ public interface DbStrategy<E> {
 	public  List<E> getItems();
 	
 	public void addItem(E item);
+	public void removeItem(E item);
 }

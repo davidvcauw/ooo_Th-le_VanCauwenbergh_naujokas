@@ -12,8 +12,7 @@ public class Categorie {
 	}
 	
 	public Categorie(String name, String description, Categorie parent) {
-		setName(name);
-		setDescription(description);
+		this(name, description);
 		setParent(parent);
 	}
 	
@@ -47,6 +46,6 @@ public class Categorie {
 	
 	@Override
 	public String toString() {
-		return getName()+"-"+getDescription();
+		return getName()+"-"+getDescription() + (getParent() == null?"":"-"+this.getParent().getName());
 	}
 }

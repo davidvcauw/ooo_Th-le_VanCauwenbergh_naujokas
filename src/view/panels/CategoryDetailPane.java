@@ -20,9 +20,11 @@ public class CategoryDetailPane extends GridPane {
 	private TextField titleField, descriptionField;
 	private ComboBox<String> categoryField;
 	private QuizController quiz; 
+	Categorie previousValues;
 
-	public CategoryDetailPane(List<Categorie> categories, QuizController quizz) {
+	public CategoryDetailPane(List<Categorie> categories, QuizController quizz, Categorie previousValues) {
 		this.quiz = quizz;
+		this.previousValues = previousValues;
 		
 		this.setPrefHeight(150);
 		this.setPrefWidth(300);
@@ -48,6 +50,15 @@ public class CategoryDetailPane extends GridPane {
 		categoryField = new ComboBox<String>();
 		categoryField.getItems().addAll(categorieNames);
 		this.add(categoryField, 1, 2, 1, 1);
+		
+		if (previousValues != null) {
+			titleField.setText(previousValues.getName());
+			descriptionField.setText(previousValues.getDescription());
+			if (previousValues.getParent() != null) {
+				categoryField.getSelectionModel().select(categorieNames.indexOf(previousValues.getParent().getName()));
+			}
+			
+		}
 
 		btnCancel = new Button("Cancel");
 		this.add(btnCancel, 0, 3, 1, 1);
@@ -70,7 +81,9 @@ public class CategoryDetailPane extends GridPane {
 		setSaveAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
-		    		Categorie c = null;
+		    		quiz.updateCategorie(previousValues, titleField.getText(), descriptionField.getText(), categoryField.getValue() );
+		    		
+		    		/*Categorie c = null;
 		    		
 		    		//check if a parent categorie was provided/chosen
 		    		if (categoryField.getValue() == null || categoryField.getValue().trim().isEmpty()) {
@@ -86,7 +99,7 @@ public class CategoryDetailPane extends GridPane {
 		    		//and we will leave the try block, meaning the window stays open
 		    		
 		    		//add categorie to categories
-		    		quiz.addCategorie(c);
+		    		quiz.addCategorie(c);*/
 		    		
 		    		//close window
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();

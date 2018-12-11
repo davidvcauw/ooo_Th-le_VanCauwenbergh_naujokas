@@ -68,6 +68,10 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 		}
 	}
 	
+	public void removeItem(E item) {
+		items.remove(item);
+	}
+	
 	public  List<E> getItems() {
 		return items;
 	}

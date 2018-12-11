@@ -25,6 +25,7 @@ public class QuizController extends Observable {
 	
 	public void addCategorie(Categorie c) {
 		quiz.addCategorie(c);
+		
 		notifyDisplays();
 	}
 	
@@ -33,8 +34,49 @@ public class QuizController extends Observable {
 	}
 	
 	public void addQuestion(Question q) {
+		
 		quiz.addQuestion(q);
+		
 		notifyDisplays();
+	}
+	
+	public void addCategorie(String title, String description, String parentname) {
+		Categorie c = null;
+		
+		//check if a parent categorie was provided/chosen
+		if (parentname == null || parentname.trim().isEmpty()) {
+			c = new Categorie(title, description);
+		} else {
+			Categorie parent = findCategorieByString(parentname);
+			c = new Categorie(title, description, parent);
+		}
+		addCategorie(c);
+	}
+	
+	//if previous is null, add the categorie. Otherwise, change the values of previous
+	public void updateCategorie(Categorie previous, String name, String description, String parentname) {
+		if (previous == null) {
+			addCategorie(name, description, parentname);
+		} else {
+			/*previous.setDescription(description);
+			previous.setName(name);
+			
+			if (parentname != null && !parentname.trim().isEmpty()) {
+				previous.setParent(findCategorieByString(parentname));
+			} */
+			
+			quiz.removeCategorie(previous);
+			
+			this.addCategorie(name, description, parentname);
+			notifyDisplays();
+		}
+	}
+	
+	private Categorie findCategorieByString(String name) {
+		for (Categorie cat : quiz.getCategories()) {
+			if (cat.getName().equals(name)) return cat;
+		}
+		throw new IllegalArgumentException("categorie kon niet gevonden worden");
 	}
 	
 	public void save() {

@@ -18,9 +18,6 @@ public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
 	private TextDbResultReader resultReader;
-
-	
-	
 	
 	public Quiz() {
 		categorieReader = TextDbCategorieReader.getInstance("Categories.txt");
@@ -76,6 +73,9 @@ public class Quiz {
 		//new CategorieTextReader().addCategorie(c);
 	}
 	
+	public void removeCategorie(Categorie cat) {
+		categorieReader.removeItem(cat);
+	}
 	
 	public boolean isFlawless() {
 		return getFeedbackStrategy().isFlawless();
