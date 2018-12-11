@@ -31,8 +31,9 @@ public class QuestionDetailPane extends GridPane {
 	private Button btnAdd, btnRemove;
 	private ComboBox<String> categoryField;
 	private QuizController quiz;
+	private Question previousValues;
 
-	public QuestionDetailPane(List<Question> Questions, QuizController quizz) {
+	public QuestionDetailPane(List<Question> Questions, QuizController quizz, Question previous) {
 		this.quiz = quizz;
 		this.setPrefHeight(300);
 		this.setPrefWidth(320);
@@ -94,6 +95,19 @@ public class QuestionDetailPane extends GridPane {
 		add(new Label("Feedback: "), 0, 10, 1, 1);
 		feedbackField = new TextField();
 		add(feedbackField, 1, 10, 2, 1);
+		
+		if (previous != null) {
+			this.previousValues = previous;
+			questionField.setText(previous.getQuestion());
+			categoryField.getSelectionModel().select(categorieNames.indexOf(previous.getCategoryObject().getName()));
+			feedbackField.setText(previous.getFeedback());
+			
+			String statementsString = "";
+			for (String st : ((MultipleChoiceQuestion)previous).getStatements()) {
+				statementsString += st + "\n";
+			}			
+			statementsArea.setText(statementsString.substring(0, statementsString.length() - 1));
+		}
 
 		btnCancel = new Button("Cancel");
 		btnCancel.setText("Cancel");
@@ -115,14 +129,18 @@ public class QuestionDetailPane extends GridPane {
 		setSaveAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
+		    		
 		    		Question q = null;
 		    		
-		    		Categorie categ = null;
+		    		List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
+		    		quiz.updateQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categoryField.getValue(), feedbackField.getText(), previousValues);
+		    		
+		    		
+		    		/*Categorie categ = null;
 	    			for (Categorie cat : quiz.getCategories()) {
 	    				if (cat.getName().equals(categoryField.getValue())) categ = cat;
 	    			}
 	    			
-	    			List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
 		    	
 		    		if (feedbackField.getText() == null || feedbackField.getText().trim().isEmpty()) {
 		    			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categ);
@@ -131,7 +149,7 @@ public class QuestionDetailPane extends GridPane {
 		    		}
 		    		
 		    		//add question to questions
-		    		quiz.addQuestion(q);
+		    		quiz.addQuestion(q);*/
 		    		
 		    		//close window
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();

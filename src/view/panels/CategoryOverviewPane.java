@@ -61,6 +61,15 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		
 		btnEdit = new Button("Edit");
 		this.add(btnEdit, 1, 11, 1,1);
+		btnEdit.setDisable(true);
+		
+		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection == null) {
+				btnEdit.setDisable(true);
+			} else {
+				btnEdit.setDisable(false);
+			}
+		});
 		
 		setNewAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
@@ -91,6 +100,7 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		display(); 
 	}
 	
+	
 	public void setNewAction(EventHandler<ActionEvent> newAction) {
 		btnNew.setOnAction(newAction);
 	}
@@ -106,6 +116,7 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 			QuizController quiz = (QuizController) observable;
 			this.quiz = quiz;
 			this.categories = quiz.getCategories();
+			
 			display();
 		}
 	}

@@ -7,6 +7,8 @@ import model.domain.Categorie;
 import model.domain.Quiz;
 import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.questions.Question;
+import model.domain.questions.QuestionFactory;
+import model.domain.questions.QuestionTypes;
 
 public class QuizController extends Observable {
 	private Quiz quiz;
@@ -38,6 +40,30 @@ public class QuizController extends Observable {
 		quiz.addQuestion(q);
 		
 		notifyDisplays();
+	}
+	
+	public void removeQuestion(Question q) {
+		quiz.removeQuestion(q);
+		notifyDisplays();
+	}
+	
+	public void updateQuestion(String className, String question, List<String> statements, String category, String feedback, Question previous) {
+		Categorie categ = null;
+		for (Categorie cat : quiz.getCategories()) {
+			if (cat.getName().equals(category)) categ = cat;
+		}
+		Question q = null;
+		
+		if (feedback == null || feedback.trim().isEmpty()) {
+			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ);
+		} else {
+			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ, feedback);
+		}
+		if (previous != null) {
+			System.out.println("verwijder");
+			this.removeQuestion(previous);
+		} 
+		this.addQuestion(q);
 	}
 	
 	public void addCategorie(String title, String description, String parentname) {
@@ -113,4 +139,6 @@ public class QuizController extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+
+	
 }
