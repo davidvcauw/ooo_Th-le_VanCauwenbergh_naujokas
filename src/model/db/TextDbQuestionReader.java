@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.domain.Categorie;
-import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
 import model.domain.questions.QuestionFactory;
 import model.domain.questions.QuestionTypes;

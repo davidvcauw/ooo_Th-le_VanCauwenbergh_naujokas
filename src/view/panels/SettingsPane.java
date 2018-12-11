@@ -18,7 +18,7 @@ import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
 
 public class SettingsPane extends GridPane {
-	private ComboBox<String> feedbackField;
+	private ComboBox<FeedbackTypes> feedbackField;
 	private Properties properties;
 	
 	/*
@@ -48,21 +48,21 @@ public class SettingsPane extends GridPane {
         
         Label feedbackLabel = new Label("Evaluation mode: ");
         this.add(feedbackLabel, 1, 1);
-        feedbackField = new ComboBox<String>();
-        feedbackField.getItems().addAll(new ArrayList<String>(Arrays.asList("feedback", "score")));
+        feedbackField = new ComboBox<FeedbackTypes>();
+        feedbackField.getItems().addAll(new ArrayList<FeedbackTypes>(Arrays.asList(FeedbackTypes.values())));
 		
         for(String key : properties.stringPropertyNames()) {
         	if (key.equals("evaluation.mode")) {
-        		feedbackField.setValue(properties.getProperty(key));
+        		feedbackField.setValue(FeedbackTypes.valueOf(properties.getProperty(key)));
         	}
         }
         
-        feedbackField.valueProperty().addListener(new ChangeListener<String>() {
+        feedbackField.valueProperty().addListener(new ChangeListener<FeedbackTypes>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			public void changed(ObservableValue<? extends FeedbackTypes> observable, FeedbackTypes oldValue, FeedbackTypes newValue) {
 				
-				properties.setProperty("evaluation.mode", newValue);
-				quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(newValue).getClassName()));
+				properties.setProperty("evaluation.mode", newValue.name());
+				quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(newValue.getClassName()));
 				
 				try {
 					FileOutputStream fr = new FileOutputStream("evaluation.properties");
