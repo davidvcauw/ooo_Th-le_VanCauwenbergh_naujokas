@@ -7,6 +7,12 @@ public class FeedbackStrategyFactory {
 	public static FeedbackStrategy createStrategy(String type, Object... args) {
 		FeedbackStrategy instance = null;
 		
+		try {
+			FeedbackTypes.valueOf(type);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Uknown type: " + type);
+		}
+		
 		Class <?> [] arg = new Class[args.length];
 		int tel = 0;
 		for (Object object:args){
