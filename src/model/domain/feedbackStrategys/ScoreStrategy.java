@@ -29,18 +29,23 @@ public class ScoreStrategy implements FeedbackStrategy {
 	public boolean isFlawless() {
 		if (this.results.isEmpty()) return false;
 		else {
-			int totalAsked = 0;
-			int totalCorrect = 0;
-			for (String r : results) {
-				String[] rString = r.split("-");
-				if (rString[0].equals("empty")) {
-					return false;
-				} else {
-					totalAsked+=Integer.parseInt(rString[1]);
-					totalCorrect+=Integer.parseInt(rString[2]);
+			try {
+				int totalAsked = 0;
+				int totalCorrect = 0;
+				for (String r : results) {
+					String[] rString = r.split("-");
+					if (rString[0].equals("empty")) {
+						return false;
+					} else {
+						totalAsked+=Integer.parseInt(rString[1]);
+						totalCorrect+=Integer.parseInt(rString[2]);
+					}
 				}
+				return totalAsked == totalCorrect;
+			} catch (Exception ex) {
+				return false;
 			}
-			return totalAsked == totalCorrect;
+			
 		}
 	}
 
