@@ -1,6 +1,5 @@
 package view.panels;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,14 +22,13 @@ import model.domain.questions.Question;
 public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;
 	private Button btnNew;
-	private List<Question> questions;
 	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
 	public QuestionOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);
-			questions = ((QuizController) observable).getQuestions();
+			//questions = ((QuizController) observable).getQuestions();
 			this.quiz = (QuizController) observable;
 		}
 		
@@ -57,7 +55,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		    @Override public void handle(ActionEvent e) {
 		    	
 		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
-		    	QuestionDetailPane root = new QuestionDetailPane(questions, quiz);
+		    	QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz);
 		    	Stage stage = new Stage();
 	            stage.setScene(new Scene(root, 320, 350));
 	            stage.show();
@@ -80,14 +78,13 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		if (observable instanceof QuizController) {
 			QuizController quiz = (QuizController) observable;
 			this.quiz = quiz;
-			this.questions = quiz.getQuestions();
 			display();
 		}
 	}
 	
 	private void display() {
-		if (questions != null && questions.size() > 0) {
-			table.setItems(FXCollections.observableArrayList(questions));
+		if (quiz.getQuestions() != null && quiz.getQuestions().size() > 0) {
+			table.setItems(FXCollections.observableArrayList(quiz.getQuestions()));
 		}
 	}
 
