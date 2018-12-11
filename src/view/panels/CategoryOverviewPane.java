@@ -110,7 +110,6 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		if (observable instanceof QuizController) {
 			QuizController quiz = (QuizController) observable;
 			this.quiz = quiz;
-			this.categories = quiz.getCategories();
 			
 			display();
 		}
