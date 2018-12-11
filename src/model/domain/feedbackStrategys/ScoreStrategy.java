@@ -33,8 +33,12 @@ public class ScoreStrategy implements FeedbackStrategy {
 			int totalCorrect = 0;
 			for (String r : results) {
 				String[] rString = r.split("-");
-				totalAsked+=Integer.parseInt(rString[1]);
-				totalCorrect+=Integer.parseInt(rString[2]);
+				if (rString[0].equals("empty")) {
+					return false;
+				} else {
+					totalAsked+=Integer.parseInt(rString[1]);
+					totalCorrect+=Integer.parseInt(rString[2]);
+				}
 			}
 			return totalAsked == totalCorrect;
 		}
@@ -51,13 +55,12 @@ public class ScoreStrategy implements FeedbackStrategy {
 			
 			for (String r : results) {
 				String[] rString = r.split("-");
-				//rString[0] = category
-				//rString[1] = # asked in this category
-				//rString[2] = correct in this category
-				totalAsked+=Integer.parseInt(rString[1]);
-				totalCorrect+=Integer.parseInt(rString[2]);
-				
-				categoryScores.add("Category " + rString[0] + ": " + rString[2]+"/"+rString[1]);
+				if (!rString[0].equals("empty")) {
+					totalAsked+=Integer.parseInt(rString[1]);
+					totalCorrect+=Integer.parseInt(rString[2]);
+					
+					categoryScores.add("Category " + rString[0] + ": " + rString[2]+"/"+rString[1]);
+				}
 			}
 			
 			result+="Your score: " + totalCorrect+"/"+totalAsked;
