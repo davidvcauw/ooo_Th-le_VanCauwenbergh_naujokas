@@ -4,3 +4,8 @@ Categories.txt
 .classpath
 .classpath
 Result.txt
+
+
+*.jar
+!libs/**/*.jar
+.classpath
