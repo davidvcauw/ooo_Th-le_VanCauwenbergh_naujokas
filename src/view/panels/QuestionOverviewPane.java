@@ -69,7 +69,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		    @Override public void handle(ActionEvent e) {
 		    	
 		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
-		    	QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz);
+		    	QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, null);
 		    	Stage stage = new Stage();
 	            stage.setScene(new Scene(root, 320, 350));
 	            stage.show();
@@ -82,7 +82,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 				int index = table.getSelectionModel().getSelectedIndex();
 				Question selected = table.getSelectionModel().getSelectedItem();
 				
-				QuestionDetailPane root = new QuestionDetailPane(questions, quiz, selected);
+				QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, selected);
 		    	Stage stage = new Stage();
 	            stage.setScene(new Scene(root, 320, 350));
 	            stage.show();
