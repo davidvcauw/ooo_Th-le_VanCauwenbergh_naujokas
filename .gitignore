@@ -1,2 +1,13 @@
 /bin/
+/.classpath
+Categories.txt
+.classpath
+.classpath
+Questions.txt
+Result.txt
+Result.txt
+
+
+*.jar
+!libs/**/*.jar
 .classpath

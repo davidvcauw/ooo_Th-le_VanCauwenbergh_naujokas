@@ -67,6 +67,10 @@ public class Quiz {
 		//new QuestionTextReader().addQuestion(q);
 	}
 	
+	public void removeQuestion(Question q) {
+		questionReader.removeItem(q);
+	}
+	
 	public void addCategorie(Categorie c) {
 		if (c == null) throw new IllegalArgumentException("Can't add null to categories!");
 		categorieReader.addItem(c);
@@ -103,4 +107,6 @@ public class Quiz {
 		
 		return questions;
 	}
+
+	
 }
