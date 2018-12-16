@@ -83,24 +83,6 @@ public class CategoryDetailPane extends GridPane {
 		    	try {
 		    		quiz.updateCategorie(previousValues, titleField.getText(), descriptionField.getText(), categoryField.getValue() );
 		    		
-		    		/*Categorie c = null;
-		    		
-		    		//check if a parent categorie was provided/chosen
-		    		if (categoryField.getValue() == null || categoryField.getValue().trim().isEmpty()) {
-		    			c = new Categorie(titleField.getText(), descriptionField.getText());
-		    		} else {
-		    			Categorie parent = null;
-		    			for (Categorie cat : categories) {
-		    				if (cat.getName().equals(categoryField.getValue())) parent = cat;
-		    			}
-		    			c = new Categorie(titleField.getText(), descriptionField.getText(), parent);
-		    		}
-		    		//if name or description wasnt given, the constructor of categorie will throw an exception
-		    		//and we will leave the try block, meaning the window stays open
-		    		
-		    		//add categorie to categories
-		    		quiz.addCategorie(c);*/
-		    		
 		    		//close window
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
 			        stage.close();

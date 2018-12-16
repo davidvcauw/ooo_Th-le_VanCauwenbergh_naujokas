@@ -31,6 +31,12 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
+	public void setTestmode(String file) {
+		quiz.setTestmode(file);
+		
+		notifyDisplays();
+	}
+	
 	public boolean hasBeenDone() {
 		return quiz.hasBeenDone();
 	}
@@ -47,7 +53,15 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
+	public boolean userCanEdit() {
+		return quiz.userCanEdit();
+	}
+	
 	public void updateQuestion(String className, String question, List<String> statements, String category, String feedback, Question previous) {
+		if (question == null || question.trim().isEmpty()) throw new IllegalArgumentException("Please provide a question!");
+		if (statements == null || statements.size()<2) throw new IllegalArgumentException("Please provide atleast 2 statements");
+		if (category == null || category.trim().isEmpty()) throw new IllegalArgumentException("Please select a category");
+		
 		Categorie categ = null;
 		for (Categorie cat : quiz.getCategories()) {
 			if (cat.getName().equals(category)) categ = cat;
@@ -81,6 +95,9 @@ public class QuizController extends Observable {
 	
 	//if previous is null, add the categorie. Otherwise, change the values of previous
 	public void updateCategorie(Categorie previous, String name, String description, String parentname) {
+		if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Please provide a name for the category");
+		if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Please provide a description");
+		
 		if (previous == null) {
 			addCategorie(name, description, parentname);
 		} else {

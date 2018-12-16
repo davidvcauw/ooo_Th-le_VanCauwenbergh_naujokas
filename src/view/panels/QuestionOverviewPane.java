@@ -51,10 +51,10 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		this.add(table, 0, 1, 2, 6);
 		
 		btnNew = new Button("New");
-		this.add(btnNew, 0, 11, 1, 1);
+		if (quiz.userCanEdit()) this.add(btnNew, 0, 11, 1, 1);
 		
 		btnEdit = new Button("Edit");
-		this.add(btnEdit, 1,11,1,1);
+		if (quiz.userCanEdit()) this.add(btnEdit, 1,11,1,1);
 		btnEdit.setDisable(true);
 		
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -112,6 +112,14 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	private void display() {
 		if (quiz.getQuestions() != null && quiz.getQuestions().size() > 0) {
 			table.setItems(FXCollections.observableArrayList(quiz.getQuestions()));
+		}
+		
+		if (quiz.userCanEdit()) {
+			if (!getChildren().contains(btnEdit)) this.add(btnEdit, 1,11,1,1);
+			if (!getChildren().contains(btnNew)) this.add(btnNew, 0, 11, 1, 1);
+		} else {
+			if (getChildren().contains(btnEdit)) getChildren().remove(btnEdit);
+			if (getChildren().contains(btnNew)) getChildren().remove(btnNew);
 		}
 	}
 

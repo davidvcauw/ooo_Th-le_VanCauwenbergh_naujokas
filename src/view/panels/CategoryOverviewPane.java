@@ -52,10 +52,10 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		this.add(table, 0, 1, 2, 6);
 		
 		btnNew = new Button("New");
-		this.add(btnNew, 0, 11, 1, 1);
+		if (quiz.userCanEdit()) this.add(btnNew, 0, 11, 1, 1);
 		
 		btnEdit = new Button("Edit");
-		this.add(btnEdit, 1, 11, 1,1);
+		if (quiz.userCanEdit()) this.add(btnEdit, 1, 11, 1,1);
 		btnEdit.setDisable(true);
 		
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -119,6 +119,14 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		//this method will make all the categories from the quiz get displayed in the table
 		if (quiz.getCategories() != null && quiz.getCategories().size() > 0) {
 			table.setItems(FXCollections.observableArrayList(quiz.getCategories()));
+		}
+		
+		if (quiz.userCanEdit()) {
+			if (!getChildren().contains(btnNew))this.add(btnNew, 0, 11, 1, 1);
+			if (!getChildren().contains(btnEdit))this.add(btnEdit, 1, 11, 1,1);
+		} else {
+			if (getChildren().contains(btnEdit)) getChildren().remove(btnEdit);
+			if (getChildren().contains(btnNew)) getChildren().remove(btnNew);
 		}
 	}
 

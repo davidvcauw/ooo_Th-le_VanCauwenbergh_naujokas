@@ -3,9 +3,13 @@ package view.panels;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import controller.QuizController;
 import javafx.beans.value.ChangeListener;
@@ -19,6 +23,8 @@ import model.domain.feedbackStrategys.FeedbackTypes;
 
 public class SettingsPane extends GridPane {
 	private ComboBox<FeedbackTypes> feedbackField;
+	private ComboBox<String> testField;
+	private ComboBox<String> excelField;
 	private Properties properties;
 	
 	/*
@@ -48,6 +54,7 @@ public class SettingsPane extends GridPane {
         
         Label feedbackLabel = new Label("Evaluation mode: ");
         this.add(feedbackLabel, 1, 1);
+        
         feedbackField = new ComboBox<FeedbackTypes>();
         feedbackField.getItems().addAll(new ArrayList<FeedbackTypes>(Arrays.asList(FeedbackTypes.values())));
 		
@@ -75,5 +82,75 @@ public class SettingsPane extends GridPane {
 		});
         
         this.add(feedbackField, 2, 1);
+        
+        
+        Label testLabel = new Label("Test mode: ");
+        this.add(testLabel, 1, 3);
+        
+        Label excelLabel = new Label("excel file: ");
+        
+        testField = new ComboBox<String>();
+        testField.getItems().addAll(new ArrayList<String>(Arrays.asList("txt", "excel")));
+		
+        excelField = new ComboBox<String>();
+        List<String> files = null;
+        
+        try {
+			files = Files.find(Paths.get("."), 100,
+				    (p, a) -> p.toString().toLowerCase().endsWith(".xls"))
+						.map(path -> path.toString().substring(2))
+						.collect(Collectors.toList());
+			
+			excelField.getItems().addAll(files);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        
+        excelField.setValue(files.get(0));
+        
+        for(String key : properties.stringPropertyNames()) {
+        	if (key.equals("test.mode")) {
+        		testField.setValue(properties.getProperty(key));
+        		if (properties.getProperty(key).equals("excel")) {
+        			this.add(excelLabel, 1, 4);
+        			this.add(excelField, 2, 4);
+        			quiz.setTestmode(excelField.getValue());
+        		}
+        	}
+        }
+        
+        excelField.valueProperty().addListener(new ChangeListener<String>() {@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				quiz.setTestmode(newValue);
+			}
+        });
+       
+        testField.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				
+				properties.setProperty("test.mode", newValue);
+				//quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(newValue.getClassName()));
+				
+				try {
+					FileOutputStream fr = new FileOutputStream("evaluation.properties");
+			        properties.store(fr, "Properties");
+			        fr.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if (newValue.equals("txt")) {
+					getChildren().remove(excelLabel);
+					getChildren().remove(excelField);
+					quiz.setTestmode("textfiles");
+				} else {
+					add(excelLabel, 1, 4);
+        			add(excelField, 2, 4);
+        			quiz.setTestmode(excelField.getValue());
+				}
+			}
+		});
+        this.add(testField, 2, 3);
 	}
 }

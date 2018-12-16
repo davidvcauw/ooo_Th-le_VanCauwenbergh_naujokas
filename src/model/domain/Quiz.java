@@ -1,11 +1,13 @@
 package model.domain;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
 import model.db.DbStrategy;
+import model.db.ExcelDb;
 import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
 import model.db.TextDbResultReader;
@@ -38,6 +40,21 @@ public class Quiz {
 		
 		getFeedbackStrategy().setFeedback(resultReader.getFeedback());
 	}
+
+	public void setTestmode(String file) {
+		if (file.contains(".xls")) {
+			categorieReader = ExcelDb.getInstance(file);
+			questionReader = ExcelDb.getInstance(file);
+		} else {
+			categorieReader = TextDbCategorieReader.getInstance("Categories.txt");
+			questionReader = TextDbQuestionReader.getInstance("Questions.txt");
+		}
+	}
+	
+	public boolean userCanEdit() {
+		if (this.categorieReader instanceof ExcelDb) return false;
+		return true;
+	}
 	
 	public void setFeedbackStrategy(FeedbackStrategy strategy) {
 		if (resultReader != null) resultReader.setFeedback(strategy);
@@ -48,12 +65,27 @@ public class Quiz {
 	}
 
 	public List<Question> getQuestions() {
-		return this.questionReader.getItems();
-		//return this.QR.getQuestions();
+		List<Question> questions = new ArrayList<>();
+		
+		for(Object e : questionReader.getItems()) {
+			if (e instanceof Question) {
+				questions.add((Question)e);
+			}
+		}
+		
+		return questions;
 	}
 	
 	public List<Categorie> getCategories() {
-		return this.categorieReader.getItems();
+		List<Categorie> categories = new ArrayList<>();
+		
+		for(Object e : categorieReader.getItems()) {
+			if (e instanceof Categorie) {
+				categories.add((Categorie)e);
+			}
+		}
+		
+		return categories;
 	}
 	
 	public boolean hasBeenDone() {

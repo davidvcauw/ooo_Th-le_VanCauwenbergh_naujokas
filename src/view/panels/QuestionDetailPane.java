@@ -130,26 +130,9 @@ public class QuestionDetailPane extends GridPane {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
 		    		
-		    		Question q = null;
-		    		
 		    		List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
 		    		quiz.updateQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categoryField.getValue(), feedbackField.getText(), previousValues);
 		    		
-		    		
-		    		/*Categorie categ = null;
-	    			for (Categorie cat : quiz.getCategories()) {
-	    				if (cat.getName().equals(categoryField.getValue())) categ = cat;
-	    			}
-	    			
-		    	
-		    		if (feedbackField.getText() == null || feedbackField.getText().trim().isEmpty()) {
-		    			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categ);
-		    		} else {
-		    			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categ, feedbackField.getText());
-		    		}
-		    		
-		    		//add question to questions
-		    		quiz.addQuestion(q);*/
 		    		
 		    		//close window
 		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
