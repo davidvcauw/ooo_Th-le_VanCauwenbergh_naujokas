@@ -90,6 +90,13 @@ public class Quiz {
 		return getFeedbackStrategy().hasBeenDone();
 	}
 	
+	public Categorie findCategorieByString(String name) {
+		for (Categorie cat : getCategories()) {
+			if (cat.getName().equals(name)) return cat;
+		}
+		throw new IllegalArgumentException("categorie could not be found");
+	}
+	
 	public void addQuestion(Question q) {
 		if (q == null) throw new IllegalArgumentException("Can't add null to questions!");
 		for (Question que : this.getQuestions()) {
