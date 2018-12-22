@@ -14,7 +14,10 @@ import java.util.stream.Collectors;
 import controller.QuizController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -152,5 +155,22 @@ public class SettingsPane extends GridPane {
 			}
 		});
         this.add(testField, 2, 3);
+        
+        Button resetButton = new Button("Reset");
+        
+        Label resetLabel = new Label("Delete saved results from system.   ");
+        Label messageLabel = new Label("");
+        this.add(resetButton, 2, 5);
+        this.add(resetLabel, 1, 5);
+        this.add(messageLabel, 1, 6);
+        
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent arg0) {
+        		quiz.resetResult();
+        		messageLabel.setText("Saved results have been removed!");
+        		messageLabel.setStyle("-fx-text-fill: green;");;
+        	}
+        });
 	}
 }

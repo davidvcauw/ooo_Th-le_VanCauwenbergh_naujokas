@@ -20,8 +20,8 @@ public class TextStrategy implements FeedbackStrategy {
 	
 	@Override
 	public boolean isFlawless() {
-		if (feedback.size() == 0) return true;
-		else return false;
+		if (feedback.size() > 0 && feedback.get(0).equals("empty")) return true;
+		else return false; 
 	}
 	
 	public List<String> getFeedbackList() {
@@ -30,6 +30,11 @@ public class TextStrategy implements FeedbackStrategy {
 	
 	public boolean hasBeenDone() {
 		return hasBeenDone;
+	}
+	
+	public void reset() {
+		this.feedback = new ArrayList<String>();
+		setHasBeenDone(false);
 	}
 	
 	@Override
@@ -41,9 +46,11 @@ public class TextStrategy implements FeedbackStrategy {
 		return feedback;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return feedback.isEmpty()?"feedback--empty":"feedback--"+feedback.toString();
+		return feedback.isEmpty()?"":"feedback--"+feedback.toString();
 	}
 
 }

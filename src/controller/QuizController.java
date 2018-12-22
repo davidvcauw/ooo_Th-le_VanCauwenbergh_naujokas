@@ -26,6 +26,7 @@ public class QuizController extends Observable {
 	}
 	
 	public void addCategorie(Categorie c) {
+		if (quiz.getCategories().contains(c)) throw new IllegalArgumentException("This categorie is already in the quiz!");
 		quiz.addCategorie(c);
 		
 		notifyDisplays();
@@ -42,7 +43,7 @@ public class QuizController extends Observable {
 	}
 	
 	public void addQuestion(Question q) {
-		
+		if (quiz.getQuestions().contains(q)) throw new IllegalArgumentException("This question is already in the quiz!");
 		quiz.addQuestion(q);
 		
 		notifyDisplays();
@@ -53,8 +54,18 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
+	public void removeCategorie(Categorie c) {
+		quiz.removeCategorie(c);
+		notifyDisplays();
+	}
+	
 	public boolean userCanEdit() {
 		return quiz.userCanEdit();
+	}
+	
+	public void resetResult() {
+		quiz.resetResult();
+		notifyDisplays();
 	}
 	
 	public void updateQuestion(String className, String question, List<String> statements, String category, String feedback, Question previous) {
@@ -74,7 +85,7 @@ public class QuizController extends Observable {
 			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ, feedback);
 		}
 		if (previous != null) {
-			System.out.println("verwijder");
+			//System.out.println("verwijder");
 			this.removeQuestion(previous);
 		} 
 		this.addQuestion(q);
@@ -95,7 +106,7 @@ public class QuizController extends Observable {
 	
 	//if previous is null, add the categorie. Otherwise, change the values of previous
 	public void updateCategorie(Categorie previous, String name, String description, String parentname) {
-		if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Please provide a name for the category");
+		if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Please provide a name");
 		if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Please provide a description");
 		
 		if (previous == null) {

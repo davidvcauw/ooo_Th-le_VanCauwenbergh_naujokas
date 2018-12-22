@@ -9,6 +9,7 @@ public interface FeedbackStrategy {
 	boolean isFlawless();
 	boolean hasBeenDone();
 	void setHasBeenDone(boolean b);
+	void reset();
 	@Override
 	String toString();
 }

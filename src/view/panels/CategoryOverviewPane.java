@@ -20,12 +20,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.domain.Categorie;
+import model.domain.questions.Question;
 
 
 public class CategoryOverviewPane extends GridPane implements Observer {
 	private TableView<Categorie> table;
 	private Button btnNew;
 	private Button btnEdit;
+	private Button btnRemove;
 	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
@@ -58,11 +60,17 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		if (quiz.userCanEdit()) this.add(btnEdit, 1, 11, 1,1);
 		btnEdit.setDisable(true);
 		
+		btnRemove = new Button("Remove");
+		if (quiz.userCanEdit()) this.add(btnRemove, 1, 12, 1, 1);
+		btnRemove.setDisable(true);
+		
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection == null) {
 				btnEdit.setDisable(true);
+				btnRemove.setDisable(true);
 			} else {
 				btnEdit.setDisable(false);
+				btnRemove.setDisable(false);
 			}
 		});
 		
@@ -81,7 +89,6 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 
 			@Override
 			public void handle(MouseEvent event) {
-				int index = table.getSelectionModel().getSelectedIndex();
 				Categorie selected = table.getSelectionModel().getSelectedItem();
 				
 		    	CategoryDetailPane root = new CategoryDetailPane(quiz.getCategories(), quiz, selected);
@@ -89,6 +96,15 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 	            stage.setScene(new Scene(root, 300, 150));
 	            stage.show();
 				
+			}
+		});
+		
+		setRemoveAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				Categorie selected = table.getSelectionModel().getSelectedItem();
+				
+				quiz.removeCategorie(selected);
 			}
 		});
 		
@@ -102,6 +118,10 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 	
 	public void setEditAction(EventHandler<MouseEvent> editAction) {
 		btnEdit.setOnMouseClicked(editAction);
+	}
+	
+	public void setRemoveAction(EventHandler<ActionEvent> removeAction) {
+		btnRemove.setOnAction(removeAction);
 	}
 
 	@Override
@@ -124,9 +144,11 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		if (quiz.userCanEdit()) {
 			if (!getChildren().contains(btnNew))this.add(btnNew, 0, 11, 1, 1);
 			if (!getChildren().contains(btnEdit))this.add(btnEdit, 1, 11, 1,1);
+			if (!getChildren().contains(btnRemove))this.add(btnRemove, 1, 12, 1,1);
 		} else {
 			if (getChildren().contains(btnEdit)) getChildren().remove(btnEdit);
 			if (getChildren().contains(btnNew)) getChildren().remove(btnNew);
+			if (getChildren().contains(btnRemove)) getChildren().remove(btnRemove);
 		}
 	}
 

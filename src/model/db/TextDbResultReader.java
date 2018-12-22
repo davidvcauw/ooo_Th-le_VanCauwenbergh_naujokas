@@ -39,7 +39,6 @@ public class TextDbResultReader {
 			}
 			
 			feedback = (FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
-		
 		} else {
 			feedback = FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(result.get(0)).getClassName());
 			String results = result.get(1);

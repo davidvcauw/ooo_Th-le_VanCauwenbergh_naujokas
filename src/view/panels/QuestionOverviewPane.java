@@ -24,6 +24,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;
 	private Button btnNew;
 	private Button btnEdit;
+	private Button btnRemove;
 	private QuizController quiz;
 	
 	@SuppressWarnings("unchecked")
@@ -54,14 +55,20 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		if (quiz.userCanEdit()) this.add(btnNew, 0, 11, 1, 1);
 		
 		btnEdit = new Button("Edit");
-		if (quiz.userCanEdit()) this.add(btnEdit, 1,11,1,1);
+		if (quiz.userCanEdit()) this.add(btnEdit, 1, 11, 1, 1);
 		btnEdit.setDisable(true);
+		
+		btnRemove = new Button("Remove");
+		if (quiz.userCanEdit()) this.add(btnRemove, 1, 12, 1, 1);
+		btnRemove.setDisable(true);
 		
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection == null) {
 				btnEdit.setDisable(true);
+				btnRemove.setDisable(true);
 			} else {
 				btnEdit.setDisable(false);
+				btnRemove.setDisable(false);
 			}
 		});
 		
@@ -71,7 +78,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
 		    	QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, null);
 		    	Stage stage = new Stage();
-	            stage.setScene(new Scene(root, 320, 350));
+	            stage.setScene(new Scene(root, 600, 350));
 	            stage.show();
 		    }
 		});
@@ -79,13 +86,21 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		setEditAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				int index = table.getSelectionModel().getSelectedIndex();
 				Question selected = table.getSelectionModel().getSelectedItem();
 				
 				QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, selected);
 		    	Stage stage = new Stage();
-	            stage.setScene(new Scene(root, 320, 350));
+	            stage.setScene(new Scene(root, 600, 350));
 	            stage.show();
+			}
+		});
+		
+		setRemoveAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				Question selected = table.getSelectionModel().getSelectedItem();
+				
+				quiz.removeQuestion(selected);
 			}
 		});
 		
@@ -94,6 +109,10 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	
 	public void setEditAction(EventHandler<ActionEvent> editAction) {
 		btnEdit.setOnAction(editAction);
+	}
+	
+	public void setRemoveAction(EventHandler<ActionEvent> removeAction) {
+		btnRemove.setOnAction(removeAction);
 	}
 	
 	public void setNewAction(EventHandler<ActionEvent> newAction) {
@@ -117,9 +136,11 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		if (quiz.userCanEdit()) {
 			if (!getChildren().contains(btnEdit)) this.add(btnEdit, 1,11,1,1);
 			if (!getChildren().contains(btnNew)) this.add(btnNew, 0, 11, 1, 1);
+			if (!getChildren().contains(btnRemove)) this.add(btnRemove, 1, 12, 1, 1);
 		} else {
 			if (getChildren().contains(btnEdit)) getChildren().remove(btnEdit);
 			if (getChildren().contains(btnNew)) getChildren().remove(btnNew);
+			if (getChildren().contains(btnRemove)) getChildren().remove(btnRemove);			
 		}
 	}
 

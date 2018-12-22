@@ -90,6 +90,9 @@ public class ExcelDb<E> implements DbStrategy<E>{
 				if (item instanceof Question) {
 					Question q = (Question)item;
 					String[] qSplit = q.toString().split("-");
+					/*for (int i = 0; i < qSplit.length; i++) {
+						System.out.println(qSplit[i]);
+					}*/
 					questions.add(new ArrayList<String>(Arrays.asList(qSplit)));
 				}
 			}
@@ -127,7 +130,7 @@ public class ExcelDb<E> implements DbStrategy<E>{
 	private Question makeQuestion(ArrayList<String> input, List<E> items) {
 		String questionClassName = QuestionTypes.valueOf(input.get(0)).getClassName();
 		String question = input.get(1);
-		ArrayList<String> statements = new ArrayList<String>(Arrays.asList(input.get(2).substring(1, input.get(2).length()-1).split(",")));
+		ArrayList<String> statements = new ArrayList<String>(Arrays.asList(input.get(2).substring(1, input.get(2).length()-1).split(", ")));
 		String feedback = input.size()==5?input.get(4):null;
 		String categoryName = input.get(3);
 		Categorie cat = null;

@@ -1,10 +1,7 @@
 package view.panels;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Properties;
 
 import controller.QuizController;
 import javafx.event.ActionEvent;

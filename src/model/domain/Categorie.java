@@ -1,5 +1,6 @@
 package model.domain;
 
+
 public class Categorie {
 	private String name;
 	private String description;
@@ -47,5 +48,15 @@ public class Categorie {
 	@Override
 	public String toString() {
 		return getName()+"-"+getDescription() + (getParent() == null?"":"-"+this.getParent().getName());
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Categorie) {
+			boolean b = true;
+			if (!this.getName().equals(((Categorie)o).getName())) b = false;
+			return b;
+		}
+		return false;
 	}
 }

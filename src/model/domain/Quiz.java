@@ -16,6 +16,7 @@ import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.questions.Question;
 
+@SuppressWarnings("rawtypes")
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;
@@ -34,11 +35,8 @@ public class Quiz {
 			System.out.println("Could not load properties file...");
 		}
 		
-		this.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
-	
 		resultReader = new TextDbResultReader("Result.txt");
-		
-		getFeedbackStrategy().setFeedback(resultReader.getFeedback());
+		this.setFeedbackStrategy(resultReader.getFeedbackStrategy());
 	}
 
 	public void setTestmode(String file) {
@@ -101,6 +99,10 @@ public class Quiz {
 	
 	public void removeQuestion(Question q) {
 		questionReader.removeItem(q);
+	}
+	
+	public void resetResult() {
+		getFeedbackStrategy().reset();
 	}
 	
 	public void addCategorie(Categorie c) {

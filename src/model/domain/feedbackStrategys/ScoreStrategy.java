@@ -25,6 +25,11 @@ public class ScoreStrategy implements FeedbackStrategy {
 		return hasBeenDone;
 	}
 	
+	public void reset() {
+		this.results = new ArrayList<String>();
+		setHasBeenDone(false);
+	}
+	
 	@Override
 	public boolean isFlawless() {
 		if (this.results.isEmpty()) return false;
@@ -80,7 +85,7 @@ public class ScoreStrategy implements FeedbackStrategy {
 	
 	@Override
 	public String toString() {
-		return results.isEmpty()?"score--empty":"score--"+results.toString();
+		return results.isEmpty()?"":"score--"+results.toString();
 	}
 	
 }

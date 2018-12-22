@@ -56,4 +56,14 @@ public abstract class Question {
 	public String toString() {
 		return "Q-"+ getQuestion()+"-"+"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Question) {
+			boolean b = true;
+			if (!this.getQuestion().equals(((Question)o).getQuestion())) b = false;
+			return b;
+		}
+		return false;
+	}
 }

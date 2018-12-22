@@ -157,11 +157,20 @@ public class QuestionDetailPane extends GridPane {
 	class AddStatementListener implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-			String statement = statementField.getText();
+			String statement = statementField.getText().trim();
 			
 			if (statement.contains("-")) {
 				warning.setText("Statements can not contain '-'!");
 			} else {
+				if (!statementsArea.getText().trim().isEmpty()) {
+					String[] statements = statementsArea.getText().split("\\n");
+					for (int i = 0; i < statements.length; i++) {
+						if (statements[i].equals(statement)) {
+							warning.setText("This statement is already added!");
+							return;
+						}
+					}
+				}
 				statementField.setText("");
 				
 				String statements = statementsArea.getText();

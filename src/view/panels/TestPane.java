@@ -20,6 +20,7 @@ import model.domain.questions.Question;
 
 public class TestPane extends GridPane {
 	private Label questionField;
+	private Label categoryField;
 	private Button submitButton;
 	private ToggleGroup statementGroup;
 	private QuizController quiz;
@@ -37,7 +38,10 @@ public class TestPane extends GridPane {
         this.setHgap(5);
         
         questionField = new Label();
-		add(questionField, 0, 0, 1, 1);
+		add(questionField, 0, 1, 1, 1);
+		
+		categoryField = new Label();
+		add(categoryField, 0, 0, 1, 1);
 		
 		results = new ArrayList<String>();
 		feedback = new ArrayList <String> ();
@@ -50,6 +54,8 @@ public class TestPane extends GridPane {
 		resetView();
 		
 		questionField.setText(questions.get(questionNr).getQuestion());
+		categoryField.setText(questions.get(questionNr).getCategory() + ": ");
+		categoryField.setStyle("-fx-font-weight: bold");
 		
 		statementGroup = new ToggleGroup();
 		
@@ -83,8 +89,8 @@ public class TestPane extends GridPane {
 			    	submitButton.setDisable(false);
 			    }
 			});
-			add(btn, 0, i+1, 1, 1);
-			if (i == question.getStatements().size()-1) this.add(submitButton, 0, i+2, 1, 1);
+			add(btn, 0, i+2, 1, 1);
+			if (i == question.getStatements().size()-1) this.add(submitButton, 0, i+3, 1, 1);
 		}
 		
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,7 +103,13 @@ public class TestPane extends GridPane {
 						if (correctAnswer.equals(selectedAnswer)) {
 							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
 						} else {
-							feedback.add(question.getFeedback());
+							if (question.getFeedback() != null && !question.getFeedback().trim().isEmpty()) {
+								feedback.add(question.getFeedback());
+							} else {
+								if (!feedback.contains("One of the answered questions was wrong, but does not have any feedback to display")) {
+									feedback.add("One of the answered questions was wrong, but does not have any feedback to display");
+								}
+							}
 						}
 					}
 				}
@@ -106,7 +118,10 @@ public class TestPane extends GridPane {
 		    		quiz(questionNr+1);
 		    	} else {
 		    		if (quiz.getFeedbackStrategy() instanceof ScoreStrategy) quiz.setFeedback(results);
-		    		else quiz.setFeedback(feedback);
+		    		else {
+		    			if (feedback.isEmpty()) feedback.add("empty");
+		    			quiz.setFeedback(feedback);
+		    		}
 		    		
 		    		Stage stage = (Stage) submitButton.getScene().getWindow();
 			        stage.close();
@@ -116,7 +131,7 @@ public class TestPane extends GridPane {
 	}
 	
 	private void resetView() {
-		for (int i = this.getChildren().size()-1; i > 0; i--) {
+		for (int i = this.getChildren().size()-1; i > 1; i--) {
 			this.getChildren().remove(i);
 		}
 	}
