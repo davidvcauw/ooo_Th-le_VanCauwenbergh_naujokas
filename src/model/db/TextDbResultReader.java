@@ -22,9 +22,17 @@ public class TextDbResultReader {
 	private String bestandsnaam;
 	private FeedbackStrategy feedback;
 	
-	public TextDbResultReader(String bn) {
+	private TextDbResultReader(String bn) {
 		this.bestandsnaam = bn;
 		load();
+	}
+	
+	public static TextDbResultReader getInstance(String bn) {
+		bn = "textFiles/" + bn;
+		if (!instances.containsKey(bn)) {
+			instances.put(bn, new TextDbResultReader(bn));
+		}
+		return instances.get(bn);
 	}
 	
 	public final void load() {

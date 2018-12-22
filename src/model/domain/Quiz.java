@@ -35,7 +35,7 @@ public class Quiz {
 			System.out.println("Could not load properties file...");
 		}
 		
-		resultReader = new TextDbResultReader("Result.txt");
+		resultReader = TextDbResultReader.getInstance("Result.txt");
 		this.setFeedbackStrategy(resultReader.getFeedbackStrategy());
 	}
 
@@ -92,6 +92,9 @@ public class Quiz {
 	
 	public void addQuestion(Question q) {
 		if (q == null) throw new IllegalArgumentException("Can't add null to questions!");
+		for (Question que : this.getQuestions()) {
+			if (que.getQuestion().equals(q.getQuestion())) throw new IllegalArgumentException("This question is already in the quiz!");
+		}
 		questionReader.addItem(q);
 		
 		//new QuestionTextReader().addQuestion(q);
@@ -107,6 +110,9 @@ public class Quiz {
 	
 	public void addCategorie(Categorie c) {
 		if (c == null) throw new IllegalArgumentException("Can't add null to categories!");
+		for (Categorie cat : this.getCategories()) {
+			if (cat.getName().equals(c.getName())) throw new IllegalArgumentException("This categorie is already in the quiz!");
+		}
 		categorieReader.addItem(c);
 		//new CategorieTextReader().addCategorie(c);
 	}

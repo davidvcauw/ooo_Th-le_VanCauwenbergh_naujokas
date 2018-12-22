@@ -46,9 +46,11 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 		table = new TableView<>();
 		table.setPrefWidth(REMAINING);
         TableColumn nameCol = new TableColumn<>("Name");
+        nameCol.setMinWidth(125.0);
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
         table.getColumns().add(nameCol);
         TableColumn descriptionCol = new TableColumn<>("Description");
+        descriptionCol.setMinWidth(600.0);
         descriptionCol.setCellValueFactory(new PropertyValueFactory("description"));
         table.getColumns().add(descriptionCol);
 		this.add(table, 0, 1, 2, 6);

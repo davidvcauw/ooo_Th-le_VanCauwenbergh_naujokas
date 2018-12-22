@@ -26,9 +26,7 @@ public class QuizController extends Observable {
 	}
 	
 	public void addCategorie(Categorie c) {
-		if (quiz.getCategories().contains(c)) throw new IllegalArgumentException("This categorie is already in the quiz!");
 		quiz.addCategorie(c);
-		
 		notifyDisplays();
 	}
 	
@@ -43,9 +41,7 @@ public class QuizController extends Observable {
 	}
 	
 	public void addQuestion(Question q) {
-		if (quiz.getQuestions().contains(q)) throw new IllegalArgumentException("This question is already in the quiz!");
 		quiz.addQuestion(q);
-		
 		notifyDisplays();
 	}
 	
@@ -85,7 +81,6 @@ public class QuizController extends Observable {
 			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ, feedback);
 		}
 		if (previous != null) {
-			//System.out.println("verwijder");
 			this.removeQuestion(previous);
 		} 
 		this.addQuestion(q);
