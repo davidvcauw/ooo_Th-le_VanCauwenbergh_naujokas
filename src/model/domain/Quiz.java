@@ -12,11 +12,9 @@ import model.db.TextDbCategorieReader;
 import model.db.TextDbQuestionReader;
 import model.db.TextDbResultReader;
 import model.domain.feedbackStrategys.FeedbackStrategy;
-import model.domain.feedbackStrategys.FeedbackStrategyFactory;
-import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.questions.Question;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class Quiz {
 	private DbStrategy categorieReader;
 	private DbStrategy questionReader;

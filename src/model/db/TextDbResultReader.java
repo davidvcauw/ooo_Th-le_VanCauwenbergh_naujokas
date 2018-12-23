@@ -15,10 +15,9 @@ import java.util.Scanner;
 import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
-import model.domain.feedbackStrategys.ScoreStrategy;
 
 public class TextDbResultReader {
-	private static HashMap<String, TextDbResultReader> instances = new HashMap();
+	private static HashMap<String, TextDbResultReader> instances = new HashMap<String, TextDbResultReader>();
 	private String bestandsnaam;
 	private FeedbackStrategy feedback;
 	
@@ -66,9 +65,8 @@ public class TextDbResultReader {
 				String nextline = sc.nextLine();
 				String[] split = nextline.split("--");
 				text = new ArrayList<String>(Arrays.asList(split));
-			} else {
-				return text;
-			}
+			} 
+			sc.close();
 			return text;
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();

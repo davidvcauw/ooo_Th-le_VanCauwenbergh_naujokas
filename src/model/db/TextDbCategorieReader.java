@@ -5,7 +5,7 @@ import java.util.HashMap;
 import model.domain.Categorie;
 
 public class TextDbCategorieReader extends TextDb<Categorie> {
-	private static HashMap<String, TextDbCategorieReader> instances = new HashMap();
+	private static HashMap<String, TextDbCategorieReader> instances = new HashMap<String, TextDbCategorieReader>();
 	private TextDbCategorieReader(String bn) {
 		super(bn);
 	}
