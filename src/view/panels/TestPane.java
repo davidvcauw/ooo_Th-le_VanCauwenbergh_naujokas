@@ -60,7 +60,6 @@ public class TestPane extends GridPane {
 		statementGroup = new ToggleGroup();
 		
 		submitButton = new Button("Submit");
-		submitButton.setDisable(true);
 		
 		MultipleChoiceQuestion question = (MultipleChoiceQuestion) questions.get(questionNr);
 		
@@ -68,13 +67,13 @@ public class TestPane extends GridPane {
 
 		boolean inList = false;
 		for (String s : results) {
-			if (s.contains(question.getCategory())) {
+			if (s.split("-")[0].equals(question.getCategory())) {
 				inList = true;
 				String[] c = s.split("-");
-				results.set(results.indexOf(s), c[0] + "-" + (Integer.parseInt(c[1])+1) + "-" + c[2]);
+				results.set(results.indexOf(s), c[0] + "-" + (Integer.parseInt(c[1])+1) + "-" + c[2] + "-" + c[3]);
 			}
 		}
-		if (!inList) results.add(question.getCategory()+"-1-0");
+		if (!inList) results.add(question.getCategory()+"-1-0-0");
 		
 		List<String> answers = new ArrayList<String>(question.getStatements());
 		
@@ -84,25 +83,25 @@ public class TestPane extends GridPane {
 		for (int i = 0; i < answers.size(); i++) {
 			RadioButton btn = new RadioButton(answers.get(i));
 			btn.setToggleGroup(statementGroup);
-			btn.setOnAction(new EventHandler<ActionEvent>() {
-			    @Override public void handle(ActionEvent e) {
-			    	submitButton.setDisable(false);
-			    }
-			});
 			add(btn, 0, i+2, 1, 1);
 			if (i == question.getStatements().size()-1) this.add(submitButton, 0, i+3, 1, 1);
 		}
 		
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	String selectedAnswer = ((RadioButton)statementGroup.getSelectedToggle()).getText();
-	    		
+		    	String selectedAnswer = "";
+		    	try {
+		    		selectedAnswer = ((RadioButton)statementGroup.getSelectedToggle()).getText();
+		    	} catch (Exception ex) {
+		    		selectedAnswer = "";
+		    	}
 	    		for (String s : results) {
-					if (s.contains(question.getCategory())) {
+					if (s.split("-")[0].equals(question.getCategory())) {
 						String[] c = s.split("-");
 						if (correctAnswer.equals(selectedAnswer)) {
-							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1));
+							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1) + "-" + (Integer.parseInt(c[3])+1));
 						} else {
+							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])) + "-" + (Integer.parseInt(c[3])+1));
 							if (question.getFeedback() != null && !question.getFeedback().trim().isEmpty()) {
 								feedback.add(question.getFeedback());
 							} else {
