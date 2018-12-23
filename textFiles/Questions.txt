@@ -1,4 +1,6 @@
-MC-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1
-MC-Which design principle is the least applicable on the Strategy pattern?-[yes, no, maybe]-Design Principles-feedback2
-MC-vraag b2-[a, b, q]-Design Patterns-
-MC-vraag-[a, b, c]-Design Principles-dit is feedback
+MultipleChoice-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1
+MultipleChoice-Which design principle is the least applicable on the Strategy pattern?-[yes, no, maybe]-Design Patterns-feedback22
+MultipleChoice-this is a question-[hello, ty, goodbye]-Design Principles-
+TrueOrFalse-is this question nice-[TRUE/FALSE]-Java-some feedback
+TrueOrFalse-aaaaaaaaaaaaaaaaaaaa-[TRUE/FALSE]-UML-
+MultipleChoice-vraag b2-[a, b, q]-Java-

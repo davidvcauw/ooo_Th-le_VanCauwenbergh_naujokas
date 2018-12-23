@@ -18,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import model.domain.questions.Question;
+import view.panels.questions.QuestionDetailPane;
+import view.panels.questions.QuestionTypePane;
 
 public class QuestionOverviewPane extends GridPane implements Observer {
 	private TableView<Question> table;
@@ -74,10 +76,11 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		setNewAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	
-		    	//when the 'new' button gets pressed, the categoryDetailPane gets opened
-		    	QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, null);
+		    	QuestionTypePane root = new QuestionTypePane(quiz);
 		    	Stage stage = new Stage();
-	            stage.setScene(new Scene(root, 600, 350));
+		    	//open type selector menu first
+		    	
+		    	stage.setScene(new Scene(root, 275, 100));
 	            stage.show();
 		    }
 		});
@@ -86,8 +89,10 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Question selected = table.getSelectionModel().getSelectedItem();
+				String type = quiz.getQuestionType(selected);
 				
-				QuestionDetailPane root = new QuestionDetailPane(quiz.getQuestions(), quiz, selected);
+				QuestionDetailPane root = QuestionDetailPane.createQuestionPane(quiz, type, selected);
+				
 		    	Stage stage = new Stage();
 	            stage.setScene(new Scene(root, 600, 350));
 	            stage.show();

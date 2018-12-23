@@ -56,11 +56,9 @@ public class ExcelDb<E> implements DbStrategy<E>{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		//reads questions out of excel file
 		try {
 			data = ExcelPlugin.read(file, 1);
-			
 			for (ArrayList<String> row : data) {
 				Question q = makeQuestion(row, items);
 				//explanation of why passing 'items' to method above
@@ -131,7 +129,7 @@ public class ExcelDb<E> implements DbStrategy<E>{
 		String questionClassName = QuestionTypes.valueOf(input.get(0)).getClassName();
 		String question = input.get(1);
 		ArrayList<String> statements = new ArrayList<String>(Arrays.asList(input.get(2).substring(1, input.get(2).length()-1).split(", ")));
-		String feedback = input.size()==5?input.get(4):null;
+		String feedback = input.size()==5?input.get(4):"";
 		String categoryName = input.get(3);
 		Categorie cat = null;
 		
@@ -145,11 +143,14 @@ public class ExcelDb<E> implements DbStrategy<E>{
 		
 		if (cat == null) throw new DbException("Categorie '" + categoryName + "' was not found!");
 		
-		if (feedback == null) {
-			return QuestionFactory.createQuestion(questionClassName, question, statements, cat);
-		} else {
-			return QuestionFactory.createQuestion(questionClassName, question, statements, cat, feedback);
-		}
+		Object[] params = statements.get(0).equals("TRUE/FALSE")?new Object[3]:new Object[4];
+		
+		params[0] = question;
+		params[2] = feedback;
+		params[1] = cat;
+		if (!statements.get(0).equals("TRUE/FALSE")) params[3] = statements;
+		
+		return QuestionFactory.createQuestion(questionClassName, params);
 	}
 	
 	private Categorie makeCategorie(ArrayList<String> input, List<E> items) {

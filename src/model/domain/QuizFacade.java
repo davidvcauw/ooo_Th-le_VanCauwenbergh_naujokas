@@ -10,9 +10,11 @@ import model.domain.feedbackStrategys.ScoreStrategy;
 import model.domain.feedbackStrategys.TextStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationTypes;
+import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
 import model.domain.questions.QuestionFactory;
 import model.domain.questions.QuestionTypes;
+import model.domain.questions.TrueOrFalseQuestion;
 
 public class QuizFacade {
 	private Quiz quiz;
@@ -120,9 +122,8 @@ public class QuizFacade {
 		addCategorie(c);
 	}
 	
-	public void updateQuestion(String questionType, String question, List<String> statements, String category, String feedback, Question previous)  {	
+	public void updateQuestion(String questionType, String question, String category, String feedback, Question previous, Object...args)  {	
 		if (question == null || question.trim().isEmpty()) throw new IllegalArgumentException("Enter a question!");
-		if (statements.size() < 2) throw new IllegalArgumentException("Atleast 2 statements are required!");
 		if (category == null || category.trim().isEmpty()) throw new IllegalArgumentException("Choose a category!");
 		Categorie categ = null;
 		for (Categorie cat : quiz.getCategories()) {
@@ -132,18 +133,20 @@ public class QuizFacade {
 			QuestionTypes type = QuestionTypes.valueOf(questionType);
 			
 			Question q = null;
-			
-			if (feedback == null || feedback.trim().isEmpty()) {
-				q = QuestionFactory.createQuestion(type.getClassName(), question, statements, categ);
+			if (args!=null && args.length > 0) {
+				if (feedback == null || feedback.trim().isEmpty()) q = QuestionFactory.createQuestion(type.getClassName(), question, categ, args);
+				else q = QuestionFactory.createQuestion(type.getClassName(), question, categ, feedback, args);
 			} else {
-				q = QuestionFactory.createQuestion(type.getClassName(), question, statements, categ, feedback);
+				if (feedback == null || feedback.trim().isEmpty()) q = QuestionFactory.createQuestion(type.getClassName(), question, categ);
+				else q = QuestionFactory.createQuestion(type.getClassName(), question, categ, feedback);
 			}
 			if (previous != null) {
 				this.removeQuestion(previous);
 			} 
 			this.addQuestion(q);
 		} catch(Exception e) {
-			throw new IllegalArgumentException("Question type '" + questionType + "' does not excist!");
+			e.printStackTrace();
+			throw new IllegalArgumentException("Question type '" + questionType + "' does not exist!");
 		}
 	}
 	
@@ -200,5 +203,28 @@ public class QuizFacade {
 			return ((ScoreStrategy)getFeedbackStrategy()).getCalcStrategy();
 		}
 		return null;
+	}
+
+	public List<String> getQuestionTypes() {
+		List<String> types = new ArrayList<>();
+		
+		for (QuestionTypes type : QuestionTypes.values()) {
+			types.add(type.name());
+		}
+		
+		return types;
+	}
+
+	public String getQuestionType(Question question) {
+		return question.getClass().getSimpleName().replaceAll("Question", "");
+	}
+
+	public List<String> getAnswers(Question question) {
+		List<String> answers = new ArrayList<>();
+		
+		if (question instanceof MultipleChoiceQuestion) answers.addAll(((MultipleChoiceQuestion)question).getStatements());
+		if (question instanceof TrueOrFalseQuestion) answers.addAll(((TrueOrFalseQuestion)question).getStatements());
+		
+		return answers;
 	}
 }

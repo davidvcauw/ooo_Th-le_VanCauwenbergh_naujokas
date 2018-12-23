@@ -8,13 +8,13 @@ import model.domain.Categorie;
 public class MultipleChoiceQuestion extends Question {
 	private List<String> statements;
 	
-	public MultipleChoiceQuestion(String question, ArrayList<String> statements, Categorie cat, String feedback) {
+	public MultipleChoiceQuestion(String question, Categorie cat, String feedback, ArrayList<String> statements) {
 		super(question, cat, feedback);
 		this.setStatements(statements);
 	}
 	
-	public MultipleChoiceQuestion(String question, ArrayList<String> statements, Categorie cat) {
-		this(question, statements, cat, null);
+	public MultipleChoiceQuestion(String question, Categorie cat, ArrayList<String> statements) {
+		this(question, cat, null, statements);
 	}
 	
 	public List<String> getStatements() {
@@ -31,6 +31,6 @@ public class MultipleChoiceQuestion extends Question {
 	
 	@Override
 	public String toString() {
-		return "MC-"+getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
+		return "MultipleChoice-"+getQuestion()+"-"+getStatements() +"-"+ getCategoryObject().getName() +"-"+getFeedback();
 	}
 }

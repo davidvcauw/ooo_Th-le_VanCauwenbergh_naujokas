@@ -15,7 +15,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
 
 public class TestPane extends GridPane {
@@ -61,8 +60,7 @@ public class TestPane extends GridPane {
 		
 		submitButton = new Button("Submit");
 		
-		MultipleChoiceQuestion question = (MultipleChoiceQuestion) questions.get(questionNr);
-		
+		Question question = questions.get(questionNr);
 		//results is a list that contains the categories, the amount of questions asked for this category and the amount answer correct
 
 		boolean inList = false;
@@ -75,7 +73,8 @@ public class TestPane extends GridPane {
 		}
 		if (!inList) results.add(question.getCategory()+"-1-0-0");
 		
-		List<String> answers = new ArrayList<String>(question.getStatements());
+		List<String> answers = new ArrayList<String>();
+		answers.addAll(quiz.getAnswers(question));
 		
 		String correctAnswer = answers.get(0);
 		Collections.shuffle(answers);
@@ -84,7 +83,7 @@ public class TestPane extends GridPane {
 			RadioButton btn = new RadioButton(answers.get(i));
 			btn.setToggleGroup(statementGroup);
 			add(btn, 0, i+2, 1, 1);
-			if (i == question.getStatements().size()-1) this.add(submitButton, 0, i+3, 1, 1);
+			if (i == answers.size()-1) this.add(submitButton, 0, i+3, 1, 1);
 		}
 		
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -1,1 +1,1 @@
-score--minusWhenEmpty--[Design Principles-2-0-1, Design Patterns-2-0-1]
+score--normal--[Java-2-0-0, Design Patterns-2-0-0, UML-1-0-0, Design Principles-1-0-0]

@@ -61,8 +61,8 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
-	public void updateQuestion(String questionType, String question, List<String> statements, String category, String feedback, Question previous) {
-		facade.updateQuestion(questionType, question, statements, category, feedback, previous);
+	public void updateQuestion(String questionType, String question, String category, String feedback, Question previous, Object...args) {
+		facade.updateQuestion(questionType, question, category, feedback, previous, args);
 		notifyDisplays();
 	}
 	
@@ -113,13 +113,6 @@ public class QuizController extends Observable {
 	public List<String> getCategorieNames() {
 		return facade.getCategorieNames();
 	}
-	
-///////////////////////////////////////////////////////////////////////////////////////	
-	
-	private void notifyDisplays() {
-		setChanged();
-		notifyObservers();
-	}
 
 	public String setScoreCalcStrategy(String strategy) {
 		String result = facade.setScoreCalcStrategy(strategy);
@@ -129,5 +122,24 @@ public class QuizController extends Observable {
 
 	public String getCalcStrategy() {
 		return facade.getCalcStrategy();
+	}
+
+	public List<String> getQuestionTypes() {
+		return facade.getQuestionTypes();
+	}
+	
+	public String getQuestionType(Question question) {
+		return facade.getQuestionType(question);
+	}
+	
+	
+	public List<String> getAnswers(Question question) {
+		return facade.getAnswers(question);
+	}
+///////////////////////////////////////////////////////////////////////////////////////	
+	
+	private void notifyDisplays() {
+	setChanged();
+	notifyObservers();
 	}
 }

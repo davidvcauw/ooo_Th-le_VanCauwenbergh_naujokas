@@ -1,4 +1,4 @@
-package view.panels;
+package view.panels.questions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,13 +7,10 @@ import java.util.List;
 import controller.QuizController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -21,28 +18,13 @@ import javafx.stage.Stage;
 import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
 
-public class QuestionDetailPane extends GridPane {
-	private Button btnOK, btnCancel;
+public class QuestionDetailMultipleChoicePane extends QuestionDetailPane {
 	private TextArea statementsArea;
-	private TextField questionField, statementField, feedbackField;
-	private Label warning;
+	private TextField statementField;
 	private Button btnAdd, btnRemove;
-	private ComboBox<String> categoryField;
-	private QuizController quiz;
-	private Question previousValues;
 
-	public QuestionDetailPane(List<Question> Questions, QuizController quizz, Question previous) {
-		this.quiz = quizz;
-		this.setPrefHeight(300);
-		this.setPrefWidth(320);
-		
-		this.setPadding(new Insets(5, 5, 5, 5));
-        this.setVgap(5);
-        this.setHgap(5);
-        
-		add(new Label("Question: "), 0, 0, 1, 1);
-		questionField = new TextField();
-		add(questionField, 1, 0, 2, 1);
+	public QuestionDetailMultipleChoicePane(QuizController quiz, String type, Question previous) {
+		super(quiz, previous);
 		
 		add(new Label("Statement: "), 0, 1, 1, 1);
 		statementField = new TextField();
@@ -54,10 +36,6 @@ public class QuestionDetailPane extends GridPane {
 		statementsArea.setEditable(false);
 		add(statementsArea, 1, 2, 2, 5);
 		
-		warning = new Label();
-		warning.setStyle("-fx-text-fill: darkred;");
-		add(warning, 1, 12, 1, 1);
-
 		Pane addRemove = new HBox();
 		btnAdd = new Button("add");
 		btnAdd.setDisable(true);
@@ -80,48 +58,15 @@ public class QuestionDetailPane extends GridPane {
 			else btnRemove.setDisable(false);
 		});
 
-		List<String> categorieNames = new ArrayList<>();
-		for (String c : quiz.getCategorieNames()) {
-			categorieNames.add(c);
-		}
-		
-		add(new Label("Category: "), 0, 9, 1, 1);
-		categoryField = new ComboBox<String>();
-		categoryField.getItems().addAll(categorieNames);
-		add(categoryField, 1, 9, 2, 1);
-
-		add(new Label("Feedback: "), 0, 10, 1, 1);
-		feedbackField = new TextField();
-		add(feedbackField, 1, 10, 2, 1);
+	
 		
 		if (previous != null) {
-			this.previousValues = previous;
-			questionField.setText(previous.getQuestion());
-			categoryField.getSelectionModel().select(categorieNames.indexOf(previous.getCategoryObject().getName()));
-			feedbackField.setText(previous.getFeedback());
-			
 			String statementsString = "";
 			for (String st : ((MultipleChoiceQuestion)previous).getStatements()) {
 				statementsString += st + "\n";
 			}			
 			statementsArea.setText(statementsString.substring(0, statementsString.length() - 1));
 		}
-
-		btnCancel = new Button("Cancel");
-		btnCancel.setText("Cancel");
-		add(btnCancel, 0, 11, 1, 1);
-
-		btnOK = new Button("Save");
-		btnOK.isDefaultButton();
-		btnOK.setText("Save");
-		add(btnOK, 1, 11, 2, 1);
-		
-		setCancelAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	Stage stage = (Stage) btnCancel.getScene().getWindow();
-		        stage.close();
-		    }
-		});
 		
 		
 		setSaveAction(new EventHandler<ActionEvent>() {
@@ -129,11 +74,13 @@ public class QuestionDetailPane extends GridPane {
 		    	try {
 		    		
 		    		List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
-		    		quiz.updateQuestion("MC", questionField.getText(), statements, categoryField.getValue(), feedbackField.getText(), previousValues);
 		    		
+		    		if (statements.size() < 2) throw new IllegalArgumentException("Add atleast 2 statements!");
+
+		    		updateQuestion(type, statements);
 		    		
 		    		//close window
-		    		Stage stage = (Stage) btnCancel.getScene().getWindow();
+		    		Stage stage = (Stage) addRemove.getScene().getWindow();
 			        stage.close();
 		    	} catch (Exception ex) {
 		    		warning.setText(ex.getMessage());
@@ -142,14 +89,7 @@ public class QuestionDetailPane extends GridPane {
 		    }
 		});
 		
-	}
-
-	public void setSaveAction(EventHandler<ActionEvent> saveAction) {
-		btnOK.setOnAction(saveAction);
-	}
-
-	public void setCancelAction(EventHandler<ActionEvent> cancelAction) {
-		btnCancel.setOnAction(cancelAction);
+	
 	}
 
 	class AddStatementListener implements EventHandler<ActionEvent> {

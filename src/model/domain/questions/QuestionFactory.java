@@ -9,8 +9,18 @@ public class QuestionFactory {
 		
 		Class <?> [] arg = new Class[args.length];
 		int tel = 0;
+		int tel2 = 0;
 		for (Object object:args){
-			arg[tel++] = object.getClass();
+			if (!(object instanceof Object[])) {
+				arg[tel++] = object.getClass();
+				tel2++;
+			}
+			else {
+				for (Object o2:(Object[])object) {
+					arg[tel++] = o2.getClass();
+					args[tel2++] = o2;
+				}
+			}
 		}
 		
 		try {

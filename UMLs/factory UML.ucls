@@ -33,9 +33,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="view.panels.QuestionDetailPane" project="ooo_Th-le_VanCauwenbergh_naujokas" 
-    file="/ooo_Th-le_VanCauwenbergh_naujokas/src/view/panels/QuestionDetailPane.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="view.panels.questions.QuestionDetailMultipleChoicePane" 
+    project="ooo_Th-le_VanCauwenbergh_naujokas" 
+    file="/ooo_Th-le_VanCauwenbergh_naujokas/src/view/panels/questions/QuestionDetailMultipleChoicePane.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="588" y="519"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -44,8 +45,8 @@
     </display>  
   </class>  
   <dependency id="5">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
   </dependency>  
   <dependency id="6">    
     <end type="SOURCE" refId="1"/>    
@@ -59,40 +60,24 @@
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="1"/>    
+  <generalization id="9">    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
-  </dependency>  
+  </generalization>  
   <dependency id="10">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <generalization id="11">    
-    <end type="SOURCE" refId="3"/>    
+  <dependency id="11">    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
-  </generalization>  
+  </dependency>  
   <dependency id="12">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
   <dependency id="13">    
     <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="14">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="15">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="16">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <dependency id="17">    
-    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
