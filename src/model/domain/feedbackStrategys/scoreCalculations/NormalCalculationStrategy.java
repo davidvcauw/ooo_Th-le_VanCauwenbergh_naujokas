@@ -1,37 +1,9 @@
 package model.domain.feedbackStrategys.scoreCalculations;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class NormalCalculationStrategy implements ScoreCalculationStrategy {
-
+public class NormalCalculationStrategy extends ScoreCalculationTemplate implements ScoreCalculationStrategy {
 	@Override
-	public String parseFeedback(List<String> results) {
-		if (results.isEmpty()) return "";
-		else {
-			String result = "";
-			int totalAsked = 0;
-			int totalCorrect = 0;
-			List<String> categoryScores = new ArrayList<>();
-			
-			for (String r : results) {
-				String[] rString = r.split("-");
-				if (!rString[0].equals("empty")) {
-					totalAsked+=Integer.parseInt(rString[1]);
-					totalCorrect+=Integer.parseInt(rString[2]);
-					
-					categoryScores.add("Category " + rString[0] + ": " + rString[2]+"/"+rString[1]);
-				}
-			}
-			
-			result+="Your score: " + totalCorrect+"/"+totalAsked;
-			
-			for (String s : categoryScores) {
-				result+="\n"+s;
-			}
-			
-			return result;
-		}
+	public int calculateScore(int asked, int correct, int answered) {
+		return correct;
 	}
 
 	@Override
@@ -43,5 +15,4 @@ public class NormalCalculationStrategy implements ScoreCalculationStrategy {
 	public String toString() {
 		return "normal";
 	}
-
 }
