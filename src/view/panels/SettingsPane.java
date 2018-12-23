@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 
 public class SettingsPane extends GridPane {
 	private ComboBox<String> feedbackField;
+	private ComboBox<String> scoreCalcField;
 	private ComboBox<String> testField;
 	private ComboBox<String> excelField;
 	private Properties properties;
@@ -54,15 +55,29 @@ public class SettingsPane extends GridPane {
 		}
         
         Label feedbackLabel = new Label("Evaluation mode: ");
+        Label scoreCalcLabel = new Label("Score Calculation:");
+        Label scoreCalcDescLabel = new Label("");
         Label messageLabel = new Label("");
         this.add(feedbackLabel, 1, 1);
         
         feedbackField = new ComboBox<String>();
         feedbackField.getItems().addAll(quiz.getFeedbackTypes());
+        
+        scoreCalcField = new ComboBox<String>();
+        scoreCalcField.getItems().addAll(quiz.getScoreCalcTypes());
+        
 		
         for(String key : properties.stringPropertyNames()) {
         	if (key.equals("evaluation.mode")) {
         		feedbackField.setValue(properties.getProperty(key));
+        		if (properties.getProperty(key).equals("score")) {
+        			this.add(scoreCalcLabel, 1, 2);
+        			this.add(scoreCalcField, 2, 2);
+        			this.add(scoreCalcDescLabel, 3, 2);
+        			scoreCalcField.setValue(quiz.getCalcStrategy());
+        			scoreCalcDescLabel.setText(quiz.setScoreCalcStrategy(quiz.getCalcStrategy()));
+    				scoreCalcDescLabel.setStyle("-fx-text-fill: darkblue;");
+        		}
         	}
         }
         
@@ -76,6 +91,19 @@ public class SettingsPane extends GridPane {
 				messageLabel.setText("The next test will give '" + newValue + "' feedback!");
         		messageLabel.setStyle("-fx-text-fill: green;");
 				
+        		if (newValue.equals("score")) {
+        			add(scoreCalcLabel, 1, 2);
+        			add(scoreCalcDescLabel, 3, 2);
+        			add(scoreCalcField, 2, 2);
+        			scoreCalcField.setValue(quiz.getCalcStrategy());
+        			scoreCalcDescLabel.setText(quiz.setScoreCalcStrategy(quiz.getCalcStrategy()));
+    				scoreCalcDescLabel.setStyle("-fx-text-fill: darkblue;");
+        		} else {
+        			getChildren().remove(scoreCalcLabel);
+        			getChildren().remove(scoreCalcDescLabel);
+        			getChildren().remove(scoreCalcField);
+        		}
+        		
 				try {
 					FileOutputStream fr = new FileOutputStream("evaluation.properties");
 			        properties.store(fr, "Properties");
@@ -85,6 +113,14 @@ public class SettingsPane extends GridPane {
 				}
 			}
 		});
+        
+        scoreCalcField.valueProperty().addListener(new ChangeListener<String> () {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				scoreCalcDescLabel.setText(quiz.setScoreCalcStrategy(newValue));
+				scoreCalcDescLabel.setStyle("-fx-text-fill: darkblue;");
+			}
+        });
         
         this.add(feedbackField, 2, 1);
         

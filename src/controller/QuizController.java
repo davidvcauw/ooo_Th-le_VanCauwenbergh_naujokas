@@ -81,6 +81,10 @@ public class QuizController extends Observable {
 		facade.save();
 	}
 	
+	public List<String> getScoreCalcTypes() {
+		return facade.getScoreCalcTypes();
+	}
+	
 	public List<Question> startQuiz() {
 		return facade.startQuiz();
 	}
@@ -115,5 +119,15 @@ public class QuizController extends Observable {
 	private void notifyDisplays() {
 		setChanged();
 		notifyObservers();
+	}
+
+	public String setScoreCalcStrategy(String strategy) {
+		String result = facade.setScoreCalcStrategy(strategy);
+		notifyDisplays();
+		return result;
+	}
+
+	public String getCalcStrategy() {
+		return facade.getCalcStrategy();
 	}
 }

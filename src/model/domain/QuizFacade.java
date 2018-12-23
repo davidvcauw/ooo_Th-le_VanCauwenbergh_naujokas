@@ -6,7 +6,10 @@ import java.util.List;
 import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
+import model.domain.feedbackStrategys.ScoreStrategy;
 import model.domain.feedbackStrategys.TextStrategy;
+import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy;
+import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationTypes;
 import model.domain.questions.Question;
 import model.domain.questions.QuestionFactory;
 import model.domain.questions.QuestionTypes;
@@ -172,5 +175,30 @@ public class QuizFacade {
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Feedback type '" + name + "' does not excist!");
 		}
+	}
+	
+	public List<String> getScoreCalcTypes() {
+		List<String> types = new ArrayList<>();
+		for (ScoreCalculationTypes type : ScoreCalculationTypes.values()) {
+			types.add(type.name());
+		}
+		return types;
+	}
+
+	public String setScoreCalcStrategy(String strategy) {
+		FeedbackStrategy strat = quiz.getFeedbackStrategy();
+		if (strat instanceof ScoreStrategy) {
+			ScoreStrategy scoreStrat = (ScoreStrategy)strat;
+			ScoreCalculationStrategy calcStrat = scoreStrat.setScoreCalculationStrategy(strategy);
+			return calcStrat.getDescription();
+		}
+		return null;
+	}
+
+	public String getCalcStrategy() {
+		if (this.getFeedbackStrategy() instanceof ScoreStrategy) {
+			return ((ScoreStrategy)getFeedbackStrategy()).getCalcStrategy();
+		}
+		return null;
 	}
 }

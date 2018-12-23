@@ -3,10 +3,17 @@ package model.domain.feedbackStrategys;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.domain.feedbackStrategys.scoreCalculations.MinusWhenWrongCalculationStrategy;
+import model.domain.feedbackStrategys.scoreCalculations.NormalCalculationStrategy;
+import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy;
+import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategyFactory;
+import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationTypes;
+
 public class ScoreStrategy implements FeedbackStrategy {
 	
 	private List<String> results = new ArrayList<String>();
 	private boolean hasBeenDone = false;
+	private ScoreCalculationStrategy calculation = new NormalCalculationStrategy();
 
 	@Override
 	public void setFeedback(List<String> f) {
@@ -15,6 +22,23 @@ public class ScoreStrategy implements FeedbackStrategy {
 	
 	public void setHasBeenDone(boolean b) {
 		hasBeenDone = b;
+	}
+	
+	private void setScoreCalculationStrategy(ScoreCalculationStrategy strategy) {
+		if (strategy == null) throw new IllegalArgumentException("calculation strategy can't be null!");
+		this.calculation = strategy;
+	}
+	
+	public ScoreCalculationStrategy setScoreCalculationStrategy(String strategy) {
+		if (strategy == null || strategy.trim().isEmpty()) throw new IllegalArgumentException("Strategy can't be null");
+		try {
+			ScoreCalculationTypes calcType = ScoreCalculationTypes.valueOf(strategy);
+			ScoreCalculationStrategy calc = ScoreCalculationStrategyFactory.createStrategy(calcType.getClassName());
+			this.setScoreCalculationStrategy(calc);
+			return calc;
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Calculation strategy '" + strategy + "' not found");
+		}
 	}
 	
 	public List<String> getFeedbackList() {
@@ -56,36 +80,20 @@ public class ScoreStrategy implements FeedbackStrategy {
 
 	@Override
 	public String getFeedback() {
-		if (this.results.isEmpty()) return "";
-		else {
-			String result = "";
-			int totalAsked = 0;
-			int totalCorrect = 0;
-			List<String> categoryScores = new ArrayList<>();
-			
-			for (String r : results) {
-				String[] rString = r.split("-");
-				if (!rString[0].equals("empty")) {
-					totalAsked+=Integer.parseInt(rString[1]);
-					totalCorrect+=Integer.parseInt(rString[2]);
-					
-					categoryScores.add("Category " + rString[0] + ": " + rString[2]+"/"+rString[1]);
-				}
-			}
-			
-			result+="Your score: " + totalCorrect+"/"+totalAsked;
-			
-			for (String s : categoryScores) {
-				result+="\n"+s;
-			}
-			
-			return result;
-		}
+		return calculation.parseFeedback(this.results);
 	}
 	
 	@Override
 	public String toString() {
-		return results.isEmpty()?"":"score--"+results.toString();
+		return results.isEmpty()?"":"score--"+this.calculation+"--"+results.toString();
+	}
+
+	public String getCalcStrategy() {
+		return this.calculation.toString();
+	}
+	
+	public ScoreCalculationStrategy getCalcStrategyObj() {
+		return this.calculation;
 	}
 	
 }

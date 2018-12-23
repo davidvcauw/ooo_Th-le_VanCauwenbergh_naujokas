@@ -101,7 +101,7 @@ public class TestPane extends GridPane {
 						if (correctAnswer.equals(selectedAnswer)) {
 							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])+1) + "-" + (Integer.parseInt(c[3])+1));
 						} else {
-							results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])) + "-" + (Integer.parseInt(c[3])+1));
+							if (!selectedAnswer.trim().isEmpty()) results.set(results.indexOf(s),c[0] + "-" + (Integer.parseInt(c[1])) + "-" + (Integer.parseInt(c[2])) + "-" + (Integer.parseInt(c[3])+1));
 							if (question.getFeedback() != null && !question.getFeedback().trim().isEmpty()) {
 								feedback.add(question.getFeedback());
 							} else {

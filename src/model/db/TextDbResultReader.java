@@ -15,6 +15,7 @@ import java.util.Scanner;
 import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
+import model.domain.feedbackStrategys.ScoreStrategy;
 
 public class TextDbResultReader {
 	private static HashMap<String, TextDbResultReader> instances = new HashMap<String, TextDbResultReader>();
@@ -48,11 +49,17 @@ public class TextDbResultReader {
 			feedback = (FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
 		} else {
 			feedback = FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(result.get(0)).getClassName());
-			String results = result.get(1);
-			results=result.get(1).equals("empty")?results:results.substring(1, results.length()-1);
+			String results = result.get(2);
+			results=result.get(2).equals("empty")?results:results.substring(1, results.length()-1);
 			List<String> resultList = new ArrayList<String>(Arrays.asList(results.split(", ")));
 			feedback.setFeedback(resultList);
 			feedback.setHasBeenDone(true);
+			
+
+			if (result.get(0).equals("score")) {
+				String calcStrategy = result.get(1);
+				((ScoreStrategy)feedback).setScoreCalculationStrategy(calcStrategy);
+			}
 		}
 	}
 	
