@@ -21,11 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import model.domain.feedbackStrategys.FeedbackStrategyFactory;
-import model.domain.feedbackStrategys.FeedbackTypes;
 
 public class SettingsPane extends GridPane {
-	private ComboBox<FeedbackTypes> feedbackField;
+	private ComboBox<String> feedbackField;
 	private ComboBox<String> testField;
 	private ComboBox<String> excelField;
 	private Properties properties;
@@ -56,23 +54,27 @@ public class SettingsPane extends GridPane {
 		}
         
         Label feedbackLabel = new Label("Evaluation mode: ");
+        Label messageLabel = new Label("");
         this.add(feedbackLabel, 1, 1);
         
-        feedbackField = new ComboBox<FeedbackTypes>();
-        feedbackField.getItems().addAll(new ArrayList<FeedbackTypes>(Arrays.asList(FeedbackTypes.values())));
+        feedbackField = new ComboBox<String>();
+        feedbackField.getItems().addAll(quiz.getFeedbackTypes());
 		
         for(String key : properties.stringPropertyNames()) {
         	if (key.equals("evaluation.mode")) {
-        		feedbackField.setValue(FeedbackTypes.valueOf(properties.getProperty(key)));
+        		feedbackField.setValue(properties.getProperty(key));
         	}
         }
         
-        feedbackField.valueProperty().addListener(new ChangeListener<FeedbackTypes>() {
+        feedbackField.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(ObservableValue<? extends FeedbackTypes> observable, FeedbackTypes oldValue, FeedbackTypes newValue) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				
-				properties.setProperty("evaluation.mode", newValue.name());
-				quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(newValue.getClassName()));
+				properties.setProperty("evaluation.mode", newValue);
+				quiz.setFeedbackStrategy(newValue);
+				
+				messageLabel.setText("The next test will give '" + newValue + "' feedback!");
+        		messageLabel.setStyle("-fx-text-fill: green;");
 				
 				try {
 					FileOutputStream fr = new FileOutputStream("evaluation.properties");
@@ -118,6 +120,8 @@ public class SettingsPane extends GridPane {
         			this.add(excelLabel, 1, 4);
         			this.add(excelField, 2, 4);
         			quiz.setTestmode(excelField.getValue());
+        			messageLabel.setText("In excel mode you can NOT edit the test!");
+            		messageLabel.setStyle("-fx-text-fill: darkred;");
         		}
         	}
         }
@@ -133,10 +137,9 @@ public class SettingsPane extends GridPane {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				
 				properties.setProperty("test.mode", newValue);
-				//quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(newValue.getClassName()));
-				
 				try {
 					FileOutputStream fr = new FileOutputStream("evaluation.properties");
+					
 			        properties.store(fr, "Properties");
 			        fr.close();
 				} catch (Exception e) {
@@ -147,10 +150,13 @@ public class SettingsPane extends GridPane {
 					getChildren().remove(excelLabel);
 					getChildren().remove(excelField);
 					quiz.setTestmode("textfiles");
+					messageLabel.setText("");
 				} else {
 					add(excelLabel, 1, 4);
         			add(excelField, 2, 4);
         			quiz.setTestmode(excelField.getValue());
+        			messageLabel.setText("In excel mode you can NOT edit the test!");
+            		messageLabel.setStyle("-fx-text-fill: darkred;");
 				}
 			}
 		});
@@ -158,8 +164,9 @@ public class SettingsPane extends GridPane {
         
         Button resetButton = new Button("Reset");
         
-        Label resetLabel = new Label("Delete saved results from system.   ");
-        Label messageLabel = new Label("");
+        Label resetLabel = new Label("Delete saved results from system.                    ");
+        //reason for trailing spaces is when the messageLabel gets updated it won't push everything to the right
+        
         this.add(resetButton, 2, 5);
         this.add(resetLabel, 1, 5);
         this.add(messageLabel, 1, 6);
@@ -169,7 +176,7 @@ public class SettingsPane extends GridPane {
         	public void handle(ActionEvent arg0) {
         		quiz.resetResult();
         		messageLabel.setText("Saved results have been removed!");
-        		messageLabel.setStyle("-fx-text-fill: green;");;
+        		messageLabel.setStyle("-fx-text-fill: green;");
         	}
         });
 	}

@@ -14,10 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.domain.Categorie;
+
 import model.domain.questions.Question;
 
 public class QuestionOverviewPane extends GridPane implements Observer {
@@ -27,7 +26,7 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	private Button btnRemove;
 	private QuizController quiz;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public QuestionOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);

@@ -17,11 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.domain.Categorie;
+
 import model.domain.questions.MultipleChoiceQuestion;
 import model.domain.questions.Question;
-import model.domain.questions.QuestionFactory;
-import model.domain.questions.QuestionTypes;
 
 public class QuestionDetailPane extends GridPane {
 	private Button btnOK, btnCancel;
@@ -83,8 +81,8 @@ public class QuestionDetailPane extends GridPane {
 		});
 
 		List<String> categorieNames = new ArrayList<>();
-		for (Categorie c : quiz.getCategories()) {
-			categorieNames.add(c.getName());
+		for (String c : quiz.getCategorieNames()) {
+			categorieNames.add(c);
 		}
 		
 		add(new Label("Category: "), 0, 9, 1, 1);
@@ -131,7 +129,7 @@ public class QuestionDetailPane extends GridPane {
 		    	try {
 		    		
 		    		List<String> statements = new ArrayList<>(Arrays.asList(statementsArea.getText().split("\n")));
-		    		quiz.updateQuestion(QuestionTypes.MC.getClassName(), questionField.getText(), statements, categoryField.getValue(), feedbackField.getText(), previousValues);
+		    		quiz.updateQuestion("MC", questionField.getText(), statements, categoryField.getValue(), feedbackField.getText(), previousValues);
 		    		
 		    		
 		    		//close window

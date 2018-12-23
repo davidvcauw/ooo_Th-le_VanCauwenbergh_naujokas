@@ -154,6 +154,10 @@ public class Quiz {
 		
 		return questions;
 	}
+	
+	public void setFeedbackStrategy(String strategyName) {
+		
+	}
 
 	
 }

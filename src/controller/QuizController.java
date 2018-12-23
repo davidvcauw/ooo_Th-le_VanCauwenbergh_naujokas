@@ -3,13 +3,10 @@ package controller;
 import java.util.List;
 import java.util.Observable;
 
-import model.domain.Categorie;
-import model.domain.Quiz;
 import model.domain.QuizFacade;
-import model.domain.feedbackStrategys.FeedbackStrategy;
+
+import model.domain.Categorie;
 import model.domain.questions.Question;
-import model.domain.questions.QuestionFactory;
-import model.domain.questions.QuestionTypes;
 
 public class QuizController extends Observable {
 	private QuizFacade facade;
@@ -64,8 +61,8 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
-	public void updateQuestion(String className, String question, List<String> statements, String category, String feedback, Question previous) {
-		facade.updateQuestion(className, question, statements, category, feedback, previous);
+	public void updateQuestion(String questionType, String question, List<String> statements, String category, String feedback, Question previous) {
+		facade.updateQuestion(questionType, question, statements, category, feedback, previous);
 		notifyDisplays();
 	}
 	
@@ -80,10 +77,6 @@ public class QuizController extends Observable {
 		notifyDisplays();
 	}
 	
-	private Categorie findCategorieByString(String name) {
-		return facade.findCategorieByString(name);
-	}
-	
 	public void save() {
 		facade.save();
 	}
@@ -92,33 +85,35 @@ public class QuizController extends Observable {
 		return facade.startQuiz();
 	}
 	
-	public void setFeedbackStrategy(FeedbackStrategy strategy) {
-		facade.setFeedbackStrategy(strategy);
-		notifyDisplays();
-	}
-	
-	public FeedbackStrategy getFeedbackStrategy() {
-		return facade.getFeedbackStrategy();
-	}
-	
 	public String getFeedback() {
 		return facade.getFeedback();
-	}
-	
-	public void setFeedback(List<String> s) {
-		facade.setFeedback(s);
-		//System.out.println(quiz.getFeedbackStrategy().toString());
-		notifyDisplays();
 	}
 	
 	public boolean isFlawless() {
 		return facade.isFlawless();
 	}
+
+	public void setFeedbackStrategy(String strategyName) {
+		facade.setFeedbackStrategy(strategyName);
+	}
 	
-	public void notifyDisplays() {
+	public List<String> getFeedbackTypes() {
+		return facade.getFeedbackTypes();
+	}
+	
+	public void passFeedback(List<String> results, List<String> feedback) {
+		facade.passFeedback(results, feedback);
+		notifyDisplays();
+	}
+	
+	public List<String> getCategorieNames() {
+		return facade.getCategorieNames();
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////	
+	
+	private void notifyDisplays() {
 		setChanged();
 		notifyObservers();
 	}
-
-	
 }

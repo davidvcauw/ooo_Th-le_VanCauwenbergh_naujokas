@@ -20,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.domain.Categorie;
-import model.domain.questions.Question;
 
 
 public class CategoryOverviewPane extends GridPane implements Observer {
@@ -30,7 +29,7 @@ public class CategoryOverviewPane extends GridPane implements Observer {
 	private Button btnRemove;
 	private QuizController quiz;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CategoryOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);

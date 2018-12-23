@@ -1,8 +1,12 @@
 package model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.domain.feedbackStrategys.FeedbackStrategy;
+import model.domain.feedbackStrategys.FeedbackStrategyFactory;
+import model.domain.feedbackStrategys.FeedbackTypes;
+import model.domain.feedbackStrategys.TextStrategy;
 import model.domain.questions.Question;
 import model.domain.questions.QuestionFactory;
 import model.domain.questions.QuestionTypes;
@@ -113,7 +117,7 @@ public class QuizFacade {
 		addCategorie(c);
 	}
 	
-	public void updateQuestion(String className, String question, List<String> statements, String category, String feedback, Question previous)  {
+	public void updateQuestion(String questionType, String question, List<String> statements, String category, String feedback, Question previous)  {	
 		if (question == null || question.trim().isEmpty()) throw new IllegalArgumentException("Enter a question!");
 		if (statements.size() < 2) throw new IllegalArgumentException("Atleast 2 statements are required!");
 		if (category == null || category.trim().isEmpty()) throw new IllegalArgumentException("Choose a category!");
@@ -121,16 +125,52 @@ public class QuizFacade {
 		for (Categorie cat : quiz.getCategories()) {
 			if (cat.getName().equals(category)) categ = cat;
 		}
-		Question q = null;
-		
-		if (feedback == null || feedback.trim().isEmpty()) {
-			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ);
-		} else {
-			q = QuestionFactory.createQuestion(QuestionTypes.MC.getClassName(), question, statements, categ, feedback);
+		try {
+			QuestionTypes type = QuestionTypes.valueOf(questionType);
+			
+			Question q = null;
+			
+			if (feedback == null || feedback.trim().isEmpty()) {
+				q = QuestionFactory.createQuestion(type.getClassName(), question, statements, categ);
+			} else {
+				q = QuestionFactory.createQuestion(type.getClassName(), question, statements, categ, feedback);
+			}
+			if (previous != null) {
+				this.removeQuestion(previous);
+			} 
+			this.addQuestion(q);
+		} catch(Exception e) {
+			throw new IllegalArgumentException("Question type '" + questionType + "' does not excist!");
 		}
-		if (previous != null) {
-			this.removeQuestion(previous);
-		} 
-		this.addQuestion(q);
+	}
+	
+	public List<String> getCategorieNames() {
+		List<String> names = new ArrayList<>();
+		for (Categorie c : this.getCategories()) {
+			names.add(c.getName());
+		}
+		return names;
+	}
+	
+	public List<String> getFeedbackTypes() {
+		List<String> types = new ArrayList<>();
+		for (FeedbackTypes type : FeedbackTypes.values()) {
+			types.add(type.name());
+		}
+		return types;
+	}
+	
+	public void passFeedback(List<String> results, List<String> feedback) {
+		if (getFeedbackStrategy() instanceof TextStrategy) quiz.setFeedback(feedback);
+		else quiz.setFeedback(results);
+	}
+	
+	public void setFeedbackStrategy(String name) {
+		try {
+			FeedbackTypes type = FeedbackTypes.valueOf(name);
+			quiz.setFeedbackStrategy(FeedbackStrategyFactory.createStrategy(type.getClassName()));
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Feedback type '" + name + "' does not excist!");
+		}
 	}
 }

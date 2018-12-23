@@ -19,34 +19,32 @@ public class Main extends Application {
 	
 		try {
 			QuestionOverviewPane questionOverviewPane = new QuestionOverviewPane(quizcontroller);
-			//QuestionDetailPane questionDetailPane = new QuestionDetailPane();
-
 			CategoryOverviewPane categoryOverviewPanel = new CategoryOverviewPane(quizcontroller);
-			//CategoryDetailPane categoryDetailPanel = new CategoryDetailPane();
-			//removed this ^ because it is not needed in the main application, the categoryDetailPanel 
-			//gets called by the overviewPanel
-
-			//TestPane testPane = new TestPane();
 			MessagePane messagePane = new MessagePane(quizcontroller);
-			
 			SettingsPane settingsPane = new SettingsPane(quizcontroller);
+			//4 main panes
 
 			Group root = new Group();
 			Scene scene = new Scene(root, 750, 400);
+			//setup scene
 
 			BorderPane borderPane = new AssesMainPane(messagePane, categoryOverviewPanel, questionOverviewPane, settingsPane);
 			borderPane.prefHeightProperty().bind(scene.heightProperty());
 			borderPane.prefWidthProperty().bind(scene.widthProperty());
+			//'main' window
 
 			root.getChildren().add(borderPane);
 			primaryStage.setScene(scene);
 			primaryStage.sizeToScene();
+			//add main window to scene
 
 			primaryStage.setOnHiding( event -> {
 				quizcontroller.save();
 			});
+			//when the windows closes, or gets closed, the quiz will save
 			
 			primaryStage.show();
+			//show the scene
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
