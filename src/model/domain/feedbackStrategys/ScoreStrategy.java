@@ -3,7 +3,6 @@ package model.domain.feedbackStrategys;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.domain.feedbackStrategys.scoreCalculations.MinusWhenWrongCalculationStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.NormalCalculationStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategyFactory;

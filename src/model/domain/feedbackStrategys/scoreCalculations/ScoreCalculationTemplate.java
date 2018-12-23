@@ -33,6 +33,7 @@ public abstract class ScoreCalculationTemplate {
 				int answered = Integer.parseInt(rString[3]);
 				
 				correct = calculateScore(asked, correct, answered);
+				//this abstract method gets implemented by the different scoreCalculating strategys!
 				
 				totalCorrect+=correct;
 				totalAsked+=asked;
@@ -43,6 +44,7 @@ public abstract class ScoreCalculationTemplate {
 	}
 	
 	public abstract int calculateScore(int asked, int correct, int answered);
+	//this abstract method gets implemented by the different scoreCalculating strategys!
 	
 	public String displayResults() {
 		boolean negative = false;
