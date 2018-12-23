@@ -53,6 +53,9 @@ public class QuizFacade {
 	
 	public void removeCategorie(Categorie c) {
 		quiz.removeCategorie(c);
+		for (Question q : quiz.getQuestions()) {
+			if (q.getCategoryObject().equals(c)) quiz.removeQuestion(q);
+		}
 	}
 	
 	public boolean userCanEdit() {
