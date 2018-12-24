@@ -20,6 +20,7 @@ public class QuestionDetailTrueOrFalsePane extends QuestionDetailPane {
 		add(new Label("Answer: "), 0, 2, 1, 1);
 		statementsArea = new TextField();
 		statementsArea.setEditable(false);
+		statementsArea.setMinWidth(400);
 		add(statementsArea, 1, 2, 2, 1);
 		
 		Button switchBtn = new Button("switch");
