@@ -46,10 +46,15 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 		table.setPrefWidth(REMAINING);
         TableColumn nameCol = new TableColumn<>("Question");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("question"));
+        nameCol.setMinWidth(500.0);
         table.getColumns().add(nameCol);
         TableColumn descriptionCol = new TableColumn<>("Category");
         descriptionCol.setCellValueFactory(new PropertyValueFactory("Category"));
+        descriptionCol.setMinWidth(100.0);
         table.getColumns().add(descriptionCol);
+        TableColumn typeCol = new TableColumn<>("Type");
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        table.getColumns().add(typeCol);
 		this.add(table, 0, 1, 2, 6);
 		
 		btnNew = new Button("New");

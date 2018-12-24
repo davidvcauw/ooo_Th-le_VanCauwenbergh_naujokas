@@ -6,6 +6,8 @@ public abstract class Question {
 	private String question;
 	private Categorie category;
 	private String feedback;
+	private final String type = getClass().getSimpleName().replace("Question", "");
+	//used for displaying the type of question in 'QuestionOverviewPane';
 	
 	protected Question(String question, Categorie cat, String feedback) {
 		setQuestion(question);
@@ -18,6 +20,10 @@ public abstract class Question {
 
 	public String getQuestion() {
 		return question;
+	}
+	
+	public String getType() {
+		return this.type;
 	}
 
 
