@@ -37,12 +37,13 @@ public class TextDbQuestionReader extends TextDb<Question>{
 		List<String> answers = new ArrayList<String>(Arrays.asList(str[2].substring(1, str[2].length()-1).split(", ")));
 		
 		Question question = null;
-		Object[] params = answers.get(0).equals("TRUE/FALSE")?new Object[3]:new Object[4];
+		Object[] params = new Object[4];
 		
 		params[0] = questionS;
 		params[2] = feedback;
 		params[1] = category;
-		if (!answers.get(0).equals("TRUE/FALSE")) params[3] = answers;
+		if (answers.get(0).equals("true") || answers.get(0).equals("false")) params[3] = Boolean.valueOf(answers.get(0));
+		else params[3] = answers;
 		
 		question = QuestionFactory.createQuestion(QuestionTypes.valueOf(typeQuestion).getClassName(), params);
 		
