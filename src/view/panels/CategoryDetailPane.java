@@ -42,14 +42,19 @@ public class CategoryDetailPane extends GridPane {
 		this.add(descriptionField, 1, 1, 1, 1);
 
 		List<String> categorieNames = new ArrayList<>();
+		categorieNames.add("");
 		for (Categorie c : categories) {
 			categorieNames.add(c.getName());
 		}
+		
+		if (previousValues != null) categorieNames.remove(previousValues.getName());
 		
 		this.add(new Label("Main Category:"), 0, 2, 1, 1);
 		categoryField = new ComboBox<String>();
 		categoryField.getItems().addAll(categorieNames);
 		this.add(categoryField, 1, 2, 1, 1);
+		
+		categoryField.getSelectionModel().select(0);
 		
 		if (previousValues != null) {
 			titleField.setText(previousValues.getName());
