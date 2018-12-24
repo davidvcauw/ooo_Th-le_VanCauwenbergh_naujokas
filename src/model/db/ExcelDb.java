@@ -3,7 +3,6 @@ package model.db;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,9 +42,10 @@ public class ExcelDb<E> implements DbStrategy<E>{
 		List<E> items = new ArrayList<E>();
 		ArrayList<ArrayList<String>> data;
 		
-		
 		//reads categories out of excel file
 		try {
+		
+			
 			data = ExcelPlugin.read(file, 0);
 			
 			for (ArrayList<String> row : data) {
@@ -56,7 +56,7 @@ public class ExcelDb<E> implements DbStrategy<E>{
 				//System.out.println(c);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//
 		}
 		//reads questions out of excel file
 		try {
@@ -68,7 +68,7 @@ public class ExcelDb<E> implements DbStrategy<E>{
 				//System.out.println(q);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//
 		}
 		this.items = items;
 	}	
@@ -103,11 +103,11 @@ public class ExcelDb<E> implements DbStrategy<E>{
 				
 				excel.write();
 			} catch (BiffException | WriteException e) {
-				e.printStackTrace();
+				//
 			}
 		} catch (IOException e) {
 			System.out.println("error while trying to save quiz to excel: " + e.getMessage());
-			e.printStackTrace();
+			//
 		}
 	}
 

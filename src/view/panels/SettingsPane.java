@@ -163,6 +163,7 @@ public class SettingsPane extends GridPane {
 	
 	        	    if (name.startsWith("testdatabase/excel")) {
 	        	    	if (name.endsWith(".xls")) {
+	        	    		name = ".\\"+name;
 	        	    		files.add(name);
 	        	    	}
 	        	    }
