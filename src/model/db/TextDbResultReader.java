@@ -146,6 +146,12 @@ public class TextDbResultReader {
 		this.feedback.setFeedback(feedback);
 	}
 	
+	public void resetResults() {
+		for (Map.Entry<FeedbackTypes, FeedbackStrategy> saved : savedResults.entrySet()) {
+			saved.getValue().reset();
+		}
+	}
+	
 	public void save() {
 		//System.out.println("saving");
 		try {

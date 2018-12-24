@@ -1,4 +1,4 @@
 Design Principles-The SOLID design principles
 Design Patterns-Design patterns discussed this year
 Java-Java extras
-UML-Technical uml questions
+UML-Technique of drawing UML's

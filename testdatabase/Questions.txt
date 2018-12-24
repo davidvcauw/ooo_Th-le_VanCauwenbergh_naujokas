@@ -1,5 +1,9 @@
-MultipleChoice-Which pattern defines a family of algoritmes, encapsulates them and makes them exchangeable?-[true, false]-Design Patterns-feedback1
-MultipleChoice-Which design principle is the least applicable on the Strategy pattern?-[yes, no, maybe]-Design Patterns-feedback22
-MultipleChoice-this is a question-[hello, ty, goodbye]-Design Principles-
-MultipleChoice-vraag b2-[a, b, q]-Design Principles-
-TrueOrFalse-is this question nice-[TRUE/FALSE]-Java-some feedback
+MultipleChoice-Which design principle is least applicaple on the Strategy pattern?-[LSP, SRP, OCP, ISP, DIP]-Design Principles-For each pattern you have to know how applicable the principles are
+MultipleChoice-Which method does the Comparator interface contain?-[compare(), compareWith(), compareTo()]-Java-
+TrueOrFalse-You can compare the values of strings with: if (str1 == str2) ....-[false]-Java-
+MultipleChoice-What does 'UML' stand for?-[Unified Modeling Language, United Modeling Language, Unified Mapping Language]-UML-
+TrueOrFalse-Dotted arrows represent a dependancy or implementation-[true]-UML-You need to be able to draw UML class diagrams!
+TrueOrFalse-An open arrow head represents inheritance-[false]-UML-You need to know the different arrow types for drawing UML diagrams!
+MultipleChoice-Which phrase fits best with 'OCP'-[Open for extension, but closed for modification, Code that can easily be changed, UI classes don't know the logic of the model package, Each class has only one responsibility]-Design Principles-You should know the different design prinicples
+TrueOrFalse-The ISP design prinicple means that interfaces should have a lot of uses/responsibilities-[false]-Design Principles-
+MultipleChoice-Which design pattern is used most with displaying information-[Observer pattern, State pattern, Strategy pattern, Factory pattern]-Design Patterns-you should know the different design patterns and where they are used!

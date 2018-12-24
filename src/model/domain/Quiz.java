@@ -110,7 +110,7 @@ public class Quiz {
 	}
 	
 	public void resetResult() {
-		getFeedbackStrategy().reset();
+		resultReader.resetResults();
 	}
 	
 	public void addCategorie(Categorie c) {
