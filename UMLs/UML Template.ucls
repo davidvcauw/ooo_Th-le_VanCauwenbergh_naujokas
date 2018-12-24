@@ -51,7 +51,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/scoreCalculations/ScoreCalculationTypes.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="110" width="230" x="340" y="381"/>    
+    <position height="110" width="230" x="347" y="380"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="view.panels.SettingsPane" project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/view/panels/SettingsPane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="432" y="295"/>    
+    <position height="-1" width="-1" x="434" y="287"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -20,17 +20,25 @@
     </display>  
   </class>  
   <association id="3">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="4" name="properties"/>      
-      <multiplicity id="5" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="4" name="defaults">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="5" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="6">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="7" name="defaults"/>      
-      <multiplicity id="8" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="7" name="properties">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="8" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

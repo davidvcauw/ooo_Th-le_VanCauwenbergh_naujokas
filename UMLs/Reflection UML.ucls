@@ -5,7 +5,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/questions/QuestionFactory.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="208" y="265"/>    
+    <position height="-1" width="-1" x="476" y="269"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

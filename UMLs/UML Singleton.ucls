@@ -23,7 +23,7 @@
   </class>  
   <class id="3" language="java" name="model.db.TextDb" project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/db/TextDb.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="94" width="135" x="338" y="73"/>    
+    <position height="94" width="135" x="337" y="94"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
