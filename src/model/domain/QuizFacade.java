@@ -170,8 +170,7 @@ public class QuizFacade {
 	}
 	
 	public void passFeedback(List<String> results, List<String> feedback) {
-		if (getFeedbackStrategy() instanceof TextStrategy) quiz.setFeedback(feedback);
-		else quiz.setFeedback(results);
+		quiz.passFeedback(results, feedback);
 	}
 	
 	public void setFeedbackStrategy(String name) {

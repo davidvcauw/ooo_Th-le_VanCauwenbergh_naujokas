@@ -99,6 +99,7 @@ public class QuizController extends Observable {
 
 	public void setFeedbackStrategy(String strategyName) {
 		facade.setFeedbackStrategy(strategyName);
+		notifyDisplays();
 	}
 	
 	public List<String> getFeedbackTypes() {

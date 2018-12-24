@@ -157,5 +157,9 @@ public class Quiz {
 		
 	}
 
+	public void passFeedback(List<String> results, List<String> feedback) {
+		resultReader.passFeedback(results, feedback);
+	}
+
 	
 }

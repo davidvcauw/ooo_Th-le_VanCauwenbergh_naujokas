@@ -10,6 +10,7 @@ public interface FeedbackStrategy {
 	boolean hasBeenDone();
 	void setHasBeenDone(boolean b);
 	void reset();
+	String getType();
 	@Override
 	String toString();
 }

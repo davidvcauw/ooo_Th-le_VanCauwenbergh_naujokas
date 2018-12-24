@@ -91,6 +91,10 @@ public class ScoreStrategy implements FeedbackStrategy {
 		return this.calculation.toString();
 	}
 	
+	public String getType() {
+		return "score";
+	}
+	
 	public ScoreCalculationStrategy getCalcStrategyObj() {
 		return this.calculation;
 	}

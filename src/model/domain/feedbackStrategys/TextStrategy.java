@@ -47,6 +47,10 @@ public class TextStrategy implements FeedbackStrategy {
 	}
 	
 	
+	public String getType() {
+		return "feedback";
+	}
+	
 	
 	@Override
 	public String toString() {

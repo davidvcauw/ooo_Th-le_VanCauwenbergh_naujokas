@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -21,6 +22,7 @@ public class TextDbResultReader {
 	private static HashMap<String, TextDbResultReader> instances = new HashMap<String, TextDbResultReader>();
 	private String bestandsnaam;
 	private FeedbackStrategy feedback;
+	private static HashMap<FeedbackTypes, FeedbackStrategy> savedResults = new HashMap<FeedbackTypes, FeedbackStrategy>();
 	
 	private TextDbResultReader(String bn) {
 		this.bestandsnaam = bn;
@@ -36,9 +38,9 @@ public class TextDbResultReader {
 	}
 	
 	public final void load() {
-		List<String> result = read();
+		List<List<String>> resultsList = read();
 		
-		if (result.isEmpty()) {
+		if (resultsList.isEmpty()) {
 			Properties properties = new Properties();
 			try {
 				properties.load(new FileInputStream("evaluation.properties"));
@@ -48,33 +50,61 @@ public class TextDbResultReader {
 			
 			feedback = (FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
 		} else {
-			feedback = FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(result.get(0)).getClassName());
-			String results = result.get(2);
-			results=result.get(2).equals("empty")?results:results.substring(1, results.length()-1);
-			List<String> resultList = new ArrayList<String>(Arrays.asList(results.split(", ")));
-			feedback.setFeedback(resultList);
-			feedback.setHasBeenDone(true);
-			
-
-			if (result.get(0).equals("score")) {
-				String calcStrategy = result.get(1);
-				((ScoreStrategy)feedback).setScoreCalculationStrategy(calcStrategy);
+			for (List<String> resultObj : resultsList) {
+				try {
+					FeedbackTypes type = FeedbackTypes.valueOf(resultObj.get(0));
+					FeedbackStrategy strategy = FeedbackStrategyFactory.createStrategy(type.getClassName());
+					
+					String results = resultObj.get(2);
+					results=resultObj.get(2).equals("empty")?results:results.substring(1, results.length()-1);
+					strategy.setFeedback(new ArrayList<String>(Arrays.asList(results.split(", "))));
+					
+					if (resultObj.get(0).equals("score")) {
+						String calcStrategy = resultObj.get(1);
+						((ScoreStrategy)strategy).setScoreCalculationStrategy(calcStrategy);
+					}
+					
+					strategy.setHasBeenDone(true);
+					
+					savedResults.put(type, strategy);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			
+			Properties properties = new Properties();
+				try {
+				  properties.load(new FileInputStream("evaluation.properties"));
+				  
+				  for(String key : properties.stringPropertyNames()) {
+			        	if (key.equals("evaluation.mode")) {
+			        		String typeString = properties.getProperty(key);
+			        		FeedbackTypes type = FeedbackTypes.valueOf(typeString);
+			        		
+			        		this.feedback = savedResults.get(type);
+			        	}
+			        }
+				} catch (IOException e) {
+					System.out.println("Could not load properties file...");
+					throw new DbException("Error loading results..." + e.getMessage());
+				}
 		}
 	}
 	
-	public List<String> read() {
-		List<String> text = new ArrayList<>();
+	public List<List<String>> read() {
+		List<List<String>> results = new ArrayList<>();
 		File file = new File(bestandsnaam);
 		try {
 			Scanner sc = new Scanner(file);
-			if (sc.hasNextLine()) {
+			while (sc.hasNextLine()) {
+				List<String> text = new ArrayList<>();
 				String nextline = sc.nextLine();
 				String[] split = nextline.split("--");
 				text = new ArrayList<String>(Arrays.asList(split));
+				results.add(text);
 			} 
 			sc.close();
-			return text;
+			return results;
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
 			throw new DbException("File not found");
@@ -86,7 +116,16 @@ public class TextDbResultReader {
 	}
 	
 	public void setFeedback(FeedbackStrategy feedback) {
-		this.feedback = feedback;
+		
+		//System.out.println("setting to " + feedback.getType());
+		
+		FeedbackTypes type = FeedbackTypes.valueOf(feedback.getType());
+		if (savedResults.containsKey(type)) {
+			this.feedback = savedResults.get(type);
+		} else {
+			savedResults.put(type, feedback);
+			this.feedback = feedback;
+		}
 	}
 	
 	public FeedbackStrategy getFeedbackStrategy() {
@@ -100,11 +139,26 @@ public class TextDbResultReader {
 	public void save() {
 		//System.out.println("saving");
 		try {
+			String toWrite = "";
+			
+			for (Map.Entry<FeedbackTypes, FeedbackStrategy> saved : savedResults.entrySet()) {
+				toWrite+=saved.getValue().toString() + "\n";
+			}
+			
+			toWrite = toWrite.substring(0, toWrite.length()-1);
+			
 			FileWriter fileWriter = new FileWriter(bestandsnaam);
-		    fileWriter.write(feedback.toString());
+		    fileWriter.write(toWrite);
 		    fileWriter.close();
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
+		}
+	}
+
+	public void passFeedback(List<String> results, List<String> feedback2) {
+		for (Map.Entry<FeedbackTypes, FeedbackStrategy> saved : savedResults.entrySet()) {
+			if (saved.getKey().name().equals("score")) saved.getValue().setFeedback(results);
+			if (saved.getKey().name().equals("feedback")) saved.getValue().setFeedback(feedback2);
 		}
 	}
 }
