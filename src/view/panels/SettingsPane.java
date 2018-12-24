@@ -2,13 +2,17 @@ package view.panels;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import controller.QuizController;
 import javafx.beans.value.ChangeListener;
@@ -137,14 +141,34 @@ public class SettingsPane extends GridPane {
         testField.getItems().addAll(new ArrayList<String>(Arrays.asList("txt", "excel")));
 		
         excelField = new ComboBox<String>();
-        List<String> files = null;
+        List<String> files = new ArrayList<>();
         
         try {
-			files = Files.find(Paths.get("."), 100,
+        		
+        	files = Files.find(Paths.get("."), 100,
 				    (p, a) -> p.toString().toLowerCase().endsWith(".xls"))
 						.map(path -> path.toString())
 						.collect(Collectors.toList());
-			
+        	
+        	if (files.isEmpty()) {
+	        	CodeSource src = this.getClass().getProtectionDomain().getCodeSource();
+	        	
+	        	URL jar = src.getLocation();
+	        	ZipInputStream zip = new ZipInputStream(jar.openStream());
+	        	while(true) {
+	        	    ZipEntry e = zip.getNextEntry();
+	        	    if (e == null)
+	        	    	break;
+	        	    String name = e.getName();
+	
+	        	    if (name.startsWith("testdatabase/excel")) {
+	        	    	if (name.endsWith(".xls")) {
+	        	    		files.add(name);
+	        	    	}
+	        	    }
+	        	}
+	        }
+        	
 			excelField.getItems().addAll(files);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -158,7 +182,7 @@ public class SettingsPane extends GridPane {
         		if (properties.getProperty(key).equals("excel")) {
         			this.add(excelLabel, 1, 4);
         			this.add(excelField, 2, 4);
-        			quiz.setTestmode(excelField.getValue());
+        			if (excelField.getValue() != null && !excelField.getValue().trim().isEmpty()) quiz.setTestmode(excelField.getValue());
         			messageLabel.setText("In excel mode you can NOT edit the test!");
             		messageLabel.setStyle("-fx-text-fill: darkred;");
         		}
@@ -194,7 +218,7 @@ public class SettingsPane extends GridPane {
 				} else {
 					add(excelLabel, 1, 4);
         			add(excelField, 2, 4);
-        			quiz.setTestmode(excelField.getValue());
+        			if (excelField.getValue() != null && !excelField.getValue().trim().isEmpty())quiz.setTestmode(excelField.getValue());
         			messageLabel.setText("In excel mode you can NOT edit the test!");
             		messageLabel.setStyle("-fx-text-fill: darkred;");
 				}

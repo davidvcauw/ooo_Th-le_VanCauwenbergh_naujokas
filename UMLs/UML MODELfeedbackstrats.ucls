@@ -5,7 +5,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/FeedbackTypes.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="269" y="276"/>    
+    <position height="-1" width="-1" x="457" y="667"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -16,7 +16,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/TextStrategy.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="115" width="179" x="485" y="409"/>    
+    <position height="92" width="179" x="377" y="378"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -27,7 +27,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/ScoreStrategy.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="131" width="324" x="110" y="403"/>    
+    <position height="92" width="324" x="684" y="380"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -38,7 +38,7 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/FeedbackStrategyFactory.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="326" y="98"/>    
+    <position height="-1" width="-1" x="874" y="754"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -49,37 +49,51 @@
     project="ooo_Th-le_VanCauwenbergh_naujokas" 
     file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/FeedbackStrategy.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="576" y="269"/>    
+    <position height="54" width="179" x="378" y="520"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <package id="6" language="java" name="model.domain.feedbackStrategys.scoreCalculations" 
+    project="ooo_Th-le_VanCauwenbergh_naujokas" 
+    file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/scoreCalculations" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="540" y="776"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <interface id="7" language="java" name="model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy" 
+    project="ooo_Th-le_VanCauwenbergh_naujokas" 
+    file="/ooo_Th-le_VanCauwenbergh_naujokas/src/model/domain/feedbackStrategys/scoreCalculations/ScoreCalculationStrategy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="891" y="635"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <realization id="6">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <realization id="7">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
   <dependency id="8">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="4"/>    
+  <realization id="9">    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="10">    
-    <end type="SOURCE" refId="4"/>    
+  </realization>  
+  <realization id="10">    
+    <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="11">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
+  </realization>  
+  <association id="11">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="12" name="calculation"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

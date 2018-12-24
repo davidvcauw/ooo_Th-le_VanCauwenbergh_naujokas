@@ -3,6 +3,7 @@ package model.db;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class ExcelDb<E> implements DbStrategy<E>{
 	
 	@SuppressWarnings("rawtypes")
 	public static ExcelDb getInstance(String file) {
+		file = file.replace("/", "\\");
 		if (!instances.containsKey(file)) {
 			instances.put(file, new ExcelDb(file));
 		}

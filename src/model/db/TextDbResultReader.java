@@ -93,15 +93,6 @@ public class TextDbResultReader {
 						System.out.println("Could not load properties file...");
 					}
 				}
-				
-				for(String key : properties.stringPropertyNames()) {
-		        	if (key.equals("evaluation.mode")) {
-		        		String typeString = properties.getProperty(key);
-		        		FeedbackTypes type = FeedbackTypes.valueOf(typeString);
-		        		
-		        		this.feedback = savedResults.get(type);
-		        	}
-		        }
 		}
 		
 		for (FeedbackTypes type : FeedbackTypes.values()) {
