@@ -28,7 +28,7 @@ public class TextDbResultReader {
 	}
 	
 	public static TextDbResultReader getInstance(String bn) {
-		bn = "textFiles/" + bn;
+		bn = "testdatabase/" + bn;
 		if (!instances.containsKey(bn)) {
 			instances.put(bn, new TextDbResultReader(bn));
 		}

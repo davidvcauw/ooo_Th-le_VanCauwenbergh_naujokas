@@ -18,7 +18,7 @@ public class TextDbQuestionReader extends TextDb<Question>{
 	}
 	
 	public static TextDbQuestionReader getInstance(String bn) {
-		bn = "textFiles/" + bn;
+		bn = "testdatabase/" + bn;
 		if (!instances.containsKey(bn)) {
 			instances.put(bn, new TextDbQuestionReader(bn));
 		}

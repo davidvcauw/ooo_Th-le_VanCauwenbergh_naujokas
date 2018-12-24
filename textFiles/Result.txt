@@ -1,1 +1,0 @@
-score--normal--[Java-2-0-0, Design Patterns-2-0-0, UML-1-0-0, Design Principles-1-0-0]
