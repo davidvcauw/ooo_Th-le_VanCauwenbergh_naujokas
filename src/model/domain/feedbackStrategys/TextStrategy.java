@@ -50,7 +50,7 @@ public class TextStrategy implements FeedbackStrategy {
 	
 	@Override
 	public String toString() {
-		return feedback.isEmpty()?"":"feedback--"+feedback.toString();
+		return feedback.isEmpty()?"":"feedback--normal--"+feedback.toString();
 	}
 
 }
