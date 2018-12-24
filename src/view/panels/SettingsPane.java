@@ -49,7 +49,7 @@ public class SettingsPane extends GridPane {
         
         properties = new Properties();
 		try {
-		  properties.load(new FileInputStream("evaluation.properties"));
+		  properties.load(new FileInputStream("src/evaluation.properties"));
 		} catch (IOException e) {
 		  System.out.println("Could not load properties file...\nUsing default evaluation mode: score");
 		}
@@ -137,9 +137,9 @@ public class SettingsPane extends GridPane {
         List<String> files = null;
         
         try {
-			files = Files.find(Paths.get("."), 100,
+			files = Files.find(Paths.get("src/"), 100,
 				    (p, a) -> p.toString().toLowerCase().endsWith(".xls"))
-						.map(path -> path.toString().substring(2))
+						.map(path -> path.toString())
 						.collect(Collectors.toList());
 			
 			excelField.getItems().addAll(files);
@@ -162,7 +162,8 @@ public class SettingsPane extends GridPane {
         	}
         }
         
-        excelField.valueProperty().addListener(new ChangeListener<String>() {@Override
+        excelField.valueProperty().addListener(new ChangeListener<String>() {
+        	@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				quiz.setTestmode(newValue);
 			}

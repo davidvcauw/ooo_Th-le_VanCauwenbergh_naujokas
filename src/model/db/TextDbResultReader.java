@@ -30,7 +30,7 @@ public class TextDbResultReader {
 	}
 	
 	public static TextDbResultReader getInstance(String bn) {
-		bn = "testdatabase/" + bn;
+		bn = "src/testdatabase/" + bn;
 		if (!instances.containsKey(bn)) {
 			instances.put(bn, new TextDbResultReader(bn));
 		}
@@ -43,7 +43,7 @@ public class TextDbResultReader {
 		if (resultsList.isEmpty()) {
 			Properties properties = new Properties();
 			try {
-				properties.load(new FileInputStream("evaluation.properties"));
+				properties.load(new FileInputStream("src/evaluation.properties"));
 			} catch (IOException e) {
 				System.out.println("Could not load properties file...");
 			}
@@ -76,7 +76,7 @@ public class TextDbResultReader {
 			
 			Properties properties = new Properties();
 				try {
-				  properties.load(new FileInputStream("evaluation.properties"));
+				  properties.load(new FileInputStream("src/evaluation.properties"));
 				  
 				  for(String key : properties.stringPropertyNames()) {
 			        	if (key.equals("evaluation.mode")) {

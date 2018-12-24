@@ -28,7 +28,7 @@ public class Quiz {
 		
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream("evaluation.properties"));
+			properties.load(new FileInputStream("src/evaluation.properties"));
 		} catch (IOException e) {
 			System.out.println("Could not load properties file...");
 		}

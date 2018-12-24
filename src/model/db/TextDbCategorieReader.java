@@ -11,7 +11,7 @@ public class TextDbCategorieReader extends TextDb<Categorie> {
 	}
 	
 	public static TextDbCategorieReader getInstance(String bn) {
-		bn = "testdatabase/" + bn;
+		bn = "src/testdatabase/" + bn;
 		if (!instances.containsKey(bn)) {
 			instances.put(bn, new TextDbCategorieReader(bn));
 		}
