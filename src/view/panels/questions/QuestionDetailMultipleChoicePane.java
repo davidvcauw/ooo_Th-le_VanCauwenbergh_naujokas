@@ -99,6 +99,8 @@ public class QuestionDetailMultipleChoicePane extends QuestionDetailPane {
 			
 			if (statement.contains("-")) {
 				warning.setText("Statements can not contain '-'!");
+			} else if (statement.contains(",")) {
+				warning.setText("Statements can not contain ','!");
 			} else {
 				if (!statementsArea.getText().trim().isEmpty()) {
 					String[] statements = statementsArea.getText().split("\\n");

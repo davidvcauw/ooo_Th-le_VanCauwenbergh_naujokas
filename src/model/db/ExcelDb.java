@@ -148,7 +148,8 @@ public class ExcelDb<E> implements DbStrategy<E>{
 		params[0] = question;
 		params[2] = feedback;
 		params[1] = cat;
-		if (!statements.get(0).equals("TRUE/FALSE")) params[3] = statements;
+		if (statements.get(0).equals("true") || statements.get(0).equals("false")) params[3] = Boolean.valueOf(statements.get(0));
+		else params[3] = statements;
 		
 		return QuestionFactory.createQuestion(questionClassName, params);
 	}
