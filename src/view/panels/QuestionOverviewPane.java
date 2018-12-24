@@ -28,7 +28,6 @@ public class QuestionOverviewPane extends GridPane implements Observer {
 	private Button btnRemove;
 	private QuizController quiz;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public QuestionOverviewPane(Observable observable) {
 		if (observable instanceof QuizController) {
 			observable.addObserver(this);
@@ -42,17 +41,17 @@ public class QuestionOverviewPane extends GridPane implements Observer {
         
 		this.add(new Label("Questions:"), 0, 0, 1, 1);
 		
-		table = new TableView<>();
+		table = new TableView<Question>();
 		table.setPrefWidth(REMAINING);
-        TableColumn nameCol = new TableColumn<>("Question");
+        TableColumn<Question, String> nameCol = new TableColumn<>("Question");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("question"));
         nameCol.setMinWidth(500.0);
         table.getColumns().add(nameCol);
-        TableColumn descriptionCol = new TableColumn<>("Category");
-        descriptionCol.setCellValueFactory(new PropertyValueFactory("Category"));
+        TableColumn<Question, String> descriptionCol = new TableColumn<>("Category");
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
         descriptionCol.setMinWidth(100.0);
         table.getColumns().add(descriptionCol);
-        TableColumn typeCol = new TableColumn<>("Type");
+        TableColumn<Question, String> typeCol = new TableColumn<>("Type");
         typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
         table.getColumns().add(typeCol);
 		this.add(table, 0, 1, 2, 6);
