@@ -48,7 +48,9 @@ public class TextDbResultReader {
 				System.out.println("Could not load properties file...");
 			}
 			
-			feedback = (FeedbackStrategyFactory.createStrategy(FeedbackTypes.valueOf(properties.getProperty("evaluation.mode")).getClassName()));
+			FeedbackTypes type = FeedbackTypes.valueOf(properties.getProperty("evaluation.mode"));
+			feedback = (FeedbackStrategyFactory.createStrategy(type.getClassName()));
+			savedResults.put(type, this.feedback);
 		} else {
 			for (List<String> resultObj : resultsList) {
 				try {
@@ -89,6 +91,12 @@ public class TextDbResultReader {
 					throw new DbException("Error loading results..." + e.getMessage());
 				}
 		}
+		
+		for (FeedbackTypes type : FeedbackTypes.values()) {
+			if (!savedResults.containsKey(type)) {
+				savedResults.put(type, FeedbackStrategyFactory.createStrategy(type.getClassName()));
+			}
+		}
 	}
 	
 	public List<List<String>> read() {
@@ -99,9 +107,11 @@ public class TextDbResultReader {
 			while (sc.hasNextLine()) {
 				List<String> text = new ArrayList<>();
 				String nextline = sc.nextLine();
-				String[] split = nextline.split("--");
-				text = new ArrayList<String>(Arrays.asList(split));
-				results.add(text);
+				if (!nextline.trim().isEmpty()) {
+					String[] split = nextline.split("--");
+					text = new ArrayList<String>(Arrays.asList(split));
+					results.add(text);
+				}
 			} 
 			sc.close();
 			return results;
@@ -157,8 +167,14 @@ public class TextDbResultReader {
 
 	public void passFeedback(List<String> results, List<String> feedback2) {
 		for (Map.Entry<FeedbackTypes, FeedbackStrategy> saved : savedResults.entrySet()) {
-			if (saved.getKey().name().equals("score")) saved.getValue().setFeedback(results);
-			if (saved.getKey().name().equals("feedback")) saved.getValue().setFeedback(feedback2);
+			if (saved.getKey().name().equals("score")) {
+				saved.getValue().setFeedback(results);
+				saved.getValue().setHasBeenDone(true);
+			}
+			if (saved.getKey().name().equals("feedback")) {
+				saved.getValue().setFeedback(feedback2);
+				saved.getValue().setHasBeenDone(true);
+			}
 		}
 	}
 }

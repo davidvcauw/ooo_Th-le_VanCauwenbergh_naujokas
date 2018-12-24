@@ -1,2 +1,2 @@
-score--normal--[Design Patterns-2-1-2, Design Principles-2-2-2, Java-1-0-1]
-feedback--normal--[some feedback, feedback22]
+feedback--normal--[feedback22, One of the answered questions was wrong, but does not have any feedback to display, some feedback]
+score--normal--[Design Patterns-2-1-2, Design Principles-2-0-0, Java-1-0-0]

@@ -88,7 +88,7 @@ public class SettingsPane extends GridPane {
 				properties.setProperty("evaluation.mode", newValue);
 				quiz.setFeedbackStrategy(newValue);
 				
-				messageLabel.setText("The next test will give '" + newValue + "' feedback!");
+				messageLabel.setText("Now showing feedback: '" + newValue + "'");
         		messageLabel.setStyle("-fx-text-fill: green;");
 				
         		if (newValue.equals("score")) {
