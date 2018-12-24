@@ -1,5 +1,4 @@
 package model.domain;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,9 +27,13 @@ public class Quiz {
 		
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream("src/evaluation.properties"));
-		} catch (IOException e) {
-			System.out.println("Could not load properties file...");
+			properties.load(this.getClass().getClassLoader().getResourceAsStream("testdatabase/evaluation.properties"));
+		} catch (Exception e) {
+			try {
+				properties.load(this.getClass().getClassLoader().getResourceAsStream("evaluation.properties"));
+			} catch (IOException e1) {
+				System.out.println("Could not load properties file...");
+			}
 		}
 		
 		resultReader = TextDbResultReader.getInstance("Result.txt");

@@ -7,7 +7,6 @@ import model.domain.feedbackStrategys.FeedbackStrategy;
 import model.domain.feedbackStrategys.FeedbackStrategyFactory;
 import model.domain.feedbackStrategys.FeedbackTypes;
 import model.domain.feedbackStrategys.ScoreStrategy;
-import model.domain.feedbackStrategys.TextStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationStrategy;
 import model.domain.feedbackStrategys.scoreCalculations.ScoreCalculationTypes;
 import model.domain.questions.MultipleChoiceQuestion;
@@ -106,11 +105,14 @@ public class QuizFacade {
 			addCategorie(name, description, parentname);
 		} else {
 			quiz.removeCategorie(previous);
-			addCategorie(name, description, parentname);
+			Categorie c = addCategorie(name, description, parentname);
+			for (Question q : this.getQuestions()) {
+				if (q.getCategoryObject().equals(previous)) q.setCategory(c);
+			}
 		}
 	}
 	
-	public void addCategorie(String name, String description, String parentname) {
+	public Categorie addCategorie(String name, String description, String parentname) {
 		if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Enter a name!");
 		if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Enter a description!");
 		Categorie c = null;
@@ -123,6 +125,7 @@ public class QuizFacade {
 			c = new Categorie(name, description, parent);
 		}
 		addCategorie(c);
+		return c;
 	}
 	
 	public void updateQuestion(String questionType, String question, String category, String feedback, Question previous, Object...args)  {	

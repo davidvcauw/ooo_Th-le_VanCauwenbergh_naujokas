@@ -1,12 +1,21 @@
 package model.db;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
+
 
 public abstract class TextDb<E> implements DbStrategy<E> {
 	private String bestandsnaam;
@@ -14,7 +23,40 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 	public TextDb(String bn) {
 		this.bestandsnaam = bn;
 		this.items = new ArrayList<E>();
+		
 		load();
+		
+		File theDir = new File("testdatabase");
+		if (!theDir.exists()) {
+			try{
+		        theDir.mkdir();
+		        Properties properties = new Properties();
+		        properties.load(this.getClass().getClassLoader().getResourceAsStream("evaluation.properties"));
+		        FileOutputStream fr = new FileOutputStream("testdatabase/evaluation.properties");
+		        properties.store(fr, "Properties");
+		        fr.close();
+		    } 
+		    catch(SecurityException | IOException se){
+		        se.printStackTrace();
+		    }   
+		}
+		
+		if(!new File(bn.split("/")[1]+"/"+bn.split("/")[2]).isFile()) { 
+			//File file = new File(System.getProperty("user.dir"), bn.split("/")[1]+bn.split("/")[2]);
+			try {
+				FileWriter fileWriter = new FileWriter(bn.split("/")[1]+"/"+bn.split("/")[2]);
+				String towrite = "";
+				for (E c: items) {
+					towrite += c.toString();
+							
+					towrite+="\n";
+				}
+				fileWriter.write(towrite);
+			    fileWriter.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} 
 	}
 	public final void load() {
 		items = new ArrayList<E>();
@@ -30,19 +72,21 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 		String towrite = "";
 		for (E c: items) {
 			towrite += c.toString();
-					/*c.getName() + "-" + c.getDescription();
-			if (c.getParent() != null) {
-				towrite += "-" + c.getParent().getName();
-			}*/
+					
 			towrite+="\n";
 		}
 		//System.out.println(towrite);
 		try {
-			FileWriter fileWriter = new FileWriter(bestandsnaam);
-		    fileWriter.write(towrite);
-		    fileWriter.close();
+			
+			OutputStream out =  new FileOutputStream(bestandsnaam.replace("src/", ""));
+			OutputStreamWriter ow = new OutputStreamWriter(out);
+			BufferedWriter bw = new BufferedWriter(ow);
+			bw.flush();
+			bw.write(towrite);
+			bw.close();
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	
@@ -50,19 +94,35 @@ public abstract class TextDb<E> implements DbStrategy<E> {
 	
 	public List<String[]> read() {
 		List<String[]> text = new ArrayList<>();
-		File file = new File(bestandsnaam);
+		//File file = new File(bestandsnaam);
 		try {
-			Scanner sc = new Scanner(file);
-			
-			while(sc.hasNextLine()) {
-				String nextline = sc.nextLine();
-				String[] split = nextline.split("-");
-				text.add(split);
+			if (new File(bestandsnaam.split("/")[1]+"/"+bestandsnaam.split("/")[2]).exists()) {
+				Scanner sc = new Scanner(new File(bestandsnaam.split("/")[1]+"/"+bestandsnaam.split("/")[2]));
+				
+				while(sc.hasNextLine()) {
+					String nextline = sc.nextLine();
+					String[] split = nextline.split("-");
+					text.add(split);
+				}
+				sc.close();
+				return text;
+			} else {
+				String naam = bestandsnaam.replace("src/", "");
+				InputStream in = this.getClass().getClassLoader().getResourceAsStream(naam);
+				BufferedReader br = new BufferedReader(
+					    				new InputStreamReader(in));
+				
+				String line;
+				
+				while((line = br.readLine()) != null) {
+					String[] split = line.split("-");
+					text.add(split);
+				}
+				
+				br.close();
+				return text;
 			}
-			sc.close();
-			return text;
-			
-		} catch (FileNotFoundException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new DbException("File not found");
 		}

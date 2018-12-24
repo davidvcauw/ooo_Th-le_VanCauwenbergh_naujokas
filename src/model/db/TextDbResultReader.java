@@ -1,10 +1,14 @@
 package model.db;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,9 +47,13 @@ public class TextDbResultReader {
 		if (resultsList.isEmpty()) {
 			Properties properties = new Properties();
 			try {
-				properties.load(new FileInputStream("src/evaluation.properties"));
-			} catch (IOException e) {
-				System.out.println("Could not load properties file...");
+				properties.load(this.getClass().getClassLoader().getResourceAsStream("testdatabase/evaluation.properties"));
+			} catch (Exception e) {
+				try {
+					properties.load(this.getClass().getClassLoader().getResourceAsStream("evaluation.properties"));
+				} catch (IOException e1) {
+					System.out.println("Could not load properties file...");
+				}
 			}
 			
 			FeedbackTypes type = FeedbackTypes.valueOf(properties.getProperty("evaluation.mode"));
@@ -76,20 +84,24 @@ public class TextDbResultReader {
 			
 			Properties properties = new Properties();
 				try {
-				  properties.load(new FileInputStream("src/evaluation.properties"));
+					properties.load(this.getClass().getClassLoader().getResourceAsStream("testdatabase/evaluation.properties"));
 				  
-				  for(String key : properties.stringPropertyNames()) {
-			        	if (key.equals("evaluation.mode")) {
-			        		String typeString = properties.getProperty(key);
-			        		FeedbackTypes type = FeedbackTypes.valueOf(typeString);
-			        		
-			        		this.feedback = savedResults.get(type);
-			        	}
-			        }
-				} catch (IOException e) {
-					System.out.println("Could not load properties file...");
-					throw new DbException("Error loading results..." + e.getMessage());
+				} catch (Exception e) {
+					try {
+						properties.load(this.getClass().getClassLoader().getResourceAsStream("evaluation.properties"));
+					} catch (IOException e1) {
+						System.out.println("Could not load properties file...");
+					}
 				}
+				
+				for(String key : properties.stringPropertyNames()) {
+		        	if (key.equals("evaluation.mode")) {
+		        		String typeString = properties.getProperty(key);
+		        		FeedbackTypes type = FeedbackTypes.valueOf(typeString);
+		        		
+		        		this.feedback = savedResults.get(type);
+		        	}
+		        }
 		}
 		
 		for (FeedbackTypes type : FeedbackTypes.values()) {
@@ -101,21 +113,42 @@ public class TextDbResultReader {
 	
 	public List<List<String>> read() {
 		List<List<String>> results = new ArrayList<>();
-		File file = new File(bestandsnaam);
 		try {
-			Scanner sc = new Scanner(file);
-			while (sc.hasNextLine()) {
-				List<String> text = new ArrayList<>();
-				String nextline = sc.nextLine();
-				if (!nextline.trim().isEmpty()) {
-					String[] split = nextline.split("--");
-					text = new ArrayList<String>(Arrays.asList(split));
-					results.add(text);
+			if (new File(bestandsnaam.split("/")[1]+"/"+bestandsnaam.split("/")[2]).exists()) {
+				Scanner sc = new Scanner(new File(bestandsnaam.split("/")[1]+"/"+bestandsnaam.split("/")[2]));
+				
+				while(sc.hasNextLine()) {
+					List<String> text = new ArrayList<>();
+					String line = sc.nextLine();
+					if (!line.trim().isEmpty()) {
+						String[] split = line.split("--");
+						text = new ArrayList<String>(Arrays.asList(split));
+						results.add(text);
+					}
 				}
-			} 
-			sc.close();
-			return results;
-		} catch (FileNotFoundException ex) {
+				sc.close();
+				return results;
+			} else {
+				String naam = bestandsnaam.replace("src/", "");
+				InputStream in = this.getClass().getClassLoader().getResourceAsStream(naam);
+				BufferedReader br = new BufferedReader(
+					    				new InputStreamReader(in));
+				
+				String line;
+				
+				while((line = br.readLine()) != null) {
+					List<String> text = new ArrayList<>();
+					if (!line.trim().isEmpty()) {
+						String[] split = line.split("--");
+						text = new ArrayList<String>(Arrays.asList(split));
+						results.add(text);
+					}
+				}
+				
+				br.close();
+				return results;
+			}
+		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new DbException("File not found");
 		}
@@ -163,9 +196,14 @@ public class TextDbResultReader {
 			
 			toWrite = toWrite.substring(0, toWrite.length()-1);
 			
-			FileWriter fileWriter = new FileWriter(bestandsnaam);
-		    fileWriter.write(toWrite);
-		    fileWriter.close();
+			OutputStream out =  new FileOutputStream(bestandsnaam.replace("src/", ""));
+	
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+			
+			bw.write(toWrite);
+			bw.flush();
+			bw.close();
+
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 		}

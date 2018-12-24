@@ -1,6 +1,5 @@
 package view.panels;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,9 +48,13 @@ public class SettingsPane extends GridPane {
         
         properties = new Properties();
 		try {
-		  properties.load(new FileInputStream("src/evaluation.properties"));
-		} catch (IOException e) {
-		  System.out.println("Could not load properties file...\nUsing default evaluation mode: score");
+			properties.load(this.getClass().getClassLoader().getResourceAsStream("testdatabase/evaluation.properties"));
+		} catch (Exception e) {
+			try {
+				properties.load(this.getClass().getClassLoader().getResourceAsStream("evaluation.properties"));
+			} catch (IOException e1) {
+				System.out.println("Could not load properties file...");
+			}
 		}
         
         Label feedbackLabel = new Label("Evaluation mode: ");
@@ -105,7 +108,7 @@ public class SettingsPane extends GridPane {
         		}
         		
 				try {
-					FileOutputStream fr = new FileOutputStream("evaluation.properties");
+					FileOutputStream fr = new FileOutputStream("testdatabase/evaluation.properties");
 			        properties.store(fr, "Properties");
 			        fr.close();
 				} catch (Exception e) {
@@ -137,7 +140,7 @@ public class SettingsPane extends GridPane {
         List<String> files = null;
         
         try {
-			files = Files.find(Paths.get("src/"), 100,
+			files = Files.find(Paths.get("."), 100,
 				    (p, a) -> p.toString().toLowerCase().endsWith(".xls"))
 						.map(path -> path.toString())
 						.collect(Collectors.toList());
@@ -147,7 +150,7 @@ public class SettingsPane extends GridPane {
 			e1.printStackTrace();
 		}
         
-        excelField.setValue(files.get(0));
+        if (files.size() > 0) excelField.setValue(files.get(0));
         
         for(String key : properties.stringPropertyNames()) {
         	if (key.equals("test.mode")) {
@@ -175,7 +178,7 @@ public class SettingsPane extends GridPane {
 				
 				properties.setProperty("test.mode", newValue);
 				try {
-					FileOutputStream fr = new FileOutputStream("evaluation.properties");
+					FileOutputStream fr = new FileOutputStream("testdatabase/evaluation.properties");
 					
 			        properties.store(fr, "Properties");
 			        fr.close();
